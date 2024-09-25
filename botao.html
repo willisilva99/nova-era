@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vote no Servidor - NOVA ERA</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-color: #000; /* Fundo preto */
+        }
+
+        video {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1; /* Coloca o vídeo atrás do conteúdo */
+            transform: translate(-50%, -50%);
+            opacity: 0.5; /* Torna o vídeo semi-transparente */
+        }
+
+        .container {
+            position: relative; /* Para manter o conteúdo sobre o vídeo */
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px; /* Mais espaço para uma descrição melhor */
+            background: rgba(0, 0, 0, 0.8); /* Fundo escuro semi-transparente */
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+            color: #fff;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            color: #ffcc00;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 1);
+        }
+
+        p {
+            font-size: 1.5rem;
+            margin: 20px 0;
+            color: #fff; /* Cor do texto */
+            line-height: 1.5; /* Melhora a legibilidade */
+        }
+
+        .button {
+            margin-top: 20px;
+            padding: 15px 30px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            border-radius: 5px;
+            display: inline-block; /* Para centralizar corretamente */
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .link-button {
+            background-color: #ffcc00; /* Cor do botão de link */
+            color: #000; /* Cor do texto */
+            margin-top: 30px;
+        }
+
+        .link-button:hover {
+            background-color: #e5b600; /* Hover para o botão de link */
+        }
+
+        img {
+            margin-top: 20px;
+            max-width: 100%; /* Ajusta a imagem para o tamanho do contêiner */
+            border-radius: 10px; /* Bordas arredondadas */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <video autoplay muted loop>
+        <source src="videos/fundo.mp4" type="video/mp4"> <!-- Caminho do vídeo -->
+        Seu navegador não suporta vídeos.
+    </video>
+
+    <div class="container">
+        <h1>Vote no Servidor!</h1>
+        <p>Ajude a nossa comunidade e ganhe <strong>300 Ember</strong> no jogo ao votar!</p>
+        <p>Clique no botão abaixo para acessar o site de votação e contribuir para a melhoria do servidor!</p>
+        
+        <!-- Botão para redirecionar para o site de votação -->
+        <a href="https://7daystodie-servers.com/server/141215/" class="button link-button" target="_blank">Votar Agora no Site</a>
+
+        <!-- Imagem abaixo do botão -->
+        <img src="images/vote.jpg" alt="Sobrevivente" />
+
+        <!-- Botão de voltar para a página inicial -->
+        <a href="index.html" class="button">Voltar para a Página Inicial</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja de Trocas - Nova Era</title>
+    <style>
+        /* Estilos gerais */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+            color: #eaeaea;
+            margin: 0;
+            padding: 20px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            color: #ffcc00;
+            font-size: 3.5rem;
+            text-shadow: 2px 2px 10px rgba(255, 255, 0, 0.8);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* Formulário */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, 
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            margin-top: 5px;
+        }
+
+        /* Botão */
+        .post-button {
+            width: 100%;
+            background-color: #28a745;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .post-button:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+
+        /* Lista de Itens */
+        .item-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .item {
+            background-color: #444;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: slideIn 1s forwards;
+        }
+
+        .item img {
+            max-width: 150px;
+            border-radius: 5px;
+        }
+
+        .item-info {
+            flex: 1;
+            margin-left: 20px;
+        }
+
+        .item-info h3 {
+            margin: 0;
+            color: #ffcc00;
+        }
+
+        .item-info p {
+            margin: 5px 0;
+        }
+
+        .item button {
+            background-color: #ff6600;
+            border: none;
+            padding: 8px 12px;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .item button:hover {
+            background-color: #e65c00;
+        }
+
+        /* Botão de Voltar */
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 15px 30px;
+            background-color: #ff6600;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #e65c00;
+            transform: scale(1.05);
+        }
+
+        /* Animações */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Loja de Trocas - Nova Era</h1>
+
+        <!-- Formulário de Anúncio -->
+        <div class="form-group">
+            <label for="item-name">Nome do Item</label>
+            <input type="text" id="item-name" placeholder="Digite o nome do item">
+        </div>
+
+        <div class="form-group">
+            <label for="item-image">URL da Imagem do Item</label>
+            <input type="text" id="item-image" placeholder="Cole o URL da imagem do item">
+        </div>
+
+        <div class="form-group">
+            <label for="item-description">Descrição do Item</label>
+            <textarea id="item-description" rows="3" placeholder="Descreva o item que você está vendendo"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="item-wanted">O que você quer em troca?</label>
+            <textarea id="item-wanted" rows="2" placeholder="Descreva o que você quer em troca"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="player-discord">Discord do Vendedor (Opcional)</label>
+            <input type="text" id="player-discord" placeholder="Digite seu Discord para contato">
+        </div>
+
+        <button class="post-button" onclick="postItem()">Anunciar Item</button>
+
+        <!-- Lista de Itens -->
+        <ul class="item-list" id="itemList">
+            <!-- Itens anunciados aparecerão aqui -->
+        </ul>
+
+        <!-- Botão de Voltar ao Menu -->
+        <a href="index.html" class="back-button">Voltar ao Menu Inicial</a>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script>
+        const airtableApiKey = 'patVI8R4ymnfCbpE4.bf57ca096fdd829827c7faf4ec909ec925bd2c32fe1f00f07cc8152eca40cfdf'; // Token da API do Airtable
+        const airtableBaseId = 'appqTokuYKNpc0UdH';  // ID da Base "NOVA ERA"
+        const tableName = 'items'; // Nome da tabela
+
+        // Função para anunciar um item e enviar ao Airtable
+        function postItem() {
+            const itemName = document.getElementById('item-name').value.trim();
+            const itemImage = document.getElementById('item-image').value.trim();
+            const itemDescription = document.getElementById('item-description').value.trim();
+            const itemWanted = document.getElementById('item-wanted').value.trim();
+            const playerDiscord = document.getElementById('player-discord').value.trim();
+
+            if (itemName && itemImage && itemDescription && itemWanted) {
+                axios.post(`https://api.airtable.com/v0/${airtableBaseId}/${tableName}`, {
+                    fields: {
+                        Name: itemName,
+                        Image: itemImage,
+                        Description: itemDescription,
+                        Wanted: itemWanted,
+                        Discord: playerDiscord
+                    }
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${airtableApiKey}`,
+                        'Content-Type': 'application/json'
+                    }
+                }).then(response => {
+                    console.log('Item adicionado:', response.data);
+                    updateItemList();
+                }).catch(error => {
+                    console.error('Erro ao adicionar item:', error);
+                });
+            }
+        }
+
+        // Função para buscar e exibir os itens no Airtable
+        function updateItemList() {
+            axios.get(`https://api.airtable.com/v0/${airtableBaseId}/${tableName}`, {
+                headers: {
+                    Authorization: `Bearer ${airtableApiKey}`
+                }
+            }).then(response => {
+                const itemList = document.getElementById('itemList');
+                itemList.innerHTML = ''; // Limpar lista
+
+                response.data.records.forEach(record => {
+                    const item = record.fields;
+                    const listItem = document.createElement('li');
+                    listItem.classList.add('item');
+
+                    listItem.innerHTML = `
+                        <img src="${item.Image}" alt="${item.Name}">
+                        <div class="item-info">
+                            <h3>${item.Name}</h3>
+                            <p><strong>Descrição:</strong> ${item.Description}</p>
+                            <p><strong>Quer em troca:</strong> ${item.Wanted}</p>
+                            ${item.Discord ? `<p><strong>Discord:</strong> ${item.Discord}</p>` : ''}
+                        </div>
+                        <button onclick="removeItem('${record.id}')">Remover</button>
+                    `;
+
+                    itemList.appendChild(listItem);
+                });
+            });
+        }
+
+        // Função para remover um item (vendedor pode remover seu próprio anúncio)
+        function removeItem(itemId) {
+            axios.delete(`https://api.airtable.com/v0/${airtableBaseId}/${tableName}/${itemId}`, {
+                headers: {
+                    Authorization: `Bearer ${airtableApiKey}`
+                }
+            }).then(() => {
+                console.log('Item removido:', itemId);
+                updateItemList();
+            }).catch(error => {
+                console.error('Erro ao remover item:', error);
+            });
+        }
+
+        // Atualizar a lista quando a página carregar
+        window.onload = updateItemList;
+    </script>
+
+</body>
+</html>

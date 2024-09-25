@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOVA ERA - Página Inicial</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #141e30, #243b55);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            color: #ffcc00;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Botões */
+        .button {
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            border-radius: 5px;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .button.rules {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .button.discord {
+            background-color: #7289da;
+            color: #fff;
+        }
+
+        .button.vote {
+            background-color: #ffcc00;
+            color: #000;
+        }
+
+        .button.lucky-spin {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .button.shop {
+            background-color: #ff5733;
+            color: #fff;
+        }
+
+        .button.music {
+            background-color: #ff00ff; /* Cor personalizada para o botão Música */
+            color: #fff;
+        }
+
+        .button.history {
+            background-color: #6f42c1; /* Cor para o botão HISTORIA NOVA ERA */
+            color: #fff;
+        }
+
+        .button.store {
+            background-color: #00bfff; /* Cor personalizada para o botão Loja */
+            color: #fff;
+        }
+
+        .button:hover {
+            transform: scale(1.05);
+        }
+
+        .button.rules:hover {
+            background-color: #0056b3;
+        }
+
+        .button.discord:hover {
+            background-color: #5a6fbf;
+        }
+
+        .button.vote:hover {
+            background-color: #e5b600;
+        }
+
+        .button.lucky-spin:hover {
+            background-color: #218838;
+        }
+
+        .button.shop:hover {
+            background-color: #e74c3c;
+        }
+
+        .button.music:hover {
+            background-color: #cc00cc;
+        }
+
+        .button.history:hover {
+            background-color: #5a32a1;
+        }
+
+        .button.store:hover {
+            background-color: #009acd;
+        }
+
+        /* Seção VIP */
+        .vip-section {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #222;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+            animation: glow 3s infinite alternate;
+        }
+
+        .vip-section h2 {
+            font-size: 2.5rem;
+            color: #ffcc00;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 5px rgba(255, 255, 0, 0.7);
+        }
+
+        .vip-thank-you {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+
+        .vip-list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .vip-card {
+            background: linear-gradient(135deg, #ffcc00, #ff9900);
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+            width: calc(30% - 20px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+            transition: transform 0.5s, box-shadow 0.5s;
+            text-align: left;
+            color: #000;
+            display: flex;
+            align-items: center;
+            animation: bounce 2s infinite alternate;
+        }
+
+        .vip-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(255, 255, 0, 0.7);
+        }
+
+        .vip-card img {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        .vip-card .vip-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Animações */
+        @keyframes glow {
+            from {
+                box-shadow: 0 4px 20px rgba(255, 255, 0, 0.2);
+            }
+            to {
+                box-shadow: 0 4px 30px rgba(255, 255, 0, 0.7);
+            }
+        }
+
+        @keyframes bounce {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Responsividade */
+        @media (max-width: 800px) {
+            .vip-card {
+                width: calc(45% - 20px);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .vip-card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bem-vindo à NOVA ERA</h1>
+        <p>Escolha uma opção abaixo para começar a explorar o mundo da sobrevivência!</p>
+        
+        <!-- Botões para acessar as páginas -->
+        <a href="regras.html" class="button rules">Regras do Servidor</a>
+        <a href="discord.html" class="button discord">Entrar no Discord</a>
+        <a href="botao.html" class="button vote">Votar no Servidor</a>
+        <a href="caixa.html" class="button lucky-spin">Roleta da Sorte</a>
+        <a href="shop.html" class="button shop">SHOP EMBER</a>
+        <a href="historia.html" class="button history">HISTORIA NOVA ERA</a>
+        <a href="musica.html" class="button music">MÚSICAS</a>
+        <a href="loja.html" class="button store">LOJA DE TROCAS</a> <!-- Novo botão para LOJA -->
+
+        <!-- Seção VIP -->
+        <div class="vip-section">
+            <h2>Nossos Jogadores VIP</h2>
+            <p class="vip-thank-you">Um agradecimento especial aos nossos VIPs pelo apoio!</p>
+            <div class="vip-list">
+                <!-- Cartões dos VIPs -->
+                <div class="vip-card">
+                    <img src="images/vipp.png" alt="VIP 1">
+                    <div class="vip-name">Roalpe</div>
+                </div>
+                <div class="vip-card">
+                    <img src="images/vipp.png" alt="VIP 2">
+                    <div class="vip-name">Wando PV</div>
+                </div>
+                <div class="vip-card">
+                    <img src="images/vipp.png" alt="VIP 3">
+                    <div class="vip-name">lnazareth</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

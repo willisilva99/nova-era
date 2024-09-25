@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Músicas Nova Era</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+            color: #eaeaea;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        h1 {
+            color: #ffcc00;
+            font-size: 3.5rem;
+            text-shadow: 2px 2px 10px rgba(255, 255, 0, 0.8);
+            margin-bottom: 30px;
+        }
+
+        .music-section {
+            margin: 20px auto;
+            max-width: 800px;
+            background-color: #444;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+            animation: slideIn 1.5s ease-in-out;
+        }
+
+        .player {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            background-color: #ff6600;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            color: #fff;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+        }
+
+        .btn.playing {
+            animation: rgbRotate 1.5s infinite;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background-color: #444;
+            border-radius: 5px;
+            position: relative;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: #ffcc00;
+            width: 0;
+            border-radius: 5px;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .volume-slider {
+            width: 100px;
+            height: 5px;
+            background-color: #444;
+            cursor: pointer;
+        }
+
+        .volume-slider input {
+            width: 100%;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 20px;
+            animation: zoomIn 1.5s ease-in-out;
+        }
+
+        .back-button {
+            margin-top: 30px;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            background-color: #ff6600;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #e65c00;
+            transform: scale(1.05);
+        }
+
+        /* Animações */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 5px rgba(255, 0, 0, 0.2);
+            }
+            100% {
+                box-shadow: 0 0 20px rgba(255, 255, 0, 0.8);
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes rgbRotate {
+            0% { background-color: #ff0000; }
+            33% { background-color: #00ff00; }
+            66% { background-color: #0000ff; }
+            100% { background-color: #ff0000; }
+        }
+
+        h1, .back-button {
+            animation: pulse 1.5s infinite alternate;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Músicas Nova Era</h1>
+
+        <!-- Reprodutor Personalizado para a Primeira Música -->
+        <div class="music-section">
+            <h2>Música 1: O Último Refúgio</h2>
+            <p>Composta pelo sobrevivente Wando PV, essa música fala sobre a luta para encontrar segurança em um mundo devastado.</p>
+            <div class="player">
+                <button class="btn" id="play1">Play</button>
+                <button class="btn" id="pause1">Pause</button>
+            </div>
+            <div class="progress-container">
+                <div class="progress" id="progress1"></div>
+            </div>
+            <div class="volume-control">
+                <label for="volume1">Volume:</label>
+                <div class="volume-slider">
+                    <input type="range" id="volume1" min="0" max="1" step="0.01" value="1">
+                </div>
+            </div>
+        </div>
+
+        <!-- Reprodutor Personalizado para a Segunda Música -->
+        <div class="music-section">
+            <h2>Música 2: Luz na Escuridão</h2>
+            <p>Uma melodia de esperança em tempos sombrios, escrita em meio às ruínas, por Wando PV.</p>
+            <div class="player">
+                <button class="btn" id="play2">Play</button>
+                <button class="btn" id="pause2">Pause</button>
+            </div>
+            <div class="progress-container">
+                <div class="progress" id="progress2"></div>
+            </div>
+            <div class="volume-control">
+                <label for="volume2">Volume:</label>
+                <div class="volume-slider">
+                    <input type="range" id="volume2" min="0" max="1" step="0.01" value="1">
+                </div>
+            </div>
+        </div>
+
+        <!-- Reprodutor Personalizado para a Terceira Música -->
+        <div class="music-section">
+            <h2>Música 3: Ecos do Passado</h2>
+            <p>Inspirada pelas memórias de um mundo que não existe mais, Wando PV compôs esta peça emocional e intensa.</p>
+            <div class="player">
+                <button class="btn" id="play3">Play</button>
+                <button class="btn" id="pause3">Pause</button>
+            </div>
+            <div class="progress-container">
+                <div class="progress" id="progress3"></div>
+            </div>
+            <div class="volume-control">
+                <label for="volume3">Volume:</label>
+                <div class="volume-slider">
+                    <input type="range" id="volume3" min="0" max="1" step="0.01" value="1">
+                </div>
+            </div>
+        </div>
+
+        <img src="images/willi.jpg" alt="Sobrevivente criando música no apocalipse">
+
+        <a href="index.html" class="back-button">Voltar</a>
+    </div>
+
+    <audio id="audio1" preload="auto">
+        <source src="audio/musica1.mp3" type="audio/mpeg">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
+
+    <audio id="audio2" preload="auto">
+        <source src="audio/musica2.mp3" type="audio/mpeg">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
+
+    <audio id="audio3" preload="auto">
+        <source src="audio/musica3.mp3" type="audio/mpeg">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
+
+    <script>
+        const audios = [document.getElementById('audio1'), document.getElementById('audio2'), document.getElementById('audio3')];
+        const playButtons = [document.getElementById('play1'), document.getElementById('play2'), document.getElementById('play3')];
+        const pauseButtons = [document.getElementById('pause1'), document.getElementById('pause2'), document.getElementById('pause3')];
+        const progressBars = [document.getElementById('progress1'), document.getElementById('progress2'), document.getElementById('progress3')];
+        const volumeControls = [document.getElementById('volume1'), document.getElementById('volume2'), document.getElementById('volume3')];
+        const progressContainers = document.querySelectorAll('.progress-container');
+
+        playButtons.forEach((playBtn, index) => {
+            playBtn.addEventListener('click', () => {
+                pauseAllAudiosExcept(index);
+                playAudio(index);
+            });
+        });
+
+        pauseButtons.forEach((pauseBtn, index) => {
+            pauseBtn.addEventListener('click', () => {
+                audios[index].pause();
+                playButtons[index].classList.remove('playing');
+            });
+        });
+
+        audios.forEach((audio, index) => {
+            audio.addEventListener('timeupdate', () => {
+                const percentage = (audio.currentTime / audio.duration) * 100;
+                progressBars[index].style.width = percentage + '%';
+            });
+        });
+
+        progressContainers.forEach((progressContainer, index) => {
+            progressContainer.addEventListener('click', (e) => {
+                const width = progressContainer.clientWidth;
+                const clickX = e.offsetX;
+                const duration = audios[index].duration;
+
+                audios[index].currentTime = (clickX / width) * duration;
+            });
+        });
+
+        volumeControls.forEach((volumeControl, index) => {
+            volumeControl.addEventListener('input', (e) => {
+                audios[index].volume = e.target.value;
+            });
+        });
+
+        function pauseAllAudiosExcept(currentIndex) {
+            audios.forEach((audio, index) => {
+                if (index !== currentIndex) {
+                    audio.pause();
+                    playButtons[index].classList.remove('playing');
+                }
+            });
+        }
+
+        function playAudio(index) {
+            audios[index].play();
+            playButtons[index].classList.add('playing');
+        }
+    </script>
+</body>
+</html>

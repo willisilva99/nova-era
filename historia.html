@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Era - Sobreviventes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1c1c1c;
+            color: #eaeaea;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(255, 0, 0, 0.6);
+        }
+
+        h1 {
+            color: #ff6600;
+            font-size: 3rem;
+            text-shadow: 2px 2px 10px #ff0000;
+        }
+
+        .story {
+            margin: 20px auto;
+            max-width: 900px;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 20px;
+            animation: slideIn 1.5s ease-in-out;
+        }
+
+        .ember {
+            color: #f39c12;
+            font-weight: bold;
+        }
+
+        .back-button {
+            margin-top: 30px;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            background-color: #ff6600;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #e65c00;
+            transform: scale(1.05);
+        }
+
+        /* Animações */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 5px rgba(255, 0, 0, 0.2);
+            }
+            100% {
+                box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+            }
+        }
+
+        h1, .back-button {
+            animation: pulse 1.5s infinite alternate;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Nova Era - O Início da Sobrevivência</h1>
+        <div class="story">
+            <p>O fim da civilização como a conhecemos veio rápido e sem misericórdia. Uma praga brutal devastou a Terra, transformando os vivos em mortos-vivos, enquanto a radiação permeia o ar, tornando o ambiente ainda mais letal. Apenas os mais preparados e sortudos sobreviveram. E no céu, a <strong>Lua de Sangue</strong> surge como um presságio sombrio, banhando o mundo em um brilho vermelho ameaçador.</p>
+
+            <p>Agora, aqueles que restam vagam por cidades destruídas e desertos radioativos. Vestidos com trajes de proteção, eles enfrentam o duplo terror da radiação e das hordas de zumbis. O ar é pesado com a ameaça invisível da contaminação, e a <span class="ember">Ember</span> tornou-se a única moeda valiosa, utilizada não só para comprar mantimentos, mas também esperança.</p>
+
+            <img src="images/zumbi1.jpg" alt="Mundo pós-apocalíptico sob a Lua de Sangue">
+
+            <p>Em meio ao caos, sobreviventes encontram abrigo temporário em acampamentos improvisados, mas nada é permanente. A radiação não conhece limites, forçando-os a constantemente se mover, enquanto hordas famintas os seguem de perto. A Lua de Sangue brilha no céu noturno, como se estivesse observando, alimentando o medo e a paranoia.</p>
+
+            <img src="images/zumbi2.jpg" alt="Sobreviventes lutando para sobreviver">
+
+            <p>Aqueles que carregam uma <span class="ember">Ember</span> acreditam em um amanhã, mas o custo da sobrevivência é alto. A radiação lentamente adoece os fracos, e os zumbis caçam sem parar. Porém, no fundo, há uma faísca de esperança. Será possível reconstruir um novo mundo ou a Nova Era será marcada apenas pelo seu fim?</p>
+
+            <img src="images/zumbi3.jpg" alt="Sobreviventes em uma terra devastada e radioativa">
+
+            <p>Enquanto a Lua de Sangue continua a vigiar, o tempo dos sobreviventes se esgota. Apenas os mais fortes, corajosos e determinados terão uma chance de ver o próximo amanhecer.</p>
+        </div>
+
+        <a href="index.html" class="back-button">Voltar</a>
+    </div>
+</body>
+</html>

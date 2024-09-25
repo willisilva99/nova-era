@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHOP EMBER</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #141e30, #243b55);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            color: #ffcc00;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .claim-instructions {
+            font-size: 1.2rem;
+            margin-top: 20px;
+            color: #ffcc00;
+        }
+
+        /* Botão */
+        .button {
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            border-radius: 5px;
+            display: inline-block;
+            text-decoration: none;
+            background-color: #ff5733;
+            color: #fff;
+        }
+
+        .button:hover {
+            transform: scale(1.05);
+            background-color: #e74c3c;
+        }
+
+        /* Botão Voltar */
+        .button.back {
+            background-color: #007bff; /* Cor personalizada para o botão Voltar */
+            margin-top: 30px; /* Espaço acima do botão */
+        }
+
+        .button.back:hover {
+            background-color: #0056b3; /* Hover para Voltar */
+        }
+
+        .shop-image {
+            margin-top: 30px;
+            width: 100%; /* Aumenta a largura da imagem */
+            max-width: 800px; /* Aumenta o tamanho máximo da imagem */
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Estilo para alinhar o botão de voltar abaixo da imagem */
+        .button-container {
+            margin-top: 30px; /* Espaço acima do container */
+            text-align: center; /* Centraliza o botão */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SHOP EMBER</h1>
+        <p>Bem-vindo ao SHOP EMBER! Aqui você pode adquirir itens especiais para melhorar sua experiência no servidor.</p>
+        
+        <!-- Botão para comprar -->
+        <a href="https://au.csmm.app/shop/470" target="_blank" class="button">Comprar</a>
+        
+        <!-- Instrução de como resgatar o produto após a compra -->
+        <p class="claim-instructions">Após a compra no site, no jogo digite <strong>/claim</strong> para receber o seu produto.</p>
+
+        <!-- Imagem adicional para o Shop -->
+        <img src="images/loja.jpg" alt="Loja Ember" class="shop-image">
+        
+        <!-- Botão para voltar, agora abaixo da imagem -->
+        <div class="button-container">
+            <a href="index.html" class="button back">Voltar</a> <!-- Botão Voltar -->
+        </div>
+    </div>
+</body>
+</html>
