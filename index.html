@@ -71,12 +71,12 @@
         }
 
         .button.music {
-            background-color: #ff00ff; /* Cor personalizada para o botão Música */
+            background-color: #ff00ff;
             color: #fff;
         }
 
         .button.history {
-            background-color: #6f42c1; /* Cor para o botão HISTORIA NOVA ERA */
+            background-color: #6f42c1;
             color: #fff;
         }
 
@@ -203,6 +203,18 @@
                 width: 100%;
             }
         }
+
+        footer {
+            margin-top: 50px;
+            color: #fff;
+            background-color: #222;
+            padding: 10px 0;
+            font-size: 0.9rem;
+        }
+
+        footer p {
+            margin: 0;
+        }
     </style>
 </head>
 <body>
@@ -239,6 +251,32 @@
                 </div>
             </div>
         </div>
+
+        <!-- Imagem abaixo dos VIPs -->
+        <img src="images/viplogo.jpg" alt="Obrigado aos VIPs" style="width: 100%; margin-top: 30px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);">
     </div>
+
+    <!-- Rodapé com direitos reservados -->
+    <footer>
+        <p>&copy; 2024 NOVA ERA. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Animação ao rolar a página -->
+    <script>
+        window.addEventListener('scroll', function() {
+            let vips = document.querySelectorAll('.vip-card');
+            vips.forEach(function(vip) {
+                let position = vip.getBoundingClientRect().top;
+                let screenPosition = window.innerHeight / 1.3;
+
+                if (position < screenPosition) {
+                    vip.style.transform = 'scale(1.1)';
+                    vip.style.transition = 'transform 0.5s';
+                } else {
+                    vip.style.transform = 'scale(1)';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
