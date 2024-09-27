@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #000;
+            background-color: #181818; /* Cor de fundo mais escura */
             color: #fff;
             margin: 0;
             padding: 0;
@@ -35,7 +35,7 @@
         .discord-button, .back-button {
             margin-top: 20px;
             padding: 15px 30px;
-            background-color: #7289da;
+            background-color: #4caf50; /* Verde */
             color: #fff;
             font-size: 1.5rem;
             font-weight: bold;
@@ -49,17 +49,17 @@
         }
 
         .discord-button:hover, .back-button:hover {
-            background-color: #5a6fbf;
+            background-color: #45a049; /* Verde escuro ao passar o mouse */
             transform: scale(1.05);
         }
 
         .back-button {
-            background-color: #ff0000;
+            background-color: #ff0000; /* Vermelho */
             margin-top: 30px;
         }
 
         .back-button:hover {
-            background-color: #cc0000;
+            background-color: #cc0000; /* Vermelho escuro ao passar o mouse */
         }
 
         img {
@@ -67,6 +67,75 @@
             max-width: 100%;
             border-radius: 10px;
         }
+
+        /* Estilo da seção de jogadores online */
+        .online-section {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #222; /* Cor de fundo mais escura para a seção */
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+        }
+
+        .online-section h2 {
+            font-size: 2rem;
+            color: #ffcc00;
+            margin-bottom: 10px;
+        }
+
+        .online-list {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr); /* Mostra 5 cartões por vez */
+            gap: 20px;
+            justify-items: center;
+            transition: all 1s ease; /* Animação suave */
+        }
+
+        .card {
+            background-color: #444; /* Cor do cartão mais escura */
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+            text-align: center;
+            color: #fff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 150px;
+            overflow: hidden;  /* Evita que o conteúdo ultrapasse a borda */
+        }
+
+        .card img {
+            width: 80px; /* Aumenta o tamanho da imagem */
+            height: 80px; /* Aumenta o tamanho da imagem */
+            border-radius: 50%;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .card h2 {
+            font-size: 1rem;  /* Ajusta o tamanho da fonte para evitar que o texto passe das bordas */
+            word-wrap: break-word;  /* Quebra o texto se for muito longo */
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+        }
+
+        .card:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Cores para status */
+        .status-online {
+            color: #4caf50; /* Verde para online */
+        }
+        .status-idle {
+            color: #ff9800; /* Laranja para ausente */
+        }
+        .status-dnd {
+            color: #f44336; /* Vermelho para não perturbe */
+        }
+
     </style>
 </head>
 <body>
@@ -77,10 +146,108 @@
         <!-- Link para o Discord -->
         <a href="https://discord.gg/novaerahard" class="discord-button" target="_blank">Entrar no Discord</a>
 
+        <!-- Jogadores Online -->
+        <div class="online-section">
+            <h2>Jogadores Online Agora</h2>
+            <p>Estes são os sobreviventes atualmente online. Eles estarão ao seu lado na luta!</p>
+            <div class="online-list" id="onlineList">
+                <!-- Cartões de jogadores online serão inseridos aqui via JavaScript -->
+            </div>
+        </div>
+
         <img src="images/portal.jpg" alt="Sobrevivente correndo de um zumbi e entrando no Discord">
 
         <!-- Botão para voltar à página inicial -->
         <a href="index.html" class="back-button">Voltar para a página inicial</a>
     </div>
+
+    <!-- Script para buscar jogadores online e alternar entre eles -->
+    <script>
+        let onlineMembers = [];
+        let startIndex = 0;
+
+        // Função para mapear status para nomes amigáveis e classes de estilo
+        function mapStatus(status) {
+            switch (status.toLowerCase()) {
+                case 'online':  // Status para online
+                    return { text: 'Online', className: 'status-online' };
+                case 'idle':  // Status para idle (ausente)
+                    return { text: 'Ausente', className: 'status-idle' };
+                case 'dnd':  // Status para "não perturbe"
+                    return { text: 'Não Perturbe', className: 'status-dnd' };
+                default:
+                    return { text: 'Offline', className: '' };
+            }
+        }
+
+        // Função para buscar membros online da API
+        async function fetchJogadoresOnline() {
+            try {
+                const response = await fetch('https://web-production-a4094.up.railway.app/jogadores_online');
+                const jogadores = await response.json();
+
+                console.log("Dados retornados da API:", jogadores); // Verificar o retorno da API
+
+                if (Array.isArray(jogadores) && jogadores.length > 0) {
+                    console.log("Jogadores retornados da API:", jogadores); // Log para ver todos os jogadores retornados
+                    // Armazena a lista completa de membros online com status filtrados
+                    onlineMembers = jogadores.filter(member => {
+                        console.log(`Membro: ${member.display_name || member.username}, Status: ${member.status}`); // Log para ver cada membro e seu status
+                        return member.status.toLowerCase() === 'online' || 
+                               member.status.toLowerCase() === 'idle' || 
+                               member.status.toLowerCase() === 'dnd';
+                    });
+
+                    console.log("Jogadores filtrados (Online, Ausente, Não Perturbe):", onlineMembers); // Verificar se filtrou corretamente
+                } else {
+                    console.error("API não retornou jogadores.");
+                }
+
+                mostrarJogadoresOnline();  // Exibe os jogadores imediatamente
+            } catch (error) {
+                console.error('Erro ao buscar jogadores online:', error);
+            }
+        }
+
+        // Função para mostrar 5 jogadores online de forma rotativa
+        function mostrarJogadoresOnline() {
+            const onlineList = document.getElementById('onlineList');
+            onlineList.innerHTML = '';  // Limpa a lista antes de adicionar novos membros
+
+            // Verifica se há jogadores disponíveis
+            if (onlineMembers.length === 0) {
+                onlineList.innerHTML = '<p>Nenhum jogador online no momento</p>';
+                return;
+            }
+
+            // Mostra até 5 membros online, começando no índice "startIndex"
+            const membersToShow = onlineMembers.slice(startIndex, startIndex + 5);
+            membersToShow.forEach(member => {
+                const div = document.createElement('div');
+                div.classList.add('card');
+                const avatarUrl = member.avatar || 'https://via.placeholder.com/80';  // Se não houver avatar, mostra um placeholder
+                const status = mapStatus(member.status);
+                div.innerHTML = `<img src="${avatarUrl}" alt="Avatar">
+                                 <h2>${member.apelido || member.display_name || member.username}</h2> <!-- Mostra o apelido -->
+                                 <p class="status ${status.className}">${status.text}</p>`;
+                onlineList.appendChild(div);
+            });
+
+            // Atualiza o índice de início para os próximos 5 membros
+            startIndex = (startIndex + 5) % onlineMembers.length;
+        }
+
+        // Atualiza a lista de jogadores online a cada 5 segundos
+        setInterval(() => {
+            mostrarJogadoresOnline();
+        }, 5000);
+
+        // Inicializa as chamadas da API ao carregar a página
+        window.onload = async () => {
+            await fetchJogadoresOnline();
+            mostrarJogadoresOnline();
+        };
+    </script>
 </body>
 </html>
+
