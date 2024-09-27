@@ -6,7 +6,7 @@
     <title>NOVA ERA - Página Inicial</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
             background: linear-gradient(to bottom, #141e30, #243b55);
             color: #fff;
             margin: 0;
@@ -116,7 +116,7 @@
         .destaques-section {
             margin-top: 40px;
             padding: 20px;
-            background-color: #333;
+            background-color: #444; /* Cor de fundo mais clara para os destaques */
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
         }
@@ -136,7 +136,7 @@
             gap: 20px;
         }
 
-        /* Estilo dos cartões de Destaques com cor do Discord */
+        /* Estilo dos cartões de Destaques */
         .destaques-card {
             padding: 20px;
             margin: 10px;
@@ -148,30 +148,29 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #7289da; /* Cor do Discord */
+            background-color: #555; /* Cor do cartão ajustada para um cinza mais claro */
         }
 
         .destaques-card img {
-            width: 60px;
-            height: 60px;
+            width: 80px; /* Aumenta o tamanho da imagem */
+            height: 80px; /* Aumenta o tamanho da imagem */
             border-radius: 50%;
             margin-bottom: 15px;
             transition: transform 0.3s ease;
         }
 
-        /* Melhorar a fonte do nome */
+        /* Nomes em Amarelo */
         .destaques-card .destaque-name {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: bold;
-            color: #fff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #ffcc00; /* Cor Amarela para o Nome */
             margin-bottom: 5px;
         }
 
         /* Animação ao passar o mouse */
         .destaques-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 6px 20px rgba(255, 255, 0, 0.7);
         }
 
         .destaques-card:hover img {
@@ -182,7 +181,7 @@
         .vip-section {
             margin-top: 40px;
             padding: 20px;
-            background-color: #222;
+            background-color: #333; /* Cor de fundo melhorada para a seção VIP */
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
         }
@@ -201,9 +200,10 @@
         }
 
         .vip-list {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
+            display: grid; /* Usando grid para organizar os VIPs */
+            grid-template-columns: repeat(2, 1fr); /* 2 VIPs por linha */
+            gap: 20px; /* Espaçamento entre os VIPs */
+            justify-items: center; /* Centraliza os cartões */
         }
 
         .vip-card {
@@ -211,7 +211,6 @@
             padding: 20px;
             margin: 10px;
             border-radius: 10px;
-            width: calc(30% - 20px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
             transition: transform 0.5s, box-shadow 0.5s;
             text-align: left;
@@ -219,6 +218,7 @@
             display: flex;
             align-items: center;
             animation: bounce 2s infinite alternate;
+            width: 90%; /* Ajuste para um tamanho adequado */
         }
 
         .vip-card img {
@@ -230,6 +230,12 @@
         .vip-card .vip-name {
             font-size: 1.5rem;
             font-weight: bold;
+        }
+
+        /* Animação ao passar o mouse nos VIPs */
+        .vip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(255, 255, 0, 0.7);
         }
 
         /* Animação ao passar o mouse nos VIPs */
@@ -308,6 +314,10 @@
                     <img src="images/vipp.png" alt="VIP 3">
                     <div class="vip-name">lnazareth</div>
                 </div>
+                <div class="vip-card">
+                    <img src="images/vipp.png" alt="VIP 4">
+                    <div class="vip-name">Novo VIP</div>
+                </div>
             </div>
         </div>
 
@@ -336,29 +346,29 @@
             }
         }
 
-        // Função para alternar os destaques visíveis a cada 10 segundos
+        // Função para alternar os destaques visíveis a cada 6 segundos
         function alternarDestaques() {
             const destaquesList = document.getElementById('destaquesList');
             destaquesList.innerHTML = '';  // Limpa a lista antes de adicionar os novos destaques
 
-            // Mostra até 5 membros destaque, a partir do índice destaqueStartIndex
-            const membersToShow = destaqueMembers.slice(destaqueStartIndex, destaqueStartIndex + 5);
+            // Mostra até 4 membros destaque, a partir do índice destaqueStartIndex
+            const membersToShow = destaqueMembers.slice(destaqueStartIndex, destaqueStartIndex + 4);
             membersToShow.forEach(member => {
                 const div = document.createElement('div');
                 div.classList.add('destaques-card');
-                const avatarUrl = member.avatar || 'https://via.placeholder.com/50';  // Placeholder se não tiver avatar
-                div.innerHTML = `<img src="${avatarUrl}" alt="Avatar"><div class="destaque-name">${member.display_name}</div>`;
+                const avatarUrl = member.avatar || 'https://via.placeholder.com/100';  // Placeholder se não tiver avatar
+                div.innerHTML = `<img src="${avatarUrl}" alt="Avatar"><div class="destaque-name">${member.apelido || member.display_name || member.username}</div>`;
                 destaquesList.appendChild(div);
             });
 
-            // Atualiza o índice de início para os próximos 5 membros
-            destaqueStartIndex = (destaqueStartIndex + 5) % destaqueMembers.length;
+            // Atualiza o índice de início para os próximos 4 membros
+            destaqueStartIndex = (destaqueStartIndex + 4) % destaqueMembers.length;
         }
 
-        // Alterna os destaques a cada 10 segundos
+        // Alterna os destaques a cada 6 segundos
         setInterval(() => {
             alternarDestaques();
-        }, 10000);
+        }, 6000);
 
         // Carrega os destaques ao abrir a página
         window.onload = fetchDestaques;
