@@ -48,16 +48,18 @@
             height: auto;
             border-radius: 10px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
-            transition: opacity 1s ease-in-out;  /* Transição suave de 1 segundo */
-            opacity: 0;  /* As imagens começam invisíveis */
+            transition: opacity 1s ease-in-out, transform 0.3s ease-in-out;  /* Transição suave de opacidade e zoom */
+            opacity: 0;
+            background-color: #000;
         }
 
         .photo-container img.active {
-            opacity: 1;  /* Imagem visível */
+            opacity: 1;
         }
 
+        /* Animação de zoom ao passar o mouse */
         .photo-container img:hover {
-            transform: scale(1.05);
+            transform: scale(1.05);  /* Zoom suave ao passar o mouse */
         }
 
         .player-info {
@@ -201,29 +203,27 @@
             const firstIndex = currentIndex;
             const secondIndex = (currentIndex + 1) % photos.length;
 
-            // Adiciona a classe 'active' para a transição suave
+            // Carregamento rápido das fotos
             photo1.src = photos[firstIndex].url;
             name1.textContent = photos[firstIndex].player;
-            photo1.classList.add('active');
+            photo1.onload = () => photo1.classList.add('active');
 
             photo2.src = photos[secondIndex].url;
             name2.textContent = photos[secondIndex].player;
-            photo2.classList.add('active');
+            photo2.onload = () => photo2.classList.add('active');
 
             currentIndex += 2;
         }
 
         function startSlideshow() {
             intervalId = setInterval(() => {
-                // Remove a classe 'active' das fotos anteriores
                 document.querySelectorAll('.photo-container img').forEach((img) => {
                     img.classList.remove('active');
                 });
-                // Exibe as novas fotos
                 setTimeout(() => {
                     showPhotos();
-                }, 1000); // Delay para transição suave entre imagens
-            }, 7000); // Tempo de 7 segundos para cada transição
+                }, 500); // Delay para transição suave entre imagens
+            }, 7000); // 7 segundos entre cada transição
         }
 
         window.onload = fetchFotos;
