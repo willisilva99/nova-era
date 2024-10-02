@@ -145,14 +145,15 @@
         let canOpenBox = false;
         let generatedCode = '';
 
-        let items = [
-            { name: "AK47", image: "images/ak47.png", chance: 5 },
-            { name: "VIP", image: "images/vip.png", chance: 5 },
-            { name: "GIROCOPITERO", image: "images/giro.png", chance: 5 },
-            { name: "MOTO", image: "images/moto.png", chance: 5 },
-            { name: "3.000 EMBERS", image: "images/ember.png", chance: 10 },
-            { name: "SEM SORTE", image: "images/fail.png", chance: 70 }
-        ];
+   let items = [
+    { name: "AK47", image: "images/ak47.png", chance: 1 },  // 1% de chance
+    { name: "VIP", image: "images/vip.png", chance: 1 },  // 1% de chance
+    { name: "GIROCOPITERO", image: "images/giro.png", chance: 1 },  // 1% de chance
+    { name: "MOTO", image: "images/moto.png", chance: 1 },  // 1% de chance
+    { name: "3.000 EMBERS", image: "images/ember.png", chance: 6 },  // 6% de chance
+    { name: "SEM SORTE", image: "images/fail.png", chance: 90 }  // 90% de chance
+];
+
 
         // Função para verificar o estado ao carregar a página
         window.onload = function() {
