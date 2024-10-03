@@ -1,178 +1,377 @@
-import os
-import discord
-from discord.ext import commands, tasks
-import random
-from flask import Flask, jsonify
-import threading
-from flask_cors import CORS
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOVA ERA - Página Inicial</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #141e30, #243b55);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
 
-# Pega o token da variável de ambiente
-TOKEN = os.getenv('TOKEN')
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
 
-# Configurações dos "intents" para o bot
-intents = discord.Intents.default()
-intents.message_content = True
-intents.members = True
-intents.presences = True
-intents.messages = True  # Permite que o bot detecte eventos de mensagens apagadas
+        h1 {
+            font-size: 3.5rem;
+            color: #ffcc00;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+        }
 
-bot = commands.Bot(command_prefix='!', intents=intents)
+        /* Botões */
+        .button {
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            border-radius: 5px;
+            display: inline-block;
+            text-decoration: none;
+        }
 
-# Lista de atividades para o bot
-atividades = [
-    "sobrevivendo ao apocalipse",
-    "jogando 7 Days to Die",
-    "enfrentando zumbis",
-]
+        .button.rules {
+            background-color: #007bff;
+            color: #fff;
+        }
 
-# Lista de mensagens apocalípticas
-mensagens_apocalipticas = [
-    'As hordas de zumbis estão à espreita, e {user} compartilhou algo importante!',
-    '{user} encontrou algo no apocalipse! Fiquem atentos!',
-    'O caos se aproxima... e {user} acabou de enviar algo!',
-    'Um aviso do apocalipse! {user} compartilhou uma mensagem crucial.',
-    'A sobrevivência depende da informação. {user} acabou de compartilhar algo!',
-]
+        .button.discord {
+            background-color: #7289da;
+            color: #fff;
+        }
 
-# ---- API Flask ----
-app = Flask(__name__)  
-CORS(app)
+        .button.vote {
+            background-color: #ffcc00;
+            color: #000;
+        }
 
-@app.route('/')
-def home():
-    return jsonify({'status': 'Bot está online e rodando!'})
+        .button.lucky-spin {
+            background-color: #28a745;
+            color: #fff;
+        }
 
-@app.route('/destaques')
-def get_destaques():
-    guild = bot.get_guild(1186390028990025820)  # Substitua pelo ID do seu servidor
-    if guild is None:
-        return jsonify({'error': 'Servidor não encontrado'}), 404
+        .button.shop {
+            background-color: #ff5733;
+            color: #fff;
+        }
 
-    role = discord.utils.get(guild.roles, name="Destaque")
-    if not role:
-        return jsonify({'error': 'Cargo não encontrado'}), 404
+        .button.music {
+            background-color: #ff00ff;
+            color: #fff;
+        }
 
-    members = [{
-        'id': member.id,
-        'display_name': member.display_name,
-        'avatar': member.avatar.url if member.avatar else None
-    } for member in role.members]
-    return jsonify(members)
+        .button.history {
+            background-color: #6f42c1;
+            color: #fff;
+        }
 
-@app.route('/jogadores_online')
-def jogadores_online():
-    guild = bot.get_guild(1186390028990025820)  # Substitua pelo ID do seu servidor
-    if guild is None:
-        return jsonify({'error': 'Servidor não encontrado'}), 404
+        .button:hover {
+            transform: scale(1.05);
+        }
 
-    membros_online = [{
-        'id': member.id,
-        'display_name': member.display_name,
-        'avatar': member.avatar.url if member.avatar else None,
-        'status': str(member.status).capitalize(),
-    } for member in guild.members if member.status != discord.Status.offline and not member.bot]
+        .button.rules:hover {
+            background-color: #0056b3;
+        }
 
-    return jsonify(membros_online)
+        .button.discord:hover {
+            background-color: #5a6fbf;
+        }
 
-# ---- Bot Discord ----
+        .button.vote:hover {
+            background-color: #e5b600;
+        }
 
-# Evento que indica quando o bot está pronto
-@bot.event
-async def on_ready():
-    print(f'Bot conectado como {bot.user}')
-    mudar_atividade.start()
+        .button.lucky-spin:hover {
+            background-color: #218838;
+        }
 
-# Tarefa que muda a atividade do bot periodicamente
-@tasks.loop(minutes=5)
-async def mudar_atividade():
-    atividade = random.choice(atividades)
-    await bot.change_presence(activity=discord.Game(name=atividade))
+        .button.shop:hover {
+            background-color: #e74c3c;
+        }
 
-# ---- Comando !site ----
-@bot.command()
-async def site(ctx):
-    await ctx.send('Acesse o nosso site: http://novaera7d.com.br/')
+        .button.music:hover {
+            background-color: #cc00cc;
+        }
 
-# ---- Comando !vote ----
-@bot.command()
-async def vote(ctx):
-    await ctx.send('Vote em nosso servidor: https://novaera7d.netlify.app/botao')
+        .button.history:hover {
+            background-color: #5a32a1;
+        }
 
-# ---- Comando !missao ----
-@bot.command()
-async def missao(ctx):
-    await ctx.send('Aqui está o link da missão: https://youtu.be/2tNePGLm53s')
+        /* Seção Destaques */
+        .destaques-section {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #444; /* Cor de fundo mais clara para os destaques */
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+        }
 
-# Evento para boas-vindas a novos membros
-@bot.event
-async def on_member_join(member):
-    # ID do canal de boas-vindas (substitua pelo ID do seu canal)
-    channel = bot.get_channel(1186636197934661632)
+        .destaques-section h2 {
+            font-size: 2.5rem;
+            color: #ffcc00;
+            margin-bottom: 10px;
+            text-shadow: none;
+            font-weight: 600;
+        }
 
-    # Lista de mensagens apocalípticas
-    mensagens_boas_vindas = [
-        f'Bem-vindo(a) ao apocalipse, {member.mention}! As hordas de zumbis estão à espreita, mas juntos sobreviveremos.',
-        f'{member.mention}, você chegou na hora certa... as defesas estão baixas e precisamos de toda ajuda possível. Bem-vindo(a) à Nova Era!',
-        f'Os céus estão escuros e os zumbis rondam as ruas. Seja bem-vindo(a) ao caos, {member.mention}!',
-        f'Você sobreviveu ao mundo lá fora, mas agora a verdadeira luta começa aqui. Bem-vindo(a), {member.mention}, à Nova Era!',
-        f'{member.mention}, o silêncio antes da tempestade nunca durou tanto tempo... Prepare-se para o que está por vir. Bem-vindo(a) ao refúgio!',
-        f'Você encontrou o último refúgio da humanidade, {member.mention}. Agora, é matar ou morrer. Bem-vindo(a) à Nova Era!',
-        f'Os portões se fecharam atrás de você, {member.mention}. Não há mais volta. Bem-vindo(a) ao nosso pesadelo.',
-        f'{member.mention}, seja bem-vindo(a) à resistência! Os zumbis estão lá fora, mas aqui... aqui, nós lutamos até o fim!'
-    ]
+        /* Grade de Destaques */
+        .destaques-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
 
-    # Escolhe uma mensagem aleatória
-    mensagem_escolhida = random.choice(mensagens_boas_vindas)
+        /* Estilo dos cartões de Destaques */
+        .destaques-card {
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #555; /* Cor do cartão ajustada para um cinza mais claro */
+        }
 
-    # Envia a mensagem no canal de boas-vindas
-    if channel:
-        await channel.send(mensagem_escolhida)
+        .destaques-card img {
+            width: 80px; /* Aumenta o tamanho da imagem */
+            height: 80px; /* Aumenta o tamanho da imagem */
+            border-radius: 50%;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
 
-# Evento para reagir a imagens enviadas no chat e enviar um aviso
-@bot.event
-async def on_message(message):
-    # Certifica-se de que o bot não vai reagir às próprias mensagens
-    if message.author == bot.user:
-        return
+        /* Nomes em Amarelo */
+        .destaques-card .destaque-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffcc00; /* Cor Amarela para o Nome */
+            margin-bottom: 5px;
+        }
 
-    # Verifica se a mensagem foi enviada no canal com ID específico
-    if message.channel.id == 1262571048898138252:
-        # Verifica se a mensagem contém anexos (imagens ou outros arquivos)
-        if message.attachments:
-            for attachment in message.attachments:
-                # Verifica se o arquivo é uma imagem
-                if attachment.content_type.startswith('image/'):
-                    # Reage com um emoji customizado
-                    emoji = bot.get_emoji(1262842500125556866)
-                    if emoji:
-                        await message.add_reaction(emoji)
+        /* Animação ao passar o mouse */
+        .destaques-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 20px rgba(255, 255, 0, 0.7);
+        }
 
-                    # Enviar uma mensagem no canal de avisos 1186636197934661632
-                    aviso_channel = bot.get_channel(1186636197934661632)
-                    if aviso_channel:
-                        mensagem_aviso = random.choice(mensagens_apocalipticas).format(user=message.author.mention)
-                        await aviso_channel.send(mensagem_aviso)
+        .destaques-card:hover img {
+            transform: scale(1.1);
+        }
 
-    # Processa os comandos caso a mensagem seja um comando
-    await bot.process_commands(message)
+        /* Seção VIP */
+        .vip-section {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #333; /* Cor de fundo melhorada para a seção VIP */
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+        }
 
-# Evento para detectar quando uma mensagem é deletada
-@bot.event
-async def on_message_delete(message):
-    # Verifica se a mensagem deletada é do canal de fotos
-    if message.channel.id == 1262571048898138252:
-        print(f"A mensagem com ID {message.id} foi deletada.")
+        .vip-section h2 {
+            font-size: 2.5rem;
+            color: #ffcc00;
+            margin-bottom: 10px;
+            text-shadow: none;
+        }
 
-# Função para rodar a API Flask em uma thread separada
-def run_api():
-    port = int(os.environ.get('PORT', 5000))  # Railway usa a variável de ambiente PORT
-    app.run(host='0.0.0.0', port=port)
+        .vip-thank-you {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #fff;
+        }
 
-# Função para rodar o bot e a API ao mesmo tempo
-def run_bot():
-    bot.run(TOKEN)
+        .vip-list {
+            display: grid; /* Usando grid para organizar os VIPs */
+            grid-template-columns: repeat(2, 1fr); /* 2 VIPs por linha */
+            gap: 20px; /* Espaçamento entre os VIPs */
+            justify-items: center; /* Centraliza os cartões */
+        }
 
-# Iniciar as threads
-if __name__ == '__main__':
-    threading.Thread(target=run_api).start()
-    run_bot()
+        .vip-card {
+            background: linear-gradient(135deg, #ffcc00, #ff9900);
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+            transition: transform 0.5s, box-shadow 0.5s;
+            text-align: left;
+            color: #000;
+            display: flex;
+            align-items: center;
+            animation: bounce 2s infinite alternate;
+            width: 90%; /* Ajuste para um tamanho adequado */
+        }
+
+        .vip-card img {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        .vip-card .vip-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Animação ao passar o mouse nos VIPs */
+        .vip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(255, 255, 0, 0.7);
+        }
+
+        /* Animação ao passar o mouse nos VIPs */
+        @keyframes bounce {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Responsividade */
+        @media (max-width: 800px) {
+            .destaques-card, .vip-card {
+                width: calc(45% - 20px);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .destaques-card, .vip-card {
+                width: 100%;
+            }
+        }
+
+        footer {
+            margin-top: 50px;
+            color: #fff;
+            background-color: #222;
+            padding: 10px 0;
+            font-size: 0.9rem;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bem-vindo à NOVA ERA</h1>
+        <p>Escolha uma opção abaixo para começar a explorar o mundo da sobrevivência!</p>
+        
+        <!-- Botões para acessar as páginas -->
+        <a href="regras.html" class="button rules">Regras do Servidor</a>
+        <a href="discord.html" class="button discord">Entrar no Discord</a>
+        <a href="botao.html" class="button vote">Votar no Servidor</a>
+        <a href="caixa.html" class="button lucky-spin">Roleta da Sorte</a>
+        <a href="shop.html" class="button shop">SHOP EMBER</a>
+        <a href="historia.html" class="button history">HISTORIA NOVA ERA</a>
+        <a href="musica.html" class="button music">MÚSICAS</a>
+
+        <!-- Seção Destaques -->
+        <div class="destaques-section">
+            <h2>Jogadores em Destaque</h2>
+            <div class="destaques-list" id="destaquesList">
+                <!-- Cartões dos Destaques serão inseridos aqui via JavaScript -->
+            </div>
+        </div>
+
+        <!-- Seção VIP -->
+        <div class="vip-section">
+            <h2>Nossos Jogadores VIP</h2>
+            <p class="vip-thank-you">Um agradecimento especial aos nossos VIPs pelo apoio!</p>
+            <div class="vip-list">
+                <!-- Cartões dos VIPs -->
+                <div class="vip-card">
+                    <img src="images/vipp.png" alt="VIP 1">
+                    <div class="vip-name">Roalpe</div>
+                </div>
+                <div class="vip-card">
+                    <img src="images/vipp.png" alt="VIP 2">
+                    <div class="vip-name">Wando PV</div>
+                </div>
+                <div class="vip-card">
+                    <img src="images/vipp.png" alt="VIP 3">
+                    <div class="vip-name">lnazareth</div>
+                </div>
+                <div class="vip-card">
+                    <img src="images/vipp.png" alt="VIP 4">
+                    <div class="vip-name">Novo VIP</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Imagem abaixo dos VIPs -->
+        <img src="images/viplogo.jpg" alt="Obrigado aos VIPs" style="width: 100%; margin-top: 30px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);">
+    </div>
+
+    <!-- Rodapé com direitos reservados -->
+    <footer>
+        <p>&copy; 2024 NOVA ERA. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Script para alternar os destaques -->
+    <script>
+        let destaqueMembers = [];  // Armazena os jogadores destaque
+        let destaqueStartIndex = 0;
+
+        // Função para buscar os destaques da API
+        async function fetchDestaques() {
+            try {
+                const response = await fetch('https://web-production-a4094.up.railway.app/destaques');
+                destaqueMembers = await response.json();
+                alternarDestaques();  // Mostra os primeiros destaques imediatamente
+            } catch (error) {
+                console.error('Erro ao buscar destaques:', error);
+            }
+        }
+
+        // Função para alternar os destaques visíveis a cada 6 segundos
+        function alternarDestaques() {
+            const destaquesList = document.getElementById('destaquesList');
+            destaquesList.innerHTML = '';  // Limpa a lista antes de adicionar os novos destaques
+
+            // Mostra até 4 membros destaque, a partir do índice destaqueStartIndex
+            const membersToShow = destaqueMembers.slice(destaqueStartIndex, destaqueStartIndex + 4);
+            membersToShow.forEach(member => {
+                const div = document.createElement('div');
+                div.classList.add('destaques-card');
+                const avatarUrl = member.avatar || 'https://via.placeholder.com/100';  // Placeholder se não tiver avatar
+                div.innerHTML = `<img src="${avatarUrl}" alt="Avatar"><div class="destaque-name">${member.apelido || member.display_name || member.username}</div>`;
+                destaquesList.appendChild(div);
+            });
+
+            // Atualiza o índice de início para os próximos 4 membros
+            destaqueStartIndex = (destaqueStartIndex + 4) % destaqueMembers.length;
+        }
+
+        // Alterna os destaques a cada 6 segundos
+        setInterval(() => {
+            alternarDestaques();
+        }, 6000);
+
+        // Carrega os destaques ao abrir a página
+        window.onload = fetchDestaques;
+    </script>
+</body>
+</html>
