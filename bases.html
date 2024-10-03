@@ -48,7 +48,7 @@
             height: auto;
             border-radius: 10px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
-            transition: opacity 1s ease-in-out, transform 0.3s ease-in-out;  /* Transição suave de opacidade e zoom */
+            transition: opacity 1s ease-in-out, transform 0.3s ease-in-out;
             opacity: 0;
             background-color: #000;
         }
@@ -57,9 +57,8 @@
             opacity: 1;
         }
 
-        /* Animação de zoom ao passar o mouse */
         .photo-container img:hover {
-            transform: scale(1.05);  /* Zoom suave ao passar o mouse */
+            transform: scale(1.05);
         }
 
         .player-info {
@@ -116,11 +115,6 @@
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
         }
 
-        @keyframes fadeEffect {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
         @media screen and (max-width: 768px) {
             .photo-container {
                 width: 100%;
@@ -152,7 +146,7 @@
     <div class="gallery">
         <!-- Foto 1 -->
         <div class="photo-container fade" id="photo-container-1">
-            <img src="" id="photo-1" alt="Foto do jogador" class="active">
+            <img src="" id="photo-1" alt="Foto do jogador" class="active" onerror="this.src='fallback_image.jpg'">
             <div class="player-info">
                 <div class="player-name" id="player-name-1">Nome do Jogador</div>
             </div>
@@ -160,7 +154,7 @@
 
         <!-- Foto 2 -->
         <div class="photo-container fade" id="photo-container-2">
-            <img src="" id="photo-2" alt="Foto do jogador">
+            <img src="" id="photo-2" alt="Foto do jogador" onerror="this.src='fallback_image.jpg'">
             <div class="player-info">
                 <div class="player-name" id="player-name-2">Nome do Jogador</div>
             </div>
@@ -175,7 +169,7 @@
     </div>
 
     <!-- Foto Extra -->
-    <img src="images/anime.jpg" alt="Anime" class="extra-photo">
+    <img src="images/anime.jpg" alt="Anime" class="extra-photo" onerror="this.src='fallback_image.jpg'">
 
     <script>
         let currentIndex = 0;
@@ -183,10 +177,21 @@
         let intervalId;
 
         async function fetchFotos() {
-            const response = await fetch('https://web-production-a4094.up.railway.app/fotos');
-            photos = await response.json();
-            showPhotos();
-            startSlideshow();
+            try {
+                const response = await fetch('https://web-production-a4094.up.railway.app/fotos');
+                if (!response.ok) {
+                    throw new Error('Erro ao buscar as fotos: ' + response.status);
+                }
+                photos = await response.json();
+                if (photos.length > 0) {
+                    showPhotos();
+                    startSlideshow();
+                } else {
+                    console.error('Nenhuma foto foi encontrada.');
+                }
+            } catch (error) {
+                console.error('Erro ao buscar fotos:', error);
+            }
         }
 
         function showPhotos() {
