@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NOVA ERA - Página Inicial</title>
     <style>
-        /* Estilo básico da página */
         body {
             font-family: Arial, sans-serif;
             background: linear-gradient(to bottom, #141e30, #243b55);
@@ -31,7 +30,7 @@
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
         }
 
-        /* Estilo dos botões */
+        /* Botões */
         .button {
             margin-top: 20px;
             padding: 15px 30px;
@@ -52,62 +51,8 @@
             color: #000;
         }
 
-        .button.rules {
-            background-color: #007bff;
-        }
-
-        .button.discord {
-            background-color: #7289da;
-        }
-
-        .button.vote {
-            background-color: #ffcc00;
-            color: #000;
-        }
-
-        .button.shop {
-            background-color: #ff5733;
-        }
-
         .button:hover {
             transform: scale(1.05);
-        }
-
-        /* Modal de boas-vindas */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background: #243b55;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            color: #ffcc00;
-        }
-
-        /* Estilo do popup de jogadores */
-        .popup {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #141e30;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            color: #ffcc00;
-            font-weight: bold;
-            display: none;
-            z-index: 999;
         }
 
         /* Seção Destaques */
@@ -134,12 +79,33 @@
 
         .destaques-card {
             padding: 20px;
+            margin: 10px;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
             text-align: center;
             color: #fff;
             background-color: #555;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .destaques-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .destaques-card .destaque-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffcc00;
+            margin-bottom: 5px;
+        }
+
+        .destaques-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 20px rgba(255, 255, 0, 0.7);
         }
 
         /* Seção VIP */
@@ -159,7 +125,7 @@
 
         .vip-list {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 1fr 1fr;
             gap: 20px;
             justify-items: center;
         }
@@ -174,6 +140,7 @@
             display: flex;
             align-items: center;
             width: 90%;
+            transition: transform 0.5s, box-shadow 0.5s;
         }
 
         .vip-card img {
@@ -181,6 +148,21 @@
             height: 50px;
             margin-right: 15px;
             border-radius: 50%;
+        }
+
+        .vip-card .vip-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Animação alternante para os VIPs */
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .vip-card {
+            animation: fadeIn 2s infinite alternate;
         }
 
         /* Responsividade */
@@ -208,32 +190,12 @@
     </style>
 </head>
 <body>
-    <!-- Modal de boas-vindas -->
-    <div class="modal" id="welcomeModal">
-        <div class="modal-content">
-            <h2>Bem-vindo à NOVA ERA!</h2>
-            <p>Prepare-se para o caos e para sobreviver neste apocalipse. Boa sorte!</p>
-            <button onclick="closeModal()" class="button play-now">Começar</button>
-        </div>
-    </div>
-
-    <!-- Popup de jogadores online -->
-    <div class="popup" id="playerPopup">
-        <p>Jogadores Online: <span id="onlinePlayers">0</span></p>
-    </div>
-
     <div class="container">
         <h1>Bem-vindo à NOVA ERA</h1>
         <p>Escolha uma opção abaixo para começar a explorar o mundo da sobrevivência!</p>
 
         <!-- Botão "Jogar Agora" -->
         <a href="steam://connect/50.20.249.105:26995" class="button play-now">Jogar Agora</a>
-
-        <!-- Outros botões para navegação -->
-        <a href="regras.html" class="button rules">Regras do Servidor</a>
-        <a href="discord.html" class="button discord">Entrar no Discord</a>
-        <a href="botao.html" class="button vote">Votar no Servidor</a>
-        <a href="shop.html" class="button shop">Shop Ember</a>
 
         <!-- Seção de Destaques -->
         <div class="destaques-section">
@@ -246,23 +208,8 @@
         <!-- Seção VIP -->
         <div class="vip-section">
             <h2>Nossos Jogadores VIP</h2>
-            <div class="vip-list">
-                <div class="vip-card">
-                    <img src="images/vipp.png" alt="VIP 1">
-                    <div>Roalpe</div>
-                </div>
-                <div class="vip-card">
-                    <img src="images/vipp.png" alt="VIP 2">
-                    <div>Wando PV</div>
-                </div>
-                <div class="vip-card">
-                    <img src="images/vipp.png" alt="VIP 3">
-                    <div>lnazareth</div>
-                </div>
-                <div class="vip-card">
-                    <img src="images/vipp.png" alt="VIP 4">
-                    <div>Novo VIP</div>
-                </div>
+            <div class="vip-list" id="vipList">
+                <!-- Cartões dos VIPs alternantes serão inseridos via JavaScript -->
             </div>
         </div>
     </div>
@@ -272,65 +219,68 @@
         <p>&copy; 2024 NOVA ERA. Todos os direitos reservados.</p>
     </footer>
 
-    <!-- Script para o modal, popup e seção de destaques -->
+    <!-- Script para alternar os destaques e VIPs -->
     <script>
-        // Mostrar o modal de boas-vindas ao carregar a página
-        window.onload = function() {
-            document.getElementById('welcomeModal').style.display = 'flex';
-            fetchOnlinePlayers();
-            fetchDestaques();
-        };
+        // Dados de Destaques e VIPs (Exemplo Simulado)
+        const destaqueMembers = [
+            { nome: 'Sobrevivente A', avatar: 'https://via.placeholder.com/80' },
+            { nome: 'Sobrevivente B', avatar: 'https://via.placeholder.com/80' },
+            { nome: 'Sobrevivente C', avatar: 'https://via.placeholder.com/80' },
+            { nome: 'Sobrevivente D', avatar: 'https://via.placeholder.com/80' },
+            { nome: 'Sobrevivente E', avatar: 'https://via.placeholder.com/80' }
+        ];
 
-        // Função para fechar o modal de boas-vindas
-        function closeModal() {
-            document.getElementById('welcomeModal').style.display = 'none';
+        const vipMembers = [
+            { nome: 'Roalpe', avatar: 'https://via.placeholder.com/50' },
+            { nome: 'Wando PV', avatar: 'https://via.placeholder.com/50' },
+            { nome: 'lnazareth', avatar: 'https://via.placeholder.com/50' },
+            { nome: 'Novo VIP', avatar: 'https://via.placeholder.com/50' }
+        ];
+
+        let destaqueIndex = 0;
+        let vipIndex = 0;
+
+        // Função para exibir destaques
+        function mostrarDestaques() {
+            const destaquesList = document.getElementById('destaquesList');
+            destaquesList.innerHTML = ''; // Limpa os destaques
+
+            const destaqueAtual = destaqueMembers[destaqueIndex];
+            const card = document.createElement('div');
+            card.className = 'destaques-card';
+            card.innerHTML = `
+                <img src="${destaqueAtual.avatar}" alt="${destaqueAtual.nome}">
+                <div class="destaque-name">${destaqueAtual.nome}</div>
+            `;
+            destaquesList.appendChild(card);
+
+            destaqueIndex = (destaqueIndex + 1) % destaqueMembers.length;
         }
 
-        // Função para buscar o número de jogadores online (exemplo fictício)
-        function fetchOnlinePlayers() {
-            const onlinePlayers = Math.floor(Math.random() * 100);
-            document.getElementById('onlinePlayers').innerText = onlinePlayers;
+        // Função para exibir VIPs com alternância de nomes
+        function mostrarVIPs() {
+            const vipList = document.getElementById('vipList');
+            vipList.innerHTML = ''; // Limpa os VIPs
 
-            const popup = document.getElementById('playerPopup');
-            popup.style.display = 'block';
+            const vipAtual = vipMembers[vipIndex];
+            const card = document.createElement('div');
+            card.className = 'vip-card';
+            card.innerHTML = `
+                <img src="${vipAtual.avatar}" alt="${vipAtual.nome}">
+                <div class="vip-name">${vipAtual.nome}</div>
+            `;
+            vipList.appendChild(card);
 
-            setTimeout(() => {
-                popup.style.display = 'none';
-            }, 5000);
+            vipIndex = (vipIndex + 1) % vipMembers.length;
         }
 
-        // Atualizar o número de jogadores a cada 20 segundos
-        setInterval(fetchOnlinePlayers, 20000);
+        // Inicializa alternância de Destaques e VIPs
+        setInterval(mostrarDestaques, 6000); // Alterna Destaques a cada 6 segundos
+        setInterval(mostrarVIPs, 6000); // Alterna VIPs a cada 6 segundos
 
-        // Função para carregar e alternar destaques a cada 20 segundos
-        function fetchDestaques() {
-            const destaques = [
-                { nome: 'Sobrevivente 1', avatar: 'images/player1.png' },
-                { nome: 'Sobrevivente 2', avatar: 'images/player2.png' },
-                { nome: 'Sobrevivente 3', avatar: 'images/player3.png' },
-                { nome: 'Sobrevivente 4', avatar: 'images/player4.png' },
-                { nome: 'Sobrevivente 5', avatar: 'images/player5.png' }
-            ];
-            let index = 0;
-
-            function mostrarDestaques() {
-                const destaquesList = document.getElementById('destaquesList');
-                destaquesList.innerHTML = '';
-
-                const destaque = destaques[index];
-                const card = document.createElement('div');
-                card.className = 'destaques-card';
-                card.innerHTML = `
-                    <img src="${destaque.avatar}" alt="${destaque.nome}" width="80" height="80">
-                    <div>${destaque.nome}</div>
-                `;
-                destaquesList.appendChild(card);
-                index = (index + 1) % destaques.length;
-            }
-
-            mostrarDestaques();
-            setInterval(mostrarDestaques, 20000);
-        }
+        // Chama as funções iniciais para carregar os primeiros elementos
+        mostrarDestaques();
+        mostrarVIPs();
     </script>
 </body>
 </html>
