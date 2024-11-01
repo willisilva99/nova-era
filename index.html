@@ -12,7 +12,7 @@
             margin: 0;
             padding: 0;
             text-align: center;
-            overflow: hidden; /* Evita scroll durante a animação inicial */
+            overflow-x: hidden; /* Evita scroll horizontal */
         }
 
         /* Tela de Boas-Vindas */
@@ -88,45 +88,14 @@
             text-decoration: none;
         }
 
-        .button.rules {
-            background-color: #007bff;
-            color: #fff;
-        }
-
-        .button.discord {
-            background-color: #7289da;
-            color: #fff;
-        }
-
-        .button.vote {
-            background-color: #ffcc00;
-            color: #000;
-        }
-
-        .button.lucky-spin {
-            background-color: #28a745;
-            color: #fff;
-        }
-
-        .button.shop {
-            background-color: #ff5733;
-            color: #fff;
-        }
-
-        .button.music {
-            background-color: #ff00ff;
-            color: #fff;
-        }
-
-        .button.history {
-            background-color: #6f42c1;
-            color: #fff;
-        }
-
-        .button.play-now {
-            background-color: #ff9900;
-            color: #000;
-        }
+        .button.rules { background-color: #007bff; color: #fff; }
+        .button.discord { background-color: #7289da; color: #fff; }
+        .button.vote { background-color: #ffcc00; color: #000; }
+        .button.lucky-spin { background-color: #28a745; color: #fff; }
+        .button.shop { background-color: #ff5733; color: #fff; }
+        .button.music { background-color: #ff00ff; color: #fff; }
+        .button.history { background-color: #6f42c1; color: #fff; }
+        .button.play-now { background-color: #ff9900; color: #000; }
 
         .button:hover {
             transform: scale(1.05);
@@ -136,7 +105,7 @@
         .destaques-section {
             margin-top: 40px;
             padding: 20px;
-            background-color: #444; /* Cor de fundo mais clara para os destaques */
+            background-color: #444;
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
         }
@@ -168,12 +137,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #555; /* Cor do cartão ajustada para um cinza mais claro */
+            background-color: #555;
         }
 
         .destaques-card img {
-            width: 80px; /* Aumenta o tamanho da imagem */
-            height: 80px; /* Aumenta o tamanho da imagem */
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             margin-bottom: 15px;
             transition: transform 0.3s ease;
@@ -183,7 +152,7 @@
         .destaques-card .destaque-name {
             font-size: 1.2rem;
             font-weight: bold;
-            color: #ffcc00; /* Cor Amarela para o Nome */
+            color: #ffcc00;
             margin-bottom: 5px;
         }
 
@@ -201,7 +170,7 @@
         .vip-section {
             margin-top: 40px;
             padding: 20px;
-            background-color: #333; /* Cor de fundo melhorada para a seção VIP */
+            background-color: #333;
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
         }
@@ -220,10 +189,10 @@
         }
 
         .vip-list {
-            display: grid; /* Usando grid para organizar os VIPs */
-            grid-template-columns: repeat(2, 1fr); /* 2 VIPs por linha */
-            gap: 20px; /* Espaçamento entre os VIPs */
-            justify-items: center; /* Centraliza os cartões */
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            justify-items: center;
         }
 
         .vip-card {
@@ -238,7 +207,7 @@
             display: flex;
             align-items: center;
             animation: bounce 2s infinite alternate;
-            width: 90%; /* Ajuste para um tamanho adequado */
+            width: 90%;
         }
 
         .vip-card img {
