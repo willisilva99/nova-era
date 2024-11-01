@@ -8,13 +8,12 @@
         body {
             font-family: Arial, sans-serif;
             background: url('images/novaera.jpg') no-repeat center center fixed; 
-            background-size: cover;
+            background-size: cover; /* Faz a imagem cobrir toda a tela */
             color: #fff;
             margin: 0;
             padding: 0;
             text-align: center;
             overflow-x: hidden; /* Evita scroll horizontal */
-            position: relative; /* Para posicionar elementos absolutos */
         }
 
         /* Tela de Boas-Vindas */
@@ -29,8 +28,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+            font-size: 3rem; /* Aumenta o tamanho da fonte */
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* Sombreamento para efeito dramático */
             z-index: 1000;
             animation: fadeOut 1.5s ease forwards;
             animation-delay: 3s; /* Mantém a tela de boas-vindas visível por 3 segundos */
@@ -68,44 +67,6 @@
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
         }
 
-        /* Efeitos de Sangue */
-        .blood-drip {
-            position: absolute;
-            top: 20%; /* Ajuste conforme necessário */
-            left: 5%; /* Ajuste conforme necessário */
-            width: 10%; /* Tamanho do sangue */
-            height: auto;
-            background: url('images/blood.png') no-repeat center;
-            background-size: cover;
-            animation: drip 2s infinite; /* Animação de gotejamento */
-        }
-
-        @keyframes drip {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(10px); }
-            100% { transform: translateY(0); }
-        }
-
-        /* Efeitos de Raios */
-        .lightning {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none; /* Para não interferir na interação do usuário */
-            z-index: 999;
-            background: url('images/lightning.png') no-repeat center center; /* Imagem de raios */
-            background-size: cover;
-            opacity: 0;
-            animation: flash 1s infinite; /* Animação de raios */
-        }
-
-        @keyframes flash {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 1; }
-        }
-
         /* Botões */
         .button {
             margin-top: 20px;
@@ -122,7 +83,18 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6); /* Sombra para os botões */
         }
 
-        /* Adicione os estilos para os botões aqui */
+        .button.rules { background-color: #007bff; color: #fff; }
+        .button.discord { background-color: #7289da; color: #fff; }
+        .button.vote { background-color: #ffcc00; color: #000; }
+        .button.lucky-spin { background-color: #28a745; color: #fff; }
+        .button.shop { background-color: #ff5733; color: #fff; }
+        .button.music { background-color: #ff00ff; color: #fff; }
+        .button.history { background-color: #6f42c1; color: #fff; }
+        .button.play-now { background-color: #ff9900; color: #000; }
+
+        .button:hover {
+            transform: scale(1.05);
+        }
 
         /* Seção Destaques */
         .destaques-section {
@@ -160,12 +132,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #555; /* Cor do cartão ajustada para um cinza mais claro */
+            background-color: #555;
         }
 
         .destaques-card img {
-            width: 80px; /* Aumenta o tamanho da imagem */
-            height: 80px; /* Aumenta o tamanho da imagem */
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             margin-bottom: 15px;
             transition: transform 0.3s ease;
@@ -175,7 +147,7 @@
         .destaques-card .destaque-name {
             font-size: 1.2rem;
             font-weight: bold;
-            color: #ffcc00; /* Cor Amarela para o Nome */
+            color: #ffcc00;
             margin-bottom: 5px;
         }
 
@@ -202,10 +174,10 @@
         }
 
         .vip-list {
-            display: grid; /* Usando grid para organizar os VIPs */
-            grid-template-columns: repeat(2, 1fr); /* 2 VIPs por linha */
-            gap: 20px; /* Espaçamento entre os VIPs */
-            justify-items: center; /* Centraliza os cartões */
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            justify-items: center;
         }
 
         .vip-card {
@@ -220,7 +192,7 @@
             display: flex;
             align-items: center;
             animation: bounce 2s infinite alternate;
-            width: 90%; /* Ajuste para um tamanho adequado */
+            width: 90%;
         }
 
         .vip-card img {
@@ -267,6 +239,7 @@
     </style>
 </head>
 <body>
+    <!-- Tela de Boas-Vindas -->
     <div id="welcome-screen">Bem-vindo à NOVA ERA</div>
 
     <div class="container">
@@ -317,6 +290,7 @@
             </div>
         </div>
 
+        <!-- Imagem abaixo dos VIPs -->
         <img src="images/viplogo.jpg" alt="Obrigado aos VIPs" style="width: 100%; margin-top: 30px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);">
     </div>
 
@@ -367,15 +341,5 @@
         // Carrega os destaques ao abrir a página
         window.onload = fetchDestaques;
     </script>
-
-    <!-- Imagem de Zumbis -->
-    <img src="images/zombie.png" alt="Zumbi" class="zombie" style="position: absolute; bottom: 10px; left: 10px; width: 100px; height: auto; z-index: 998;">
-
-    <!-- Efeitos de Sangue -->
-    <div class="blood-drip" style="top: 10%; left: 5%;"></div>
-    <div class="blood-drip" style="top: 15%; left: 10%;"></div>
-
-    <!-- Efeitos de Raios -->
-    <div class="lightning"></div>
 </body>
 </html>
