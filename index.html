@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NOVA ERA - Página Inicial</title>
     <style>
+        /* Estilo básico da página */
         body {
             font-family: Arial, sans-serif;
             background: linear-gradient(to bottom, #141e30, #243b55);
@@ -30,6 +31,7 @@
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
         }
 
+        /* Estilo dos botões */
         .button {
             margin-top: 20px;
             padding: 15px 30px;
@@ -42,6 +44,7 @@
             border-radius: 5px;
             display: inline-block;
             text-decoration: none;
+            color: #fff;
         }
 
         .button.play-now {
@@ -51,17 +54,19 @@
 
         .button.rules {
             background-color: #007bff;
-            color: #fff;
         }
 
         .button.discord {
             background-color: #7289da;
-            color: #fff;
         }
 
         .button.vote {
             background-color: #ffcc00;
             color: #000;
+        }
+
+        .button.shop {
+            background-color: #ff5733;
         }
 
         .button:hover {
@@ -103,6 +108,79 @@
             font-weight: bold;
             display: none;
             z-index: 999;
+        }
+
+        /* Seção Destaques */
+        .destaques-section {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #444;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+        }
+
+        .destaques-section h2 {
+            font-size: 2.5rem;
+            color: #ffcc00;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .destaques-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .destaques-card {
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+            text-align: center;
+            color: #fff;
+            background-color: #555;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Seção VIP */
+        .vip-section {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+        }
+
+        .vip-section h2 {
+            font-size: 2.5rem;
+            color: #ffcc00;
+            margin-bottom: 10px;
+        }
+
+        .vip-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            justify-items: center;
+        }
+
+        .vip-card {
+            background: linear-gradient(135deg, #ffcc00, #ff9900);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+            text-align: left;
+            color: #000;
+            display: flex;
+            align-items: center;
+            width: 90%;
+        }
+
+        .vip-card img {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+            border-radius: 50%;
         }
 
         /* Responsividade */
@@ -151,10 +229,42 @@
         <!-- Botão "Jogar Agora" -->
         <a href="steam://connect/50.20.249.105:26995" class="button play-now">Jogar Agora</a>
 
-        <!-- Botões para outras páginas -->
+        <!-- Outros botões para navegação -->
         <a href="regras.html" class="button rules">Regras do Servidor</a>
         <a href="discord.html" class="button discord">Entrar no Discord</a>
         <a href="botao.html" class="button vote">Votar no Servidor</a>
+        <a href="shop.html" class="button shop">Shop Ember</a>
+
+        <!-- Seção de Destaques -->
+        <div class="destaques-section">
+            <h2>Jogadores em Destaque</h2>
+            <div class="destaques-list" id="destaquesList">
+                <!-- Cartões dos Destaques serão inseridos aqui via JavaScript -->
+            </div>
+        </div>
+
+        <!-- Seção VIP -->
+        <div class="vip-section">
+            <h2>Nossos Jogadores VIP</h2>
+            <div class="vip-list">
+                <div class="vip-card">
+                    <img src="images/vipp.png" alt="VIP 1">
+                    <div>Roalpe</div>
+                </div>
+                <div class="vip-card">
+                    <img src="images/vipp.png" alt="VIP 2">
+                    <div>Wando PV</div>
+                </div>
+                <div class="vip-card">
+                    <img src="images/vipp.png" alt="VIP 3">
+                    <div>lnazareth</div>
+                </div>
+                <div class="vip-card">
+                    <img src="images/vipp.png" alt="VIP 4">
+                    <div>Novo VIP</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Rodapé com direitos reservados -->
@@ -162,12 +272,13 @@
         <p>&copy; 2024 NOVA ERA. Todos os direitos reservados.</p>
     </footer>
 
-    <!-- Script para o modal e popup de jogadores -->
+    <!-- Script para o modal, popup e seção de destaques -->
     <script>
         // Mostrar o modal de boas-vindas ao carregar a página
         window.onload = function() {
             document.getElementById('welcomeModal').style.display = 'flex';
             fetchOnlinePlayers();
+            fetchDestaques();
         };
 
         // Função para fechar o modal de boas-vindas
@@ -177,15 +288,12 @@
 
         // Função para buscar o número de jogadores online (exemplo fictício)
         function fetchOnlinePlayers() {
-            // Simula uma chamada para a API que retorna o número de jogadores online
-            const onlinePlayers = Math.floor(Math.random() * 100); // Exemplo de número aleatório
+            const onlinePlayers = Math.floor(Math.random() * 100);
             document.getElementById('onlinePlayers').innerText = onlinePlayers;
 
-            // Mostrar o popup de jogadores online
             const popup = document.getElementById('playerPopup');
             popup.style.display = 'block';
 
-            // Esconder o popup após 5 segundos
             setTimeout(() => {
                 popup.style.display = 'none';
             }, 5000);
@@ -193,6 +301,36 @@
 
         // Atualizar o número de jogadores a cada 20 segundos
         setInterval(fetchOnlinePlayers, 20000);
+
+        // Função para carregar e alternar destaques a cada 20 segundos
+        function fetchDestaques() {
+            const destaques = [
+                { nome: 'Sobrevivente 1', avatar: 'images/player1.png' },
+                { nome: 'Sobrevivente 2', avatar: 'images/player2.png' },
+                { nome: 'Sobrevivente 3', avatar: 'images/player3.png' },
+                { nome: 'Sobrevivente 4', avatar: 'images/player4.png' },
+                { nome: 'Sobrevivente 5', avatar: 'images/player5.png' }
+            ];
+            let index = 0;
+
+            function mostrarDestaques() {
+                const destaquesList = document.getElementById('destaquesList');
+                destaquesList.innerHTML = '';
+
+                const destaque = destaques[index];
+                const card = document.createElement('div');
+                card.className = 'destaques-card';
+                card.innerHTML = `
+                    <img src="${destaque.avatar}" alt="${destaque.nome}" width="80" height="80">
+                    <div>${destaque.nome}</div>
+                `;
+                destaquesList.appendChild(card);
+                index = (index + 1) % destaques.length;
+            }
+
+            mostrarDestaques();
+            setInterval(mostrarDestaques, 20000);
+        }
     </script>
 </body>
 </html>
