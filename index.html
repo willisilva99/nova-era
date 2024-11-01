@@ -30,7 +30,6 @@
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
         }
 
-        /* Botões */
         .button {
             margin-top: 20px;
             padding: 15px 30px;
@@ -43,6 +42,11 @@
             border-radius: 5px;
             display: inline-block;
             text-decoration: none;
+        }
+
+        .button.play-now {
+            background-color: #ff9900;
+            color: #000;
         }
 
         .button.rules {
@@ -60,204 +64,55 @@
             color: #000;
         }
 
-        .button.lucky-spin {
-            background-color: #28a745;
-            color: #fff;
-        }
-
-        .button.shop {
-            background-color: #ff5733;
-            color: #fff;
-        }
-
-        .button.music {
-            background-color: #ff00ff;
-            color: #fff;
-        }
-
-        .button.history {
-            background-color: #6f42c1;
-            color: #fff;
-        }
-
         .button:hover {
             transform: scale(1.05);
         }
 
-        .button.rules:hover {
-            background-color: #0056b3;
+        /* Modal de boas-vindas */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
         }
 
-        .button.discord:hover {
-            background-color: #5a6fbf;
-        }
-
-        .button.vote:hover {
-            background-color: #e5b600;
-        }
-
-        .button.lucky-spin:hover {
-            background-color: #218838;
-        }
-
-        .button.shop:hover {
-            background-color: #e74c3c;
-        }
-
-        .button.music:hover {
-            background-color: #cc00cc;
-        }
-
-        .button.history:hover {
-            background-color: #5a32a1;
-        }
-
-        /* Seção Destaques */
-        .destaques-section {
-            margin-top: 40px;
+        .modal-content {
+            background: #243b55;
             padding: 20px;
-            background-color: #444; /* Cor de fundo mais clara para os destaques */
             border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
-        }
-
-        .destaques-section h2 {
-            font-size: 2.5rem;
-            color: #ffcc00;
-            margin-bottom: 10px;
-            text-shadow: none;
-            font-weight: 600;
-        }
-
-        /* Grade de Destaques */
-        .destaques-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-        }
-
-        /* Estilo dos cartões de Destaques */
-        .destaques-card {
-            padding: 20px;
-            margin: 10px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
             text-align: center;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #555; /* Cor do cartão ajustada para um cinza mais claro */
-        }
-
-        .destaques-card img {
-            width: 80px; /* Aumenta o tamanho da imagem */
-            height: 80px; /* Aumenta o tamanho da imagem */
-            border-radius: 50%;
-            margin-bottom: 15px;
-            transition: transform 0.3s ease;
-        }
-
-        /* Nomes em Amarelo */
-        .destaques-card .destaque-name {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #ffcc00; /* Cor Amarela para o Nome */
-            margin-bottom: 5px;
-        }
-
-        /* Animação ao passar o mouse */
-        .destaques-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 6px 20px rgba(255, 255, 0, 0.7);
-        }
-
-        .destaques-card:hover img {
-            transform: scale(1.1);
-        }
-
-        /* Seção VIP */
-        .vip-section {
-            margin-top: 40px;
-            padding: 20px;
-            background-color: #333; /* Cor de fundo melhorada para a seção VIP */
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
-        }
-
-        .vip-section h2 {
-            font-size: 2.5rem;
             color: #ffcc00;
-            margin-bottom: 10px;
-            text-shadow: none;
         }
 
-        .vip-thank-you {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            color: #fff;
-        }
-
-        .vip-list {
-            display: grid; /* Usando grid para organizar os VIPs */
-            grid-template-columns: repeat(2, 1fr); /* 2 VIPs por linha */
-            gap: 20px; /* Espaçamento entre os VIPs */
-            justify-items: center; /* Centraliza os cartões */
-        }
-
-        .vip-card {
-            background: linear-gradient(135deg, #ffcc00, #ff9900);
-            padding: 20px;
-            margin: 10px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
-            transition: transform 0.5s, box-shadow 0.5s;
-            text-align: left;
-            color: #000;
-            display: flex;
-            align-items: center;
-            animation: bounce 2s infinite alternate;
-            width: 90%; /* Ajuste para um tamanho adequado */
-        }
-
-        .vip-card img {
-            width: 50px;
-            height: 50px;
-            margin-right: 15px;
-        }
-
-        .vip-card .vip-name {
-            font-size: 1.5rem;
+        /* Estilo do popup de jogadores */
+        .popup {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #141e30;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            color: #ffcc00;
             font-weight: bold;
-        }
-
-        /* Animação ao passar o mouse nos VIPs */
-        .vip-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 20px rgba(255, 255, 0, 0.7);
-        }
-
-        /* Animação ao passar o mouse nos VIPs */
-        @keyframes bounce {
-            from {
-                transform: translateY(0);
-            }
-            to {
-                transform: translateY(-10px);
-            }
+            display: none;
+            z-index: 999;
         }
 
         /* Responsividade */
-        @media (max-width: 800px) {
-            .destaques-card, .vip-card {
-                width: calc(45% - 20px);
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
             }
-        }
-
-        @media (max-width: 500px) {
-            .destaques-card, .vip-card {
-                width: 100%;
+            .button {
+                font-size: 1.2rem;
+                padding: 10px 20px;
             }
         }
 
@@ -275,54 +130,31 @@
     </style>
 </head>
 <body>
+    <!-- Modal de boas-vindas -->
+    <div class="modal" id="welcomeModal">
+        <div class="modal-content">
+            <h2>Bem-vindo à NOVA ERA!</h2>
+            <p>Prepare-se para o caos e para sobreviver neste apocalipse. Boa sorte!</p>
+            <button onclick="closeModal()" class="button play-now">Começar</button>
+        </div>
+    </div>
+
+    <!-- Popup de jogadores online -->
+    <div class="popup" id="playerPopup">
+        <p>Jogadores Online: <span id="onlinePlayers">0</span></p>
+    </div>
+
     <div class="container">
         <h1>Bem-vindo à NOVA ERA</h1>
         <p>Escolha uma opção abaixo para começar a explorar o mundo da sobrevivência!</p>
-        
-        <!-- Botões para acessar as páginas -->
+
+        <!-- Botão "Jogar Agora" -->
+        <a href="steam://connect/50.20.249.105:26995" class="button play-now">Jogar Agora</a>
+
+        <!-- Botões para outras páginas -->
         <a href="regras.html" class="button rules">Regras do Servidor</a>
         <a href="discord.html" class="button discord">Entrar no Discord</a>
         <a href="botao.html" class="button vote">Votar no Servidor</a>
-        <a href="whatsapp.html" class="button lucky-spin">Grupo WhatsApp</a>
-        <a href="shop.html" class="button shop">SHOP EMBER</a>
-        <a href="historia.html" class="button history">HISTORIA NOVA ERA</a>
-        <a href="musica.html" class="button music">MÚSICAS</a>
-
-        <!-- Seção Destaques -->
-        <div class="destaques-section">
-            <h2>Jogadores em Destaque</h2>
-            <div class="destaques-list" id="destaquesList">
-                <!-- Cartões dos Destaques serão inseridos aqui via JavaScript -->
-            </div>
-        </div>
-
-        <!-- Seção VIP -->
-        <div class="vip-section">
-            <h2>Nossos Jogadores VIP</h2>
-            <p class="vip-thank-you">Um agradecimento especial aos nossos VIPs pelo apoio!</p>
-            <div class="vip-list">
-                <!-- Cartões dos VIPs -->
-                <div class="vip-card">
-                    <img src="images/vipp.png" alt="VIP 1">
-                    <div class="vip-name">Roalpe</div>
-                </div>
-                <div class="vip-card">
-                    <img src="images/vipp.png" alt="VIP 2">
-                    <div class="vip-name">Wando PV</div>
-                </div>
-                <div class="vip-card">
-                    <img src="images/vipp.png" alt="VIP 3">
-                    <div class="vip-name">lnazareth</div>
-                </div>
-                <div class="vip-card">
-                    <img src="images/vipp.png" alt="VIP 4">
-                    <div class="vip-name">Novo VIP</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Imagem abaixo dos VIPs -->
-        <img src="images/viplogo.jpg" alt="Obrigado aos VIPs" style="width: 100%; margin-top: 30px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);">
     </div>
 
     <!-- Rodapé com direitos reservados -->
@@ -330,48 +162,37 @@
         <p>&copy; 2024 NOVA ERA. Todos os direitos reservados.</p>
     </footer>
 
-    <!-- Script para alternar os destaques -->
+    <!-- Script para o modal e popup de jogadores -->
     <script>
-        let destaqueMembers = [];  // Armazena os jogadores destaque
-        let destaqueStartIndex = 0;
+        // Mostrar o modal de boas-vindas ao carregar a página
+        window.onload = function() {
+            document.getElementById('welcomeModal').style.display = 'flex';
+            fetchOnlinePlayers();
+        };
 
-        // Função para buscar os destaques da API
-        async function fetchDestaques() {
-            try {
-                const response = await fetch('https://web-production-a4094.up.railway.app/destaques');
-                destaqueMembers = await response.json();
-                alternarDestaques();  // Mostra os primeiros destaques imediatamente
-            } catch (error) {
-                console.error('Erro ao buscar destaques:', error);
-            }
+        // Função para fechar o modal de boas-vindas
+        function closeModal() {
+            document.getElementById('welcomeModal').style.display = 'none';
         }
 
-        // Função para alternar os destaques visíveis a cada 6 segundos
-        function alternarDestaques() {
-            const destaquesList = document.getElementById('destaquesList');
-            destaquesList.innerHTML = '';  // Limpa a lista antes de adicionar os novos destaques
+        // Função para buscar o número de jogadores online (exemplo fictício)
+        function fetchOnlinePlayers() {
+            // Simula uma chamada para a API que retorna o número de jogadores online
+            const onlinePlayers = Math.floor(Math.random() * 100); // Exemplo de número aleatório
+            document.getElementById('onlinePlayers').innerText = onlinePlayers;
 
-            // Mostra até 4 membros destaque, a partir do índice destaqueStartIndex
-            const membersToShow = destaqueMembers.slice(destaqueStartIndex, destaqueStartIndex + 4);
-            membersToShow.forEach(member => {
-                const div = document.createElement('div');
-                div.classList.add('destaques-card');
-                const avatarUrl = member.avatar || 'https://via.placeholder.com/100';  // Placeholder se não tiver avatar
-                div.innerHTML = `<img src="${avatarUrl}" alt="Avatar"><div class="destaque-name">${member.apelido || member.display_name || member.username}</div>`;
-                destaquesList.appendChild(div);
-            });
+            // Mostrar o popup de jogadores online
+            const popup = document.getElementById('playerPopup');
+            popup.style.display = 'block';
 
-            // Atualiza o índice de início para os próximos 4 membros
-            destaqueStartIndex = (destaqueStartIndex + 4) % destaqueMembers.length;
+            // Esconder o popup após 5 segundos
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 5000);
         }
 
-        // Alterna os destaques a cada 6 segundos
-        setInterval(() => {
-            alternarDestaques();
-        }, 6000);
-
-        // Carrega os destaques ao abrir a página
-        window.onload = fetchDestaques;
+        // Atualizar o número de jogadores a cada 20 segundos
+        setInterval(fetchOnlinePlayers, 20000);
     </script>
 </body>
 </html>
