@@ -12,8 +12,35 @@
             margin: 0;
             padding: 0;
             text-align: center;
+            overflow: hidden; /* Evita scroll durante a animação inicial */
         }
 
+        /* Tela de Boas-Vindas */
+        #welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #141e30;
+            color: #ffcc00;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            z-index: 1000;
+            animation: fadeOut 1.5s ease forwards;
+            animation-delay: 2s;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        /* Animação de FadeIn para o conteúdo principal */
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -21,6 +48,15 @@
             background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            animation: fadeIn 1.5s ease forwards;
+            animation-delay: 3s;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
         }
 
         h1 {
@@ -28,6 +64,15 @@
             color: #ffcc00;
             margin-bottom: 20px;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+            animation: bounceIn 1.5s ease forwards;
+            animation-delay: 3s;
+        }
+
+        /* Animação de entrada para o título */
+        @keyframes bounceIn {
+            0% { transform: scale(0.9); opacity: 0; }
+            60% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); }
         }
 
         /* Botões */
@@ -43,172 +88,42 @@
             border-radius: 5px;
             display: inline-block;
             text-decoration: none;
-        }
-
-        .button.rules {
-            background-color: #007bff;
-            color: #fff;
-        }
-
-        .button.discord {
-            background-color: #7289da;
-            color: #fff;
-        }
-
-        .button.vote {
-            background-color: #ffcc00;
-            color: #000;
-        }
-
-        .button.lucky-spin {
-            background-color: #28a745;
-            color: #fff;
-        }
-
-        .button.shop {
-            background-color: #ff5733;
-            color: #fff;
-        }
-
-        .button.music {
-            background-color: #ff00ff;
-            color: #fff;
-        }
-
-        .button.history {
-            background-color: #6f42c1;
-            color: #fff;
-        }
-
-        .button.play-now {
-            background-color: #ff9900;
-            color: #000;
+            animation: fadeInUp 1.5s ease forwards;
+            animation-delay: 3.5s;
         }
 
         .button:hover {
-            transform: scale(1.05);
+            transform: scale(1.1);
+        }
+
+        /* Animação de entrada para botões */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Seção Destaques */
-        .destaques-section {
-            margin-top: 40px;
-            padding: 20px;
-            background-color: #444;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
-        }
-
-        .destaques-section h2 {
-            font-size: 2.5rem;
-            color: #ffcc00;
-            margin-bottom: 10px;
-            text-shadow: none;
-            font-weight: 600;
-        }
-
-        /* Grade de Destaques */
-        .destaques-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-        }
-
-        /* Estilo dos cartões de Destaques */
         .destaques-card {
-            padding: 20px;
-            margin: 10px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            text-align: center;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #555;
+            animation: zoomIn 0.8s ease forwards;
+            animation-delay: 3s;
         }
 
-        .destaques-card img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            margin-bottom: 15px;
-            transition: transform 0.3s ease;
+        .destaques-card:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 255, 0, 0.7);
         }
 
-        .destaques-card .destaque-name {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #ffcc00;
-            margin-bottom: 5px;
+        /* Animação de entrada para cartões */
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
         }
 
-        /* Seção VIP */
-        .vip-section {
-            margin-top: 40px;
-            padding: 20px;
-            background-color: #333;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
-        }
-
-        .vip-section h2 {
-            font-size: 2.5rem;
-            color: #ffcc00;
-            margin-bottom: 10px;
-            text-shadow: none;
-        }
-
-        .vip-thank-you {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            color: #fff;
-        }
-
-        .vip-list {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            justify-items: center;
-        }
-
+        /* Animação dos VIPs */
         .vip-card {
-            background: linear-gradient(135deg, #ffcc00, #ff9900);
-            padding: 20px;
-            margin: 10px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
-            transition: transform 0.5s, box-shadow 0.5s;
-            text-align: left;
-            color: #000;
-            display: flex;
-            align-items: center;
-            animation: bounce 2s infinite alternate;
-            width: 90%;
-        }
-
-        .vip-card img {
-            width: 50px;
-            height: 50px;
-            margin-right: 15px;
-        }
-
-        .vip-card .vip-name {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        /* Responsividade */
-        @media (max-width: 800px) {
-            .destaques-card, .vip-card {
-                width: calc(45% - 20px);
-            }
-        }
-
-        @media (max-width: 500px) {
-            .destaques-card, .vip-card {
-                width: 100%;
-            }
+            animation: bounceIn 1.5s ease forwards;
+            animation-delay: 3s;
         }
 
         footer {
@@ -217,14 +132,15 @@
             background-color: #222;
             padding: 10px 0;
             font-size: 0.9rem;
-        }
-
-        footer p {
-            margin: 0;
+            animation: fadeInUp 1.5s ease forwards;
+            animation-delay: 3.5s;
         }
     </style>
 </head>
 <body>
+    <!-- Tela de Boas-Vindas -->
+    <div id="welcome-screen">Bem-vindo à NOVA ERA</div>
+
     <div class="container">
         <h1>Bem-vindo à NOVA ERA</h1>
         <p>Escolha uma opção abaixo para começar a explorar o mundo da sobrevivência!</p>
@@ -318,4 +234,4 @@
         window.onload = fetchDestaques;
     </script>
 </body>
-</html> 
+</html>
