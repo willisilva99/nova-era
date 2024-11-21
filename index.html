@@ -67,11 +67,33 @@
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
         }
 
+        /* Aviso de Servidores Fechados */
+        .server-warning {
+            background-color: #ff0000;
+            color: #fff;
+            padding: 15px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            animation: pulse 2s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0.7;
+            }
+        }
+
         /* Botões */
         .button {
-            margin-top: 20px;
-            padding: 15px 30px;
-            font-size: 1.5rem;
+            margin-top: 25px;
+            padding: 18px 40px;
+            font-size: 1.8rem;
             font-weight: bold;
             text-transform: uppercase;
             border: none;
@@ -80,7 +102,7 @@
             border-radius: 5px;
             display: inline-block;
             text-decoration: none;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6); /* Sombra para os botões */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7); /* Sombra para os botões */
         }
 
         .button.rules { background-color: #007bff; color: #fff; }
@@ -94,7 +116,7 @@
         .button.map { background-color: #007bff; color: #fff; } /* Estilo do botão do mapa */
 
         .button:hover {
-            transform: scale(1.05);
+            transform: scale(1.1);
         }
 
         /* Seção Destaques */
@@ -240,6 +262,11 @@
     </style>
 </head>
 <body>
+    <!-- Aviso de Servidores Fechados -->
+    <div class="server-warning">
+        AVISO: Os servidores estão fechados no momento. Verifique novamente mais tarde.
+    </div>
+
     <!-- Tela de Boas-Vindas -->
     <div id="welcome-screen">BEM-VINDO</div>
 
