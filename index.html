@@ -43,7 +43,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
             background: rgba(0, 0, 0, 0.7); /* Fundo mais escuro para o conteúdo */
@@ -91,9 +91,9 @@
 
         /* Botões */
         .button {
-            margin-top: 25px;
-            padding: 18px 40px;
-            font-size: 1.8rem;
+            margin: 10px;
+            padding: 15px 35px;
+            font-size: 1.4rem;
             font-weight: bold;
             text-transform: uppercase;
             border: none;
@@ -113,10 +113,10 @@
         .button.music { background-color: #ff00ff; color: #fff; }
         .button.history { background-color: #6f42c1; color: #fff; }
         .button.play-now { background-color: #ff9900; color: #000; }
-        .button.map { background-color: #007bff; color: #fff; } /* Estilo do botão do mapa */
+        .button.map { background-color: #007bff; color: #fff; }
 
         .button:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
 
         /* Seção Destaques */
@@ -136,14 +136,12 @@
             font-weight: 600;
         }
 
-        /* Grade de Destaques */
         .destaques-list {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 20px;
         }
 
-        /* Estilo dos cartões de Destaques */
         .destaques-card {
             padding: 20px;
             margin: 10px;
@@ -163,10 +161,8 @@
             height: 80px;
             border-radius: 50%;
             margin-bottom: 15px;
-            transition: transform 0.3s ease;
         }
 
-        /* Nomes em Amarelo */
         .destaques-card .destaque-name {
             font-size: 1.2rem;
             font-weight: bold;
@@ -174,77 +170,30 @@
             margin-bottom: 5px;
         }
 
-        /* Seção VIP */
-        .vip-section {
-            margin-top: 40px;
-            padding: 20px;
-            background-color: rgba(51, 51, 51, 0.8);
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
-        }
-
-        .vip-section h2 {
-            font-size: 2.5rem;
-            color: #ffcc00;
-            margin-bottom: 10px;
-            text-shadow: none;
-        }
-
-        .vip-thank-you {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            color: #fff;
-        }
-
-        .vip-list {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            justify-items: center;
-        }
-
-        .vip-card {
-            background: linear-gradient(135deg, #ffcc00, #ff9900);
-            padding: 20px;
-            margin: 10px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
-            transition: transform 0.5s, box-shadow 0.5s;
-            text-align: left;
-            color: #000;
-            display: flex;
-            align-items: center;
-            animation: bounce 2s infinite alternate;
-            width: 90%;
-        }
-
-        .vip-card img {
-            width: 50px;
-            height: 50px;
-            margin-right: 15px;
-        }
-
-        .vip-card .vip-name {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        /* Animação ao passar o mouse nos VIPs */
-        .vip-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 20px rgba(255, 255, 0, 0.7);
-        }
-
         /* Responsividade */
         @media (max-width: 800px) {
-            .destaques-card, .vip-card {
-                width: calc(45% - 20px);
+            .container {
+                padding: 15px;
+            }
+            .button {
+                font-size: 1.2rem;
+                padding: 12px 30px;
+            }
+            .destaques-list {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             }
         }
 
         @media (max-width: 500px) {
-            .destaques-card, .vip-card {
-                width: 100%;
+            .container {
+                padding: 10px;
+            }
+            .button {
+                font-size: 1rem;
+                padding: 10px 25px;
+            }
+            .destaques-list {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -262,12 +211,10 @@
     </style>
 </head>
 <body>
-    <!-- Aviso de Servidores Fechados -->
     <div class="server-warning">
         AVISO: Os servidores estão fechados no momento. Verifique novamente mais tarde.
     </div>
 
-    <!-- Tela de Boas-Vindas -->
     <div id="welcome-screen">BEM-VINDO</div>
 
     <div class="container">
@@ -282,7 +229,7 @@
         <a href="shop.html" class="button shop">SHOP EMBER</a>
         <a href="historia.html" class="button history">HISTORIA NOVA ERA</a>
         <a href="musica.html" class="button music">MÚSICAS</a>
-        <a href="http://50.20.249.105:26999/static/index.html" class="button map">Mapa</a> <!-- Botão Mapa -->
+        <a href="http://50.20.249.105:26999/static/index.html" class="button map">Mapa</a>
 
         <!-- Botão "Jogar Agora" -->
         <a href="steam://connect/50.20.249.105:26995" class="button play-now">Jogar Agora</a>
@@ -295,32 +242,6 @@
             </div>
         </div>
 
-        <!-- Seção VIP -->
-        <div class="vip-section">
-            <h2>Nossos Jogadores VIP</h2>
-            <p class="vip-thank-you">Um agradecimento especial aos nossos VIPs pelo apoio!</p>
-            <div class="vip-list">
-                <div class="vip-card">
-                    <img src="images/vipp.png" alt="VIP 1">
-                    <div class="vip-name">Roalpe</div>
-                </div>
-                <div class="vip-card">
-                    <img src="images/vipp.png" alt="VIP 2">
-                    <div class="vip-name">Wando PV</div>
-                </div>
-                <div class="vip-card">
-                    <img src="images/vipp.png" alt="VIP 3">
-                    <div class="vip-name">lnazareth</div>
-                </div>
-                <div class="vip-card">
-                    <img src="images/vipp.png" alt="VIP 4">
-                    <div class="vip-name">Novo VIP</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Imagem abaixo dos VIPs -->
-        <img src="images/viplogo.jpg" alt="Obrigado aos VIPs" style="width: 100%; margin-top: 30px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);">
     </div>
 
     <footer>
@@ -348,26 +269,22 @@
             const destaquesList = document.getElementById('destaquesList');
             destaquesList.innerHTML = '';  // Limpa a lista antes de adicionar os novos destaques
 
-            // Mostra até 4 membros destaque, a partir do índice destaqueStartIndex
             const membersToShow = destaqueMembers.slice(destaqueStartIndex, destaqueStartIndex + 4);
             membersToShow.forEach(member => {
                 const div = document.createElement('div');
                 div.classList.add('destaques-card');
-                const avatarUrl = member.avatar || 'https://via.placeholder.com/100';  // Placeholder se não tiver avatar
+                const avatarUrl = member.avatar || 'https://via.placeholder.com/100';
                 div.innerHTML = `<img src="${avatarUrl}" alt="Avatar"><div class="destaque-name">${member.apelido || member.display_name || member.username}</div>`;
                 destaquesList.appendChild(div);
             });
 
-            // Atualiza o índice de início para os próximos 4 membros
             destaqueStartIndex = (destaqueStartIndex + 4) % destaqueMembers.length;
         }
 
-        // Alterna os destaques a cada 6 segundos
         setInterval(() => {
             alternarDestaques();
         }, 6000);
 
-        // Carrega os destaques ao abrir a página
         window.onload = fetchDestaques;
     </script>
 </body>
