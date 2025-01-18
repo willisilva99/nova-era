@@ -46,8 +46,7 @@
     .container {
       margin-top: 80px;
       max-width: 1200px;
-      margin-left: auto;
-      margin-right: auto;
+      margin: 0 auto;
       padding: 20px;
       background: rgba(0,0,0,0.75);
       border-radius: 10px;
@@ -106,7 +105,7 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.7);
     }
     .button:hover { transform: scale(1.05); }
-    /* Botões com cores definidas */
+    /* Botões específicos */
     .btn-shop { background-color: #ff5733; color: #fff; }
     .btn-map { background-color: #17a2b8; color: #fff; }
     .btn-play { background-color: #ff9900; color: #000; }
@@ -183,7 +182,7 @@
     footer {
       text-align: center;
       padding: 20px 0;
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(0,0,0,0.9);
       margin-top: 30px;
       font-size: 0.9rem;
       color: #ccc;
@@ -230,7 +229,7 @@
       <a href="steam://connect/191.37.92.145:26920" class="button btn-play">Jogar PvP</a>
     </div>
 
-    <!-- Botão para exibir Popup de Votantes -->
+    <!-- Botão para Popup de Votantes -->
     <div class="button-group">
       <button id="votersBtn" class="button btn-vote">Ver Votantes</button>
     </div>
@@ -270,15 +269,15 @@
       youtubeFrame.src = `https://www.youtube.com/embed/${videos[currentVideoIndex]}?rel=0&showinfo=0&autoplay=1&mute=1`;
     });
 
-    /* Configurações para as APIs de Votantes */
+    /* Configurações para as APIs dos votantes dos dois servidores */
     const API_KEY_PVE = "Qd4nRYEKMoDa7AXahhfvzG7pmlB2Y2AQUH";  // PvE
     const API_KEY_PVP = "bWctPV9dtEzJ2uN8sJ39CyQeeYbT5SD1sVI";  // PvP
 
-    // Utilizando o parâmetro 'limit' (sem acento) para atender a API.
+    // Usando parâmetro "limit" e "classificacao"
     const urlVotantesPVE = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVE}&month=atual&format=json&limit=1000&classificacao=apelido`;
     const urlVotantesPVP = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVP}&month=atual&format=json&limit=1000&classificacao=apelido`;
 
-    /* Função para buscar e mesclar os eleitores dos dois servidores */
+    /* Atualização do cache de votantes a cada 3 minutos */
     let cachedVoters = [];
     async function updateVotersCache() {
       try {
@@ -288,18 +287,19 @@
         ]);
         const dataPVE = await resPVE.json();
         const dataPVP = await resPVP.json();
-
-        // Debug: exibe a resposta da API no console
+        
+        // Exiba no console a estrutura dos dados para depuração
         console.log("Dados PvE:", dataPVE);
         console.log("Dados PvP:", dataPVP);
-
+        
+        // Testa tanto "voters" quanto "Voters"
         const votersPVE = dataPVE.voters || dataPVE.Voters || [];
         const votersPVP = dataPVP.voters || dataPVP.Voters || [];
-
-        // Adiciona um campo 'servidor' para identificar a origem
+        
+        // Enriquecer os dados com a propriedade "servidor"
         const enrichedVotersPVE = votersPVE.map(voter => ({ ...voter, servidor: "PvE" }));
         const enrichedVotersPVP = votersPVP.map(voter => ({ ...voter, servidor: "PvP" }));
-
+        
         const allVoters = [...enrichedVotersPVE, ...enrichedVotersPVP];
         allVoters.sort((a, b) => parseInt(b.votes) - parseInt(a.votes));
         cachedVoters = allVoters;
@@ -312,7 +312,7 @@
     updateVotersCache();
     setInterval(updateVotersCache, 180000);
 
-    /* Popup central de Votantes */
+    /* Popup central de votantes */
     const modal = document.getElementById('votersModal');
     const votersBtn = document.getElementById('votersBtn');
     const closeModal = document.getElementById('closeModal');
@@ -345,7 +345,7 @@
       }, 3000);
     }
 
-    /* Widget flutuante de Votantes (canto inferior direito) */
+    /* Widget flutuante de votantes (canto inferior direito) */
     const floatingWidget = document.getElementById('floatingWidget');
     function startFloatingWidget() {
       if (cachedVoters.length === 0) {
