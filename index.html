@@ -10,7 +10,7 @@
     /* Reset e estilos básicos */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
-    /* Oculta o cursor nativo em toda a página */
+    /* Oculta o cursor nativo para toda a página */
     body { 
       font-family: 'Montserrat', sans-serif;
       background: url('https://i.imgur.com/wA8fz5A.png') no-repeat center center fixed;
@@ -34,13 +34,14 @@
       transition: transform 0.2s ease;
     }
     
-    /* Garante que elementos clicáveis não mostrem o cursor nativo */
+    /* Garante que elementos clicáveis não exibam o cursor nativo */
     a, button, .nav-links a, .video-controls button, .slider-nav button, .language-selector button {
       cursor: none;
     }
     
-    /* Força o iframe (do vídeo) a não mostrar cursor nativo */
-    .video-slider iframe {
+    /* Força a ocultação do cursor nativo na área do vídeo */
+    .video-slider,
+    .video-slider * {
       cursor: none !important;
     }
     
@@ -108,7 +109,7 @@
       width: 100%;
       aspect-ratio: 16 / 9;
     }
-    /* O container do player (gerenciado pela IFrame API) */
+    /* Container do player */
     #player, .video-slider iframe {
       width: 100%;
       height: 100%;
@@ -325,7 +326,7 @@
   <div class="container">
     <!-- Slider de Vídeo -->
     <div class="video-slider">
-      <!-- O container "player" será gerenciado pela IFrame API -->
+      <!-- O container "player" será gerenciado pela IFrame API do YouTube -->
       <div id="player"></div>
       <!-- Controles do Vídeo -->
       <div class="video-controls">
@@ -476,7 +477,7 @@
     };
 
     i18next.init({
-      lng: 'pt', // idioma padrão
+      lng: 'pt',
       debug: false,
       resources: translationResources
     }, function(err, t) {
@@ -499,11 +500,11 @@
 
     /***************** Variáveis e Funções do Vídeo ******************/
     const videos = [
-      "5zxPz3cGNu0", // Substitua pelos IDs reais
+      "5zxPz3cGNu0", // Substitua pelos IDs reais dos seus vídeos
       "2tNePGLm53s"
     ];
     let currentVideoIndex = 0;
-    let player; // Player da API do YouTube
+    let player;
     let videoPaused = false;
     let muted = true;
 
@@ -541,7 +542,7 @@
       player.loadVideoById(videos[currentVideoIndex]);
     });
 
-    // Botão de Mute/Desmute – Agora, se o vídeo estiver desmutado, o som de troca de nomes NÃO é disparado.
+    // Botão de Mute/Desmute – Se o vídeo estiver desmutado, o som de troca de nome não deve disparar
     document.getElementById('muteBtn').addEventListener('click', () => {
       if (muted) {
         player.unMute();
@@ -570,7 +571,6 @@
     /***************** Configurações das APIs (Votantes e Detalhes do Servidor) ******************/
     const API_KEY_PVE = "Qd4nRYEKMoDa7AXahhfvzG7pmlB2Y2AQUH";
     const API_KEY_PVP = "bWctPV9dtEzJ2uN8sJ39CyQeeYbT5SD1sVI";
-
     const urlVotantesPVE = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVE}&month=atual&format=json&limit=1000&classificacao=apelido`;
     const urlVotantesPVP = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVP}&month=atual&format=json&limit=1000&classificacao=apelido`;
 
@@ -605,9 +605,9 @@
       const urlDetailPVE = `https://7daystodie-servers.com/api/?object=servers&element=detail&key=${API_KEY_PVE}`;
       const urlDetailPVP = `https://7daystodie-servers.com/api/?object=servers&element=detail&key=${API_KEY_PVP}`;
       try {
-        const [resDetailPVE, resDetailPVP] = await Promise.all([ 
-          fetch(urlDetailPVE), 
-          fetch(urlDetailPVP) 
+        const [resDetailPVE, resDetailPVP] = await Promise.all([
+          fetch(urlDetailPVE),
+          fetch(urlDetailPVP)
         ]);
         const dataPVE = await resDetailPVE.json();
         const dataPVP = await resDetailPVP.json();
@@ -626,7 +626,7 @@
     updateServerInfo();
     setInterval(updateServerInfo, 180000);
 
-    /***************** Efeito Sonoro para Hover dos Botões (Sons diferentes para cada grupo) ******************/
+    /***************** Efeito Sonoro para Hover dos Botões ******************/
     const soundShop = new Audio("audio/button-shop.mp3");
     const soundMap  = new Audio("audio/button-map.mp3");
     const soundPlay = new Audio("audio/button-play.mp3");
@@ -675,8 +675,7 @@
 
     /***************** Efeito Sonoro na Troca de Nomes dos Votantes ******************/
     const nameChangeSound = new Audio("audio/orb.mp3");
-    nameChangeSound.volume = 0.3;  // Volume reduzido
-
+    nameChangeSound.volume = 0.3;
     let displayIndex = 0;
     function updateVotantesDisplay() {
       if (cachedVoters.length === 0) {
@@ -689,7 +688,7 @@
       const voter = cachedVoters[displayIndex];
       const votanteHTML = `<strong>${voter.nickname}</strong> — ${voter.votes} votos - ${voter.servidor}`;
       
-      // Se o vídeo estiver mutado, toca o som; caso contrário, não toca
+      // Som de troca apenas se o vídeo estiver mutado
       if(muted){
         nameChangeSound.currentTime = 0;
         nameChangeSound.play();
