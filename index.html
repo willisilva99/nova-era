@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NOVA ERA - Página Inicial</title>
+  <title data-i18n="pageTitle">NOVA ERA - Página Inicial</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
@@ -42,13 +42,32 @@
       transition: color 0.3s;
     }
     .navbar .nav-links a:hover { color: #ffcc00; }
+
+    /* Seletor de idiomas */
+    .language-selector {
+      margin-top: 80px;
+      text-align: center;
+      padding: 10px;
+    }
+    .language-selector button {
+      background: #ffcc00;
+      border: none;
+      padding: 10px 20px;
+      margin: 0 5px;
+      color: #000;
+      cursor: pointer;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    .language-selector button:hover {
+      background: #e6b800;
+    }
     
     /* Container principal */
     .container {
-      margin-top: 80px;
+      margin: 20px auto;
       max-width: 1200px;
-      margin-left: auto;
-      margin-right: auto;
       padding: 20px;
       background: rgba(0,0,0,0.75);
       border-radius: 10px;
@@ -183,7 +202,7 @@
       color: #ffcc00;
     }
     
-    /* Widget flutuante no canto inferior direito */
+    /* Widget flutuante de Votantes (canto inferior direito) */
     .floating-widget {
       position: fixed;
       bottom: 20px;
@@ -221,16 +240,24 @@
 <body>
   <!-- Navbar -->
   <div class="navbar">
-    <div class="logo">NOVA ERA</div>
+    <div class="logo" data-i18n="navLogo">NOVA ERA</div>
     <div class="nav-links">
-      <a href="https://www.youtube.com/watch?v=VIDEO_ID1" target="_blank">Vídeo PvP</a>
-      <a href="https://www.youtube.com/watch?v=VIDEO_ID2" target="_blank">Vídeo PvE</a>
-      <a href="regras.html">Regras</a>
-      <a href="discord.html">Discord</a>
-      <a href="shop.html">Shop</a>
+      <a href="#" data-i18n="navVideoPVP">Vídeo PvP</a>
+      <a href="#" data-i18n="navVideoPvE">Vídeo PvE</a>
+      <a href="regras.html" data-i18n="navRules">Regras</a>
+      <a href="discord.html" data-i18n="navDiscord">Discord</a>
+      <a href="shop.html" data-i18n="navShop">Shop</a>
     </div>
   </div>
 
+  <!-- Seletor de Idiomas -->
+  <div class="language-selector">
+    <button onclick="changeLanguage('pt')">Português</button>
+    <button onclick="changeLanguage('en')">English</button>
+    <button onclick="changeLanguage('es')">Español</button>
+  </div>
+
+  <!-- Container Principal -->
   <div class="container">
     <!-- Slider de Vídeo -->
     <div class="video-slider">
@@ -243,32 +270,32 @@
 
     <!-- Botões de Shop, Mapas e Jogar -->
     <div class="button-group">
-      <a href="https://au.csmm.app/shop/557" class="button btn-shop" target="_blank">Shop PvP</a>
-      <a href="https://au.csmm.app/shop/562" class="button btn-shop" target="_blank">Shop PvE</a>
-      <a href="http://191.37.92.145:26925/static/index.html" class="button btn-map" target="_blank">Mapa PvP</a>
-      <a href="http://191.37.92.145:26906/static/index.html" class="button btn-map" target="_blank">Mapa PvE</a>
+      <a href="https://au.csmm.app/shop/557" class="button btn-shop" target="_blank" data-i18n="btnShopPVP">Shop PvP</a>
+      <a href="https://au.csmm.app/shop/562" class="button btn-shop" target="_blank" data-i18n="btnShopPvE">Shop PvE</a>
+      <a href="http://191.37.92.145:26925/static/index.html" class="button btn-map" target="_blank" data-i18n="btnMapPVP">Mapa PvP</a>
+      <a href="http://191.37.92.145:26906/static/index.html" class="button btn-map" target="_blank" data-i18n="btnMapPvE">Mapa PvE</a>
     </div>
 
     <div class="button-group">
-      <a href="steam://connect/191.37.92.145:26900" class="button btn-play">Jogar PvE</a>
-      <a href="steam://connect/191.37.92.145:26920" class="button btn-play">Jogar PvP</a>
+      <a href="steam://connect/191.37.92.145:26900" class="button btn-play" data-i18n="btnPlayPvE">Jogar PvE</a>
+      <a href="steam://connect/191.37.92.145:26920" class="button btn-play" data-i18n="btnPlayPVP">Jogar PvP</a>
     </div>
 
     <!-- Botão para Popup de Votantes -->
     <div class="button-group">
-      <button id="votersBtn" class="button btn-vote">Ver Votantes</button>
+      <button id="votersBtn" class="button btn-vote" data-i18n="btnVoters">Ver Votantes</button>
     </div>
     
     <!-- Seção de Informações dos Servidores -->
     <div class="server-info" id="serverInfo">
       <div class="server-card" id="serverCardPVE">
-        <h3>Servidor PvE</h3>
+        <h3 data-i18n="serverTitlePvE">Servidor PvE</h3>
         <p id="pve-name">Carregando...</p>
         <p id="pve-players"></p>
         <p id="pve-votes"></p>
       </div>
       <div class="server-card" id="serverCardPVP">
-        <h3>Servidor PvP</h3>
+        <h3 data-i18n="serverTitlePVP">Servidor PvP</h3>
         <p id="pvp-name">Carregando...</p>
         <p id="pvp-players"></p>
         <p id="pvp-votes"></p>
@@ -276,28 +303,126 @@
     </div>
   </div>
 
-  <!-- Popup central de Votantes -->
+  <!-- Popup Central de Votantes -->
   <div id="votersModal" class="modal">
     <div class="modal-content">
       <span class="close-modal" id="closeModal">&times;</span>
-      <h2>Votantes Recentes</h2>
+      <h2 data-i18n="modalTitle">Votantes Recentes</h2>
       <div class="voter-info" id="voterInfo">Carregando...</div>
     </div>
   </div>
 
-  <!-- Widget flutuante de Votantes (canto inferior direito) -->
+  <!-- Widget Flutuante de Votantes (Canto inferior direito) -->
   <div class="floating-widget" id="floatingWidget">Carregando...</div>
 
   <footer>
-    <p>&copy; 2024 NOVA ERA. Todos os direitos reservados.</p>
+    <p data-i18n="footerText">&copy; 2024 NOVA ERA. Todos os direitos reservados.</p>
   </footer>
 
-  <!-- JavaScript -->
+  <!-- Inclusão das Bibliotecas para Tradução -->
+  <script src="https://unpkg.com/i18next@21.6.4/dist/umd/i18next.min.js"></script>
+  <script src="https://unpkg.com/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://unpkg.com/jquery-i18next@1.2.1/dist/umd/jquery-i18next.min.js"></script>
+
+  <!-- JavaScript: Tradução, Vídeo, API e Votantes -->
   <script>
-    /* Slider de Vídeo do YouTube */
+    /***************** Parte de Tradução ******************/
+    const translationResources = {
+      pt: {
+        translation: {
+          pageTitle: "NOVA ERA - Página Inicial",
+          navLogo: "NOVA ERA",
+          navVideoPVP: "Vídeo PvP",
+          navVideoPvE: "Vídeo PvE",
+          navRules: "Regras",
+          navDiscord: "Discord",
+          navShop: "Shop",
+          btnShopPVP: "Shop PvP",
+          btnShopPvE: "Shop PvE",
+          btnMapPVP: "Mapa PvP",
+          btnMapPvE: "Mapa PvE",
+          btnPlayPvE: "Jogar PvE",
+          btnPlayPVP: "Jogar PvP",
+          btnVoters: "Ver Votantes",
+          serverTitlePvE: "Servidor PvE",
+          serverTitlePVP: "Servidor PvP",
+          modalTitle: "Votantes Recentes",
+          footerText: "&copy; 2024 NOVA ERA. Todos os direitos reservados."
+        }
+      },
+      en: {
+        translation: {
+          pageTitle: "NOVA ERA - Home Page",
+          navLogo: "NOVA ERA",
+          navVideoPVP: "PvP Video",
+          navVideoPvE: "PvE Video",
+          navRules: "Rules",
+          navDiscord: "Discord",
+          navShop: "Shop",
+          btnShopPVP: "PvP Shop",
+          btnShopPvE: "PvE Shop",
+          btnMapPVP: "PvP Map",
+          btnMapPvE: "PvE Map",
+          btnPlayPvE: "Play PvE",
+          btnPlayPVP: "Play PvP",
+          btnVoters: "View Voters",
+          serverTitlePvE: "PvE Server",
+          serverTitlePVP: "PvP Server",
+          modalTitle: "Recent Voters",
+          footerText: "&copy; 2024 NOVA ERA. All rights reserved."
+        }
+      },
+      es: {
+        translation: {
+          pageTitle: "NOVA ERA - Página Inicial",
+          navLogo: "NOVA ERA",
+          navVideoPVP: "Video PvP",
+          navVideoPvE: "Video PvE",
+          navRules: "Reglas",
+          navDiscord: "Discord",
+          navShop: "Tienda",
+          btnShopPVP: "Tienda PvP",
+          btnShopPvE: "Tienda PvE",
+          btnMapPVP: "Mapa PvP",
+          btnMapPvE: "Mapa PvE",
+          btnPlayPvE: "Jugar PvE",
+          btnPlayPVP: "Jugar PvP",
+          btnVoters: "Ver Votantes",
+          serverTitlePvE: "Servidor PvE",
+          serverTitlePVP: "Servidor PvP",
+          modalTitle: "Votantes Recientes",
+          footerText: "&copy; 2024 NOVA ERA. Todos los derechos reservados."
+        }
+      }
+    };
+
+    i18next.init({
+      lng: 'pt', // idioma padrão
+      debug: false,
+      resources: translationResources
+    }, function(err, t) {
+      jqueryI18next.init(i18next, $, { useOptionsAttr: true });
+      updateContent();
+    });
+
+    function updateContent() {
+      $('[data-i18n]').localize();
+      document.title = i18next.t('pageTitle');
+    }
+
+    function changeLanguage(lng) {
+      i18next.changeLanguage(lng, function(err, t) {
+        if (err) return console.error('Erro ao mudar idioma', err);
+        updateContent();
+      });
+    }
+
+    /***************** Fim da Tradução ******************/
+
+    /***************** Slider de Vídeo do YouTube ******************/
     const videos = [
-      "VIDEO_ID1", // Substitua pelo ID do vídeo para PvP
-      "VIDEO_ID2"  // Substitua pelo ID do vídeo para PvE
+      "VIDEO_ID1", // Substitua pelos IDs reais
+      "VIDEO_ID2"
     ];
     let currentVideoIndex = 0;
     const youtubeFrame = document.getElementById('youtubeFrame');
@@ -310,15 +435,13 @@
       youtubeFrame.src = `https://www.youtube.com/embed/${videos[currentVideoIndex]}?rel=0&showinfo=0&autoplay=1&mute=1`;
     });
 
-    /* Configurações para as APIs dos votantes */
+    /***************** Configurações das APIs (Votantes e Detalhes do Servidor) ******************/
     const API_KEY_PVE = "Qd4nRYEKMoDa7AXahhfvzG7pmlB2Y2AQUH";  // PvE
     const API_KEY_PVP = "bWctPV9dtEzJ2uN8sJ39CyQeeYbT5SD1sVI";  // PvP
 
-    // Usando "limit" e "classificacao"
     const urlVotantesPVE = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVE}&month=atual&format=json&limit=1000&classificacao=apelido`;
     const urlVotantesPVP = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVP}&month=atual&format=json&limit=1000&classificacao=apelido`;
 
-    /* Atualização do cache de votantes a cada 3 minutos */
     let cachedVoters = [];
     async function updateVotersCache() {
       try {
@@ -329,14 +452,9 @@
         const dataPVE = await resPVE.json();
         const dataPVP = await resPVP.json();
         
-        // Logs de depuração
-        console.log("Dados PvE:", dataPVE);
-        console.log("Dados PvP:", dataPVP);
-        
         const votersPVE = dataPVE.voters || dataPVE.Voters || [];
         const votersPVP = dataPVP.voters || dataPVP.Voters || [];
         
-        // Enriquecer cada votante com a propriedade "servidor"
         const enrichedVotersPVE = votersPVE.map(voter => ({ ...voter, servidor: "PvE" }));
         const enrichedVotersPVP = votersPVP.map(voter => ({ ...voter, servidor: "PvP" }));
         
@@ -348,24 +466,17 @@
         console.error("Erro ao atualizar cache de votantes:", error);
       }
     }
-    // Atualiza o cache imediatamente e depois a cada 3 minutos (180000 ms)
     updateVotersCache();
-    setInterval(updateVotersCache, 180000);
+    setInterval(updateVotersCache, 180000); // Atualiza a cada 3 minutos
 
-    /* Atualização das informações dos servidores via API de detalhe */
     async function updateServerInfo() {
-      // URLs para os detalhes dos servidores:
       const urlDetailPVE = `https://7daystodie-servers.com/api/?object=servers&element=detail&key=${API_KEY_PVE}`;
       const urlDetailPVP = `https://7daystodie-servers.com/api/?object=servers&element=detail&key=${API_KEY_PVP}`;
       try {
-        const [resDetailPVE, resDetailPVP] = await Promise.all([
-          fetch(urlDetailPVE),
-          fetch(urlDetailPVP)
-        ]);
+        const [resDetailPVE, resDetailPVP] = await Promise.all([ fetch(urlDetailPVE), fetch(urlDetailPVP) ]);
         const dataPVE = await resDetailPVE.json();
         const dataPVP = await resDetailPVP.json();
 
-        // Atualiza as informações dos servidores na área dedicada:
         document.getElementById('pve-name').textContent = dataPVE.name || "Servidor PvE";
         document.getElementById('pve-players').textContent = `Jogadores: ${dataPVE.players}/${dataPVE.maxplayers}`;
         document.getElementById('pve-votes').textContent = `Votos: ${dataPVE.votes}`;
@@ -377,16 +488,13 @@
         console.error("Erro ao obter informações do servidor:", error);
       }
     }
-    // Atualiza a cada 3 minutos para refletir a cache da API
     updateServerInfo();
     setInterval(updateServerInfo, 180000);
 
-    /* Lógica compartilhada para exibir os votantes (popup e widget flutuante) */
-    let displayIndex = 0; // Índice global para os votantes
-
+    /***************** Lógica Compartilhada: Popup e Widget de Votantes ******************/
+    let displayIndex = 0;
     function updateVotantesDisplay() {
       if (cachedVoters.length === 0) {
-        // Se não houver votantes, exibe mensagem apropriada
         if (votersModal.style.display === "block") {
           voterInfoDiv.innerHTML = "Nenhum votante encontrado.";
         }
@@ -396,21 +504,14 @@
       const voter = cachedVoters[displayIndex];
       const votanteHTML = `<strong>${voter.nickname}</strong> — ${voter.votes} votos - ${voter.servidor}`;
       
-      // Atualiza o popup, se estiver aberto
       if (votersModal.style.display === "block") {
         voterInfoDiv.innerHTML = votanteHTML;
       }
-      // Atualiza o widget flutuante
       floatingWidget.innerHTML = votanteHTML;
-
-      // Atualiza o índice
       displayIndex = (displayIndex + 1) % cachedVoters.length;
     }
-
-    // Intervalo único para atualizar ambos os elementos a cada 3 segundos
     setInterval(updateVotantesDisplay, 3000);
 
-    /* Lógica do Popup de Votantes */
     const votersModal = document.getElementById('votersModal');
     const votersBtn = document.getElementById('votersBtn');
     const closeModal = document.getElementById('closeModal');
@@ -419,14 +520,11 @@
 
     votersBtn.onclick = function() {
       votersModal.style.display = "block";
-      // Atualiza imediatamente ao abrir o modal
       updateVotantesDisplay();
     };
-
     closeModal.onclick = function() {
       votersModal.style.display = "none";
     };
-
     window.onclick = function(event) {
       if (event.target === votersModal) {
         votersModal.style.display = "none";
