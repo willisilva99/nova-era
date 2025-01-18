@@ -9,12 +9,15 @@
   <style>
     /* Reset e estilos básicos */
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    /* Cursor personalizado para toda a página */
     body {
       font-family: 'Montserrat', sans-serif;
       background: url('https://i.imgur.com/wA8fz5A.png') no-repeat center center fixed;
       background-size: cover;
       color: #fefefe;
       overflow-x: hidden;
+      cursor: url('cursor.cur'), auto; /* Certifique-se de que 'cursor.cur' está no caminho correto */
     }
     
     /* Navbar fixa */
@@ -78,14 +81,25 @@
     .video-slider {
       position: relative;
       margin-bottom: 30px;
+      width: 500px;       /* Largura fixa para um quadrado */
+      height: 500px;      /* Altura fixa para manter o quadrado */
+      margin: 0 auto;     /* Centraliza na tela */
     }
-    /* Estilo para o iframe com bordas aprimoradas */
-    .video-slider iframe {
-      width: 100%;
+    /* O container #player será gerenciado pela IFrame API, mantendo as mesmas dimensões */
+    #player, .video-slider iframe {
+      width: 500px;
       height: 500px;
-      border: 5px solid #ffcc00;
+      border: 5px solid;
+      border-image: linear-gradient(45deg, red, green, blue, red) 1;
       border-radius: 10px;
+      transition: border 0.5s;
     }
+    /* Quando o mouse passa sobre o vídeo, animação RGB fica mais forte */
+    .video-slider:hover #player,
+    .video-slider:hover iframe {
+      border-image: linear-gradient(45deg, yellow, magenta, cyan, yellow) 1;
+    }
+    
     /* Controles extras para o player */
     .video-controls {
       position: absolute;
@@ -255,7 +269,11 @@
       color: #ccc;
     }
     @media (max-width: 768px) {
-      .video-slider iframe { height: 300px; }
+      /* Reduz dimensões do vídeo para telas menores */
+      #player, .video-slider iframe { 
+        width: 300px; 
+        height: 300px; 
+      }
       .button { font-size: 1rem; padding: 12px 25px; }
     }
   </style>
@@ -284,7 +302,7 @@
   <div class="container">
     <!-- Slider de Vídeo -->
     <div class="video-slider">
-      <!-- O iframe será gerenciado pela IFrame API do YouTube -->
+      <!-- O container "player" será gerenciado pela IFrame API do YouTube -->
       <div id="player"></div>
       <!-- Controles do Vídeo -->
       <div class="video-controls">
@@ -362,7 +380,7 @@
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
   </script>
 
-  <!-- JavaScript: Tradução, Vídeo, API e Votantes -->
+  <!-- JavaScript: Tradução, Vídeo, APIs, Votantes e Efeitos Sonoros -->
   <script>
     /***************** Parte de Tradução ******************/
     const translationResources = {
@@ -458,7 +476,7 @@
 
     /***************** Variáveis e Funções do Vídeo ******************/
     const videos = [
-      "5zxPz3cGNu0", // Substitua pelos IDs reais
+      "5zxPz3cGNu0", // Substitua pelos IDs reais dos seus vídeos
       "2tNePGLm53s"
     ];
     let currentVideoIndex = 0;
@@ -466,11 +484,11 @@
     let videoPaused = false;
     let muted = true;
 
-    // Esta função será chamada pela API do YouTube quando pronta
+    // Essa função é chamada pela API do YouTube quando ela estiver pronta
     function onYouTubeIframeAPIReady() {
       player = new YT.Player('player', {
         height: '500',
-        width: '100%',
+        width: '500',
         videoId: videos[currentVideoIndex],
         playerVars: {
           'autoplay': 1,
@@ -494,13 +512,13 @@
     document.getElementById('prevBtn').addEventListener('click', () => {
       currentVideoIndex = (currentVideoIndex - 1 + videos.length) % videos.length;
       player.loadVideoById(videos[currentVideoIndex]);
-      // Opcional: toque na transição (pode ser outro efeito sonoro, se desejar)
+      // (Opcional) Adicione aqui um efeito sonoro para transição, se desejar.
     });
 
     document.getElementById('nextBtn').addEventListener('click', () => {
       currentVideoIndex = (currentVideoIndex + 1) % videos.length;
       player.loadVideoById(videos[currentVideoIndex]);
-      // Opcional: toque na transição
+      // (Opcional) Adicione efeito sonoro para transição
     });
 
     // Botão de Mute/Desmute
@@ -530,8 +548,8 @@
     });
 
     /***************** Configurações das APIs (Votantes e Detalhes do Servidor) ******************/
-    const API_KEY_PVE = "Qd4nRYEKMoDa7AXahhfvzG7pmlB2Y2AQUH";  // PvE
-    const API_KEY_PVP = "bWctPV9dtEzJ2uN8sJ39CyQeeYbT5SD1sVI";  // PvP
+    const API_KEY_PVE = "Qd4nRYEKMoDa7AXahhfvzG7pmlB2Y2AQUH";
+    const API_KEY_PVP = "bWctPV9dtEzJ2uN8sJ39CyQeeYbT5SD1sVI";
 
     const urlVotantesPVE = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVE}&month=atual&format=json&limit=1000&classificacao=apelido`;
     const urlVotantesPVP = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVP}&month=atual&format=json&limit=1000&classificacao=apelido`;
@@ -567,7 +585,10 @@
       const urlDetailPVE = `https://7daystodie-servers.com/api/?object=servers&element=detail&key=${API_KEY_PVE}`;
       const urlDetailPVP = `https://7daystodie-servers.com/api/?object=servers&element=detail&key=${API_KEY_PVP}`;
       try {
-        const [resDetailPVE, resDetailPVP] = await Promise.all([ fetch(urlDetailPVE), fetch(urlDetailPVP) ]);
+        const [resDetailPVE, resDetailPVP] = await Promise.all([ 
+          fetch(urlDetailPVE), 
+          fetch(urlDetailPVP) 
+        ]);
         const dataPVE = await resDetailPVE.json();
         const dataPVP = await resDetailPVP.json();
 
@@ -585,8 +606,26 @@
     updateServerInfo();
     setInterval(updateServerInfo, 180000);
 
+    /***************** Efeito Sonoro para Hover dos Botões ******************/
+    // Cria um objeto Audio para o som de hover dos botões
+    const buttonHoverSound = new Audio("audio/button-hover.mp3");
+    
+    // Função para adicionar listener de hover em todos os botões com a classe .button e controles de vídeo
+    function addButtonHoverSound() {
+      const buttons = document.querySelectorAll('.button, .video-controls button, .slider-nav button');
+      buttons.forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+          // Reproduz o som (reinicia para permitir sobreposições se necessário)
+          buttonHoverSound.currentTime = 0;
+          buttonHoverSound.play();
+        });
+      });
+    }
+    // Adiciona o listener assim que o DOM estiver carregado
+    window.addEventListener('DOMContentLoaded', addButtonHoverSound);
+
     /***************** Lógica Compartilhada: Popup e Widget de Votantes + Efeito Sonoro ******************/
-    // Cria um objeto Audio para o efeito sonoro (substitua "chime.mp3" pela URL do seu som)
+    // Cria um objeto Audio para o efeito sonoro na troca de nomes (arquivo orb.mp3 deve estar na pasta "audio")
     const nameChangeSound = new Audio("audio/orb.mp3");
 
     let displayIndex = 0;
@@ -601,7 +640,7 @@
       const voter = cachedVoters[displayIndex];
       const votanteHTML = `<strong>${voter.nickname}</strong> — ${voter.votes} votos - ${voter.servidor}`;
       
-      // Ao trocar de nome, toca o som (toque satisfatório)
+      // Toca o efeito sonoro ao trocar de nome
       nameChangeSound.play();
       
       if (votersModal.style.display === "block") {
