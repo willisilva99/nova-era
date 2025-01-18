@@ -173,13 +173,6 @@
     .modal-content .voter-info {
       font-size: 1.3rem;
       min-height: 50px;
-      animation: fadeInOut 3s linear infinite;
-    }
-    @keyframes fadeInOut {
-      0% { opacity: 0; }
-      10% { opacity: 1; }
-      90% { opacity: 1; }
-      100% { opacity: 0; }
     }
     .close-modal {
       position: absolute;
@@ -359,7 +352,7 @@
     updateVotersCache();
     setInterval(updateVotersCache, 180000);
 
-    /* Função para atualizar as informações dos servidores via API de detalhe */
+    /* Atualização das informações dos servidores via API de detalhe */
     async function updateServerInfo() {
       // URLs para os detalhes dos servidores:
       const urlDetailPVE = `https://7daystodie-servers.com/api/?object=servers&element=detail&key=${API_KEY_PVE}`;
@@ -388,57 +381,57 @@
     updateServerInfo();
     setInterval(updateServerInfo, 180000);
 
-    /* Popup central de votantes */
-    const modal = document.getElementById('votersModal');
-    const votersBtn = document.getElementById('votersBtn');
-    const closeModal = document.getElementById('closeModal');
-    const voterInfoDiv = document.getElementById('voterInfo');
-    let popupInterval;
-    votersBtn.onclick = function() {
-      modal.style.display = "block";
-      startPopupCycle();
-    }
-    closeModal.onclick = function() {
-      modal.style.display = "none";
-      clearInterval(popupInterval);
-    }
-    window.onclick = function(event) {
-      if (event.target === modal) {
-        modal.style.display = "none";
-        clearInterval(popupInterval);
-      }
-    }
-    function startPopupCycle() {
-      if (cachedVoters.length === 0) {
-        voterInfoDiv.innerHTML = "Nenhum votante encontrado.";
-        return;
-      }
-      let index = 0;
-      // Exibe imediatamente o primeiro votante
-      voterInfoDiv.innerHTML = `<strong>${cachedVoters[index].nickname}</strong> — ${cachedVoters[index].votes} votos - ${cachedVoters[index].servidor}`;
-      index++;
-      popupInterval = setInterval(() => {
-        const voter = cachedVoters[index];
-        voterInfoDiv.innerHTML = `<strong>${voter.nickname}</strong> — ${voter.votes} votos - ${voter.servidor}`;
-        index = (index + 1) % cachedVoters.length;
-      }, 3000);
-    }
+    /* Lógica compartilhada para exibir os votantes (popup e widget flutuante) */
+    let displayIndex = 0; // Índice global para os votantes
 
-    /* Widget flutuante de votantes (canto inferior direito) */
-    const floatingWidget = document.getElementById('floatingWidget');
-    function startFloatingWidget() {
+    function updateVotantesDisplay() {
       if (cachedVoters.length === 0) {
+        // Se não houver votantes, exibe mensagem apropriada
+        if (votersModal.style.display === "block") {
+          voterInfoDiv.innerHTML = "Nenhum votante encontrado.";
+        }
         floatingWidget.innerHTML = "Nenhum votante encontrado.";
         return;
       }
-      let index = 0;
-      setInterval(() => {
-        const voter = cachedVoters[index];
-        floatingWidget.innerHTML = `<strong>${voter.nickname}</strong> — ${voter.votes} votos - ${voter.servidor}`;
-        index = (index + 1) % cachedVoters.length;
-      }, 3000);
+      const voter = cachedVoters[displayIndex];
+      const votanteHTML = `<strong>${voter.nickname}</strong> — ${voter.votes} votos - ${voter.servidor}`;
+      
+      // Atualiza o popup, se estiver aberto
+      if (votersModal.style.display === "block") {
+        voterInfoDiv.innerHTML = votanteHTML;
+      }
+      // Atualiza o widget flutuante
+      floatingWidget.innerHTML = votanteHTML;
+
+      // Atualiza o índice
+      displayIndex = (displayIndex + 1) % cachedVoters.length;
     }
-    startFloatingWidget();
+
+    // Intervalo único para atualizar ambos os elementos a cada 3 segundos
+    setInterval(updateVotantesDisplay, 3000);
+
+    /* Lógica do Popup de Votantes */
+    const votersModal = document.getElementById('votersModal');
+    const votersBtn = document.getElementById('votersBtn');
+    const closeModal = document.getElementById('closeModal');
+    const voterInfoDiv = document.getElementById('voterInfo');
+    const floatingWidget = document.getElementById('floatingWidget');
+
+    votersBtn.onclick = function() {
+      votersModal.style.display = "block";
+      // Atualiza imediatamente ao abrir o modal
+      updateVotantesDisplay();
+    };
+
+    closeModal.onclick = function() {
+      votersModal.style.display = "none";
+    };
+
+    window.onclick = function(event) {
+      if (event.target === votersModal) {
+        votersModal.style.display = "none";
+      }
+    };
   </script>
 </body>
 </html>
