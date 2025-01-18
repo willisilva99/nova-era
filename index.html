@@ -10,14 +10,14 @@
     /* Reset e estilos básicos */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
-    /* Cursor personalizado para toda a página */
+    /* Cursor personalizado (ajuste o caminho conforme necessário) */
     body {
       font-family: 'Montserrat', sans-serif;
       background: url('https://i.imgur.com/wA8fz5A.png') no-repeat center center fixed;
       background-size: cover;
       color: #fefefe;
       overflow-x: hidden;
-      cursor: url('cursor.cur'), auto; /* Certifique-se de que 'cursor.cur' está no caminho correto */
+      cursor: url('images/MEUMOUSE.png') 16 16, auto;
     }
     
     /* Navbar fixa */
@@ -80,21 +80,23 @@
     /* Player de Vídeo */
     .video-slider {
       position: relative;
-      margin-bottom: 30px;
-      width: 500px;       /* Largura fixa para um quadrado */
-      height: 500px;      /* Altura fixa para manter o quadrado */
-      margin: 0 auto;     /* Centraliza na tela */
+      margin: 30px auto;
+      max-width: 800px;
+      width: 100%;
+      /* Manter proporção 16:9: */
+      aspect-ratio: 16 / 9;
     }
-    /* O container #player será gerenciado pela IFrame API, mantendo as mesmas dimensões */
+    /* O container #player será gerenciado pela IFrame API */
     #player, .video-slider iframe {
-      width: 500px;
-      height: 500px;
+      width: 100%;
+      height: 100%;
       border: 5px solid;
+      /* Borda RGB animada */
       border-image: linear-gradient(45deg, red, green, blue, red) 1;
       border-radius: 10px;
       transition: border 0.5s;
     }
-    /* Quando o mouse passa sobre o vídeo, animação RGB fica mais forte */
+    /* Animação RGB ao passar o mouse */
     .video-slider:hover #player,
     .video-slider:hover iframe {
       border-image: linear-gradient(45deg, yellow, magenta, cyan, yellow) 1;
@@ -103,8 +105,8 @@
     /* Controles extras para o player */
     .video-controls {
       position: absolute;
-      bottom: 15px;
-      right: 15px;
+      bottom: 10px;
+      right: 10px;
       display: flex;
       gap: 10px;
       z-index: 2100;
@@ -113,7 +115,7 @@
       background: rgba(0,0,0,0.8);
       border: none;
       color: #ffcc00;
-      padding: 10px;
+      padding: 10px 15px;
       border-radius: 5px;
       font-size: 1rem;
       cursor: pointer;
@@ -269,10 +271,12 @@
       color: #ccc;
     }
     @media (max-width: 768px) {
-      /* Reduz dimensões do vídeo para telas menores */
+      .video-slider {
+        max-width: 300px;
+      }
       #player, .video-slider iframe { 
         width: 300px; 
-        height: 300px; 
+        height: calc(300px * 9 / 16); 
       }
       .button { font-size: 1rem; padding: 12px 25px; }
     }
@@ -436,9 +440,9 @@
           navVideoPvE: "Video PvE",
           navRules: "Reglas",
           navDiscord: "Discord",
-          navShop: "Tienda",
-          btnShopPVP: "Tienda PvP",
-          btnShopPvE: "Tienda PvE",
+          navShop: "Shop",
+          btnShopPVP: "Shop PvP",
+          btnShopPvE: "Shop PvE",
           btnMapPVP: "Mapa PvP",
           btnMapPvE: "Mapa PvE",
           btnPlayPvE: "Jugar PvE",
@@ -484,7 +488,7 @@
     let videoPaused = false;
     let muted = true;
 
-    // Essa função é chamada pela API do YouTube quando ela estiver pronta
+    // Função chamada pela API do YouTube quando pronta
     function onYouTubeIframeAPIReady() {
       player = new YT.Player('player', {
         height: '500',
@@ -496,7 +500,8 @@
           'mute': 1,
           'rel': 0,
           'showinfo': 0,
-          'modestbranding': 1
+          'modestbranding': 1,
+          'vq': 'hd1080'
         },
         events: {
           'onReady': onPlayerReady
@@ -512,13 +517,11 @@
     document.getElementById('prevBtn').addEventListener('click', () => {
       currentVideoIndex = (currentVideoIndex - 1 + videos.length) % videos.length;
       player.loadVideoById(videos[currentVideoIndex]);
-      // (Opcional) Adicione aqui um efeito sonoro para transição, se desejar.
     });
 
     document.getElementById('nextBtn').addEventListener('click', () => {
       currentVideoIndex = (currentVideoIndex + 1) % videos.length;
       player.loadVideoById(videos[currentVideoIndex]);
-      // (Opcional) Adicione efeito sonoro para transição
     });
 
     // Botão de Mute/Desmute
@@ -606,26 +609,63 @@
     updateServerInfo();
     setInterval(updateServerInfo, 180000);
 
-    /***************** Efeito Sonoro para Hover dos Botões ******************/
-    // Cria um objeto Audio para o som de hover dos botões
-    const buttonHoverSound = new Audio("audio/button-hover.mp3");
+    /***************** Efeito Sonoro para Hover dos Botões (Cada um com som diferente) ******************/
+    // Cria objetos Audio para os diferentes sons
+    const soundShop = new Audio("audio/button-shop.mp3");
+    const soundMap  = new Audio("audio/button-map.mp3");
+    const soundPlay = new Audio("audio/button-play.mp3");
+    const soundVote = new Audio("audio/button-vote.mp3");
+    const soundNav  = new Audio("audio/button-nav.mp3");
     
-    // Função para adicionar listener de hover em todos os botões com a classe .button e controles de vídeo
-    function addButtonHoverSound() {
-      const buttons = document.querySelectorAll('.button, .video-controls button, .slider-nav button');
-      buttons.forEach(btn => {
+    // Função para adicionar listener de hover com som específico para cada grupo
+    function addButtonHoverSounds() {
+      // Botões de shop
+      document.querySelectorAll('.btn-shop').forEach(btn => {
         btn.addEventListener('mouseenter', () => {
-          // Reproduz o som (reinicia para permitir sobreposições se necessário)
-          buttonHoverSound.currentTime = 0;
-          buttonHoverSound.play();
+          soundShop.currentTime = 0;
+          soundShop.play();
+        });
+      });
+      // Botões de map
+      document.querySelectorAll('.btn-map').forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+          soundMap.currentTime = 0;
+          soundMap.play();
+        });
+      });
+      // Botões de play
+      document.querySelectorAll('.btn-play').forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+          soundPlay.currentTime = 0;
+          soundPlay.play();
+        });
+      });
+      // Botão de vote (votantes)
+      document.querySelectorAll('.btn-vote').forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+          soundVote.currentTime = 0;
+          soundVote.play();
+        });
+      });
+      // Botões na navbar (navegação)
+      document.querySelectorAll('.nav-links a').forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+          soundNav.currentTime = 0;
+          soundNav.play();
+        });
+      });
+      // Se desejar, também pode adicionar para controles de vídeo e botões de navegação
+      document.querySelectorAll('.video-controls button, .slider-nav button').forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+          soundNav.currentTime = 0;
+          soundNav.play();
         });
       });
     }
-    // Adiciona o listener assim que o DOM estiver carregado
-    window.addEventListener('DOMContentLoaded', addButtonHoverSound);
+    window.addEventListener('DOMContentLoaded', addButtonHoverSounds);
 
-    /***************** Lógica Compartilhada: Popup e Widget de Votantes + Efeito Sonoro ******************/
-    // Cria um objeto Audio para o efeito sonoro na troca de nomes (arquivo orb.mp3 deve estar na pasta "audio")
+    /***************** Efeito Sonoro na Troca de Nomes dos Votantes ******************/
+    // Cria um objeto Audio para o efeito sonoro na troca de nomes (certifique-se de ter "audio/orb.mp3")
     const nameChangeSound = new Audio("audio/orb.mp3");
 
     let displayIndex = 0;
