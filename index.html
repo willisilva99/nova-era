@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    /* Reset e fonte */
+    /* Reset e estilos básicos */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Montserrat', sans-serif;
@@ -16,6 +16,7 @@
       color: #fefefe;
       overflow-x: hidden;
     }
+    
     /* Navbar fixa */
     .navbar {
       width: 100%;
@@ -46,7 +47,8 @@
     .container {
       margin-top: 80px;
       max-width: 1200px;
-      margin: 0 auto;
+      margin-left: auto;
+      margin-right: auto;
       padding: 20px;
       background: rgba(0,0,0,0.75);
       border-radius: 10px;
@@ -84,7 +86,7 @@
     }
     .slider-nav button:hover { transform: scale(1.1); }
     
-    /* Botões */
+    /* Botões principais */
     .button-group {
       display: flex;
       flex-wrap: wrap;
@@ -105,13 +107,43 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.7);
     }
     .button:hover { transform: scale(1.05); }
-    /* Botões específicos */
+    /* Botões com cores específicas */
     .btn-shop { background-color: #ff5733; color: #fff; }
     .btn-map { background-color: #17a2b8; color: #fff; }
     .btn-play { background-color: #ff9900; color: #000; }
     .btn-rules { background-color: #007bff; color: #fff; }
     .btn-discord { background-color: #7289da; color: #fff; }
     .btn-vote { background-color: #ffcc00; color: #000; }
+    
+    /* Seção de Informações dos Servidores */
+    .server-info {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 20px;
+      margin-top: 30px;
+      padding: 15px;
+      background: rgba(0,0,0,0.8);
+      border-radius: 10px;
+    }
+    .server-card {
+      flex: 1 1 300px;
+      background: #333;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+      text-align: left;
+    }
+    .server-card h3 {
+      font-size: 1.6rem;
+      color: #ffcc00;
+      margin-bottom: 10px;
+    }
+    .server-card p {
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+      color: #fefefe;
+    }
     
     /* Popup central de Votantes */
     .modal {
@@ -233,6 +265,22 @@
     <div class="button-group">
       <button id="votersBtn" class="button btn-vote">Ver Votantes</button>
     </div>
+    
+    <!-- Seção de Informações dos Servidores -->
+    <div class="server-info" id="serverInfo">
+      <div class="server-card" id="serverCardPVE">
+        <h3>Servidor PvE</h3>
+        <p id="pve-name">Carregando...</p>
+        <p id="pve-players"></p>
+        <p id="pve-votes"></p>
+      </div>
+      <div class="server-card" id="serverCardPVP">
+        <h3>Servidor PvP</h3>
+        <p id="pvp-name">Carregando...</p>
+        <p id="pvp-players"></p>
+        <p id="pvp-votes"></p>
+      </div>
+    </div>
   </div>
 
   <!-- Popup central de Votantes -->
@@ -253,7 +301,7 @@
 
   <!-- JavaScript -->
   <script>
-    /* Slider de Vídeo */
+    /* Slider de Vídeo do YouTube */
     const videos = [
       "VIDEO_ID1", // Substitua pelo ID do vídeo para PvP
       "VIDEO_ID2"  // Substitua pelo ID do vídeo para PvE
@@ -269,11 +317,11 @@
       youtubeFrame.src = `https://www.youtube.com/embed/${videos[currentVideoIndex]}?rel=0&showinfo=0&autoplay=1&mute=1`;
     });
 
-    /* Configurações para as APIs de Votantes dos dois servidores */
+    /* Configurações para as APIs dos votantes */
     const API_KEY_PVE = "Qd4nRYEKMoDa7AXahhfvzG7pmlB2Y2AQUH";  // PvE
     const API_KEY_PVP = "bWctPV9dtEzJ2uN8sJ39CyQeeYbT5SD1sVI";  // PvP
 
-    // Usando "limit" e "classificacao" (sem acento)
+    // Usando "limit" e "classificacao"
     const urlVotantesPVE = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVE}&month=atual&format=json&limit=1000&classificacao=apelido`;
     const urlVotantesPVP = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVP}&month=atual&format=json&limit=1000&classificacao=apelido`;
 
@@ -288,14 +336,14 @@
         const dataPVE = await resPVE.json();
         const dataPVP = await resPVP.json();
         
-        // Logs de depuração:
+        // Logs de depuração
         console.log("Dados PvE:", dataPVE);
         console.log("Dados PvP:", dataPVP);
         
         const votersPVE = dataPVE.voters || dataPVE.Voters || [];
         const votersPVP = dataPVP.voters || dataPVP.Voters || [];
         
-        // Adiciona a propriedade "servidor" aos dados
+        // Enriquecer cada votante com a propriedade "servidor"
         const enrichedVotersPVE = votersPVE.map(voter => ({ ...voter, servidor: "PvE" }));
         const enrichedVotersPVP = votersPVP.map(voter => ({ ...voter, servidor: "PvP" }));
         
@@ -307,9 +355,38 @@
         console.error("Erro ao atualizar cache de votantes:", error);
       }
     }
-    // Atualiza o cache a cada 3 minutos (180000 ms)
+    // Atualiza o cache imediatamente e depois a cada 3 minutos (180000 ms)
     updateVotersCache();
     setInterval(updateVotersCache, 180000);
+
+    /* Função para atualizar as informações dos servidores via API de detalhe */
+    async function updateServerInfo() {
+      // URLs para os detalhes dos servidores:
+      const urlDetailPVE = `https://7daystodie-servers.com/api/?object=servers&element=detail&key=${API_KEY_PVE}`;
+      const urlDetailPVP = `https://7daystodie-servers.com/api/?object=servers&element=detail&key=${API_KEY_PVP}`;
+      try {
+        const [resDetailPVE, resDetailPVP] = await Promise.all([
+          fetch(urlDetailPVE),
+          fetch(urlDetailPVP)
+        ]);
+        const dataPVE = await resDetailPVE.json();
+        const dataPVP = await resDetailPVP.json();
+
+        // Atualiza as informações dos servidores na área dedicada:
+        document.getElementById('pve-name').textContent = dataPVE.name || "Servidor PvE";
+        document.getElementById('pve-players').textContent = `Jogadores: ${dataPVE.players}/${dataPVE.maxplayers}`;
+        document.getElementById('pve-votes').textContent = `Votos: ${dataPVE.votes}`;
+
+        document.getElementById('pvp-name').textContent = dataPVP.name || "Servidor PvP";
+        document.getElementById('pvp-players').textContent = `Jogadores: ${dataPVP.players}/${dataPVP.maxplayers}`;
+        document.getElementById('pvp-votes').textContent = `Votos: ${dataPVP.votes}`;
+      } catch (error) {
+        console.error("Erro ao obter informações do servidor:", error);
+      }
+    }
+    // Atualiza a cada 3 minutos para refletir a cache da API
+    updateServerInfo();
+    setInterval(updateServerInfo, 180000);
 
     /* Popup central de votantes */
     const modal = document.getElementById('votersModal');
