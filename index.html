@@ -19,7 +19,7 @@
     /* Navbar fixa */
     .navbar {
       width: 100%;
-      background: rgba(0, 0, 0, 0.85);
+      background: rgba(0,0,0,0.85);
       padding: 15px 20px;
       display: flex;
       justify-content: space-between;
@@ -41,6 +41,7 @@
       transition: color 0.3s;
     }
     .navbar .nav-links a:hover { color: #ffcc00; }
+    
     /* Container principal */
     .container {
       margin-top: 80px;
@@ -52,6 +53,7 @@
       border-radius: 10px;
       box-shadow: 0 6px 30px rgba(0,0,0,0.8);
     }
+    
     /* Slider de Vídeo */
     .video-slider {
       position: relative;
@@ -82,6 +84,7 @@
       transition: transform 0.3s;
     }
     .slider-nav button:hover { transform: scale(1.1); }
+    
     /* Botões */
     .button-group {
       display: flex;
@@ -110,6 +113,7 @@
     .btn-rules { background-color: #007bff; color: #fff; }
     .btn-discord { background-color: #7289da; color: #fff; }
     .btn-vote { background-color: #ffcc00; color: #000; }
+    
     /* Popup central de Votantes */
     .modal {
       display: none;
@@ -154,6 +158,7 @@
       cursor: pointer;
       color: #ffcc00;
     }
+    
     /* Widget flutuante no canto inferior direito */
     .floating-widget {
       position: fixed;
@@ -173,6 +178,7 @@
       50% { transform: translateY(-10px); }
       100% { transform: translateY(0px); }
     }
+    
     /* Rodapé */
     footer {
       text-align: center;
@@ -204,7 +210,7 @@
   <div class="container">
     <!-- Slider de Vídeo -->
     <div class="video-slider">
-      <iframe id="youtubeFrame" src="https://www.youtube.com/embed/VIDEO_ID1?rel=0&amp;showinfo=0&amp;autoplay=1&amp;mute=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <iframe id="youtubeFrame" src="https://www.youtube.com/embed/VIDEO_ID1?rel=0&showinfo=0&autoplay=1&mute=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
       <div class="slider-nav">
         <button id="prevBtn">&#9664;</button>
         <button id="nextBtn">&#9654;</button>
@@ -248,7 +254,7 @@
 
   <!-- JavaScript -->
   <script>
-    /* Slider de Vídeo do YouTube */
+    /* Slider de Vídeo */
     const videos = [
       "VIDEO_ID1", // Substitua pelo ID do vídeo para PvP
       "VIDEO_ID2"  // Substitua pelo ID do vídeo para PvE
@@ -264,15 +270,15 @@
       youtubeFrame.src = `https://www.youtube.com/embed/${videos[currentVideoIndex]}?rel=0&showinfo=0&autoplay=1&mute=1`;
     });
 
-    /* Configurações para as APIs de eleitores */
-    const API_KEY_PVE = "Qd4nRYEKMoDa7AXahhfvzG7pmlB2Y2AQUH";  // Chave PvE
-    const API_KEY_PVP = "bWctPV9dtEzJ2uN8sJ39CyQeeYbT5SD1sVI";  // Chave PvP
+    /* Configurações para as APIs de Votantes */
+    const API_KEY_PVE = "Qd4nRYEKMoDa7AXahhfvzG7pmlB2Y2AQUH";  // PvE
+    const API_KEY_PVP = "bWctPV9dtEzJ2uN8sJ39CyQeeYbT5SD1sVI";  // PvP
 
-    // URLs para obter os eleitores; "classificacao" (sem acento) para evitar problemas
-    const urlVotantesPVE = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVE}&month=atual&format=json&limite=1000&classificacao=apelido`;
-    const urlVotantesPVP = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVP}&month=atual&format=json&limite=1000&classificacao=apelido`;
+    // Utilizando o parâmetro 'limit' (sem acento) para atender a API.
+    const urlVotantesPVE = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVE}&month=atual&format=json&limit=1000&classificacao=apelido`;
+    const urlVotantesPVP = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVP}&month=atual&format=json&limit=1000&classificacao=apelido`;
 
-    /* Atualiza o cache de eleitores a cada 3 minutos */
+    /* Função para buscar e mesclar os eleitores dos dois servidores */
     let cachedVoters = [];
     async function updateVotersCache() {
       try {
@@ -282,21 +288,27 @@
         ]);
         const dataPVE = await resPVE.json();
         const dataPVP = await resPVP.json();
-        let votersPVE = dataPVE.voters || [];
-        let votersPVP = dataPVP.voters || [];
-        // Adiciona um campo "servidor" para cada objeto
-        votersPVE = votersPVE.map(voter => ({ ...voter, servidor: "PvE" }));
-        votersPVP = votersPVP.map(voter => ({ ...voter, servidor: "PvP" }));
-        // Mescla os arrays e ordena decrescentemente por votos
-        const allVoters = [...votersPVE, ...votersPVP];
+
+        // Debug: exibe a resposta da API no console
+        console.log("Dados PvE:", dataPVE);
+        console.log("Dados PvP:", dataPVP);
+
+        const votersPVE = dataPVE.voters || dataPVE.Voters || [];
+        const votersPVP = dataPVP.voters || dataPVP.Voters || [];
+
+        // Adiciona um campo 'servidor' para identificar a origem
+        const enrichedVotersPVE = votersPVE.map(voter => ({ ...voter, servidor: "PvE" }));
+        const enrichedVotersPVP = votersPVP.map(voter => ({ ...voter, servidor: "PvP" }));
+
+        const allVoters = [...enrichedVotersPVE, ...enrichedVotersPVP];
         allVoters.sort((a, b) => parseInt(b.votes) - parseInt(a.votes));
         cachedVoters = allVoters;
-        console.log(`[${new Date().toISOString()}] Cache dos votantes atualizado.`);
+        console.log(`[${new Date().toISOString()}] Cache dos votantes atualizado. Total: ${cachedVoters.length}`);
       } catch (error) {
         console.error("Erro ao atualizar cache de votantes:", error);
       }
     }
-    // Atualiza a cada 3 minutos (180000 ms)
+    // Atualiza o cache a cada 3 minutos (180000 ms)
     updateVotersCache();
     setInterval(updateVotersCache, 180000);
 
