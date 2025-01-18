@@ -269,11 +269,11 @@
       youtubeFrame.src = `https://www.youtube.com/embed/${videos[currentVideoIndex]}?rel=0&showinfo=0&autoplay=1&mute=1`;
     });
 
-    /* Configurações para as APIs dos votantes dos dois servidores */
+    /* Configurações para as APIs de Votantes dos dois servidores */
     const API_KEY_PVE = "Qd4nRYEKMoDa7AXahhfvzG7pmlB2Y2AQUH";  // PvE
     const API_KEY_PVP = "bWctPV9dtEzJ2uN8sJ39CyQeeYbT5SD1sVI";  // PvP
 
-    // Usando parâmetro "limit" e "classificacao"
+    // Usando "limit" e "classificacao" (sem acento)
     const urlVotantesPVE = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVE}&month=atual&format=json&limit=1000&classificacao=apelido`;
     const urlVotantesPVP = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVP}&month=atual&format=json&limit=1000&classificacao=apelido`;
 
@@ -288,15 +288,14 @@
         const dataPVE = await resPVE.json();
         const dataPVP = await resPVP.json();
         
-        // Exiba no console a estrutura dos dados para depuração
+        // Logs de depuração:
         console.log("Dados PvE:", dataPVE);
         console.log("Dados PvP:", dataPVP);
         
-        // Testa tanto "voters" quanto "Voters"
         const votersPVE = dataPVE.voters || dataPVE.Voters || [];
         const votersPVP = dataPVP.voters || dataPVP.Voters || [];
         
-        // Enriquecer os dados com a propriedade "servidor"
+        // Adiciona a propriedade "servidor" aos dados
         const enrichedVotersPVE = votersPVE.map(voter => ({ ...voter, servidor: "PvE" }));
         const enrichedVotersPVP = votersPVP.map(voter => ({ ...voter, servidor: "PvP" }));
         
@@ -338,6 +337,9 @@
         return;
       }
       let index = 0;
+      // Exibe imediatamente o primeiro votante
+      voterInfoDiv.innerHTML = `<strong>${cachedVoters[index].nickname}</strong> — ${cachedVoters[index].votes} votos - ${cachedVoters[index].servidor}`;
+      index++;
       popupInterval = setInterval(() => {
         const voter = cachedVoters[index];
         voterInfoDiv.innerHTML = `<strong>${voter.nickname}</strong> — ${voter.votes} votos - ${voter.servidor}`;
