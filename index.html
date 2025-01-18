@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    /* Reset */
+    /* Reset e fontes */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Montserrat', sans-serif;
@@ -16,7 +16,8 @@
       color: #fefefe;
       overflow-x: hidden;
     }
-    /* Navbar */
+
+    /* Navbar fixa */
     .navbar {
       width: 100%;
       background: rgba(0,0,0,0.85);
@@ -41,18 +42,20 @@
       transition: color 0.3s;
     }
     .navbar .nav-links a:hover { color: #ffcc00; }
-    /* Container Principal */
+
+    /* Container principal */
     .container {
       margin-top: 80px;
       max-width: 1200px;
       margin-left: auto;
       margin-right: auto;
       padding: 20px;
-      background: rgba(0,0,0,0.75);
+      background: rgba(0, 0, 0, 0.75);
       border-radius: 10px;
       box-shadow: 0 6px 30px rgba(0, 0, 0, 0.8);
     }
-    /* Outras seções (slider, botões etc.) – conforme exemplo anterior */
+
+    /* Slider de Vídeo */
     .video-slider {
       position: relative;
       margin-bottom: 30px;
@@ -82,6 +85,8 @@
       transition: transform 0.3s;
     }
     .slider-nav button:hover { transform: scale(1.1); }
+
+    /* Botões principais */
     .button-group {
       display: flex;
       flex-wrap: wrap;
@@ -102,14 +107,15 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.7);
     }
     .button:hover { transform: scale(1.05); }
-    /* Cores dos botões */
+    /* Botões com cores definidas */
     .btn-shop { background-color: #ff5733; color: #fff; }
     .btn-map { background-color: #17a2b8; color: #fff; }
     .btn-play { background-color: #ff9900; color: #000; }
     .btn-rules { background-color: #007bff; color: #fff; }
     .btn-discord { background-color: #7289da; color: #fff; }
     .btn-vote { background-color: #ffcc00; color: #000; }
-    /* Popup de Votantes */
+
+    /* Popup central de votantes (ao clicar no botão) */
     .modal {
       display: none;
       position: fixed;
@@ -118,7 +124,7 @@
       top: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.85);
+      background: rgba(0, 0, 0, 0.85);
     }
     .modal-content {
       background: #222;
@@ -130,11 +136,13 @@
       text-align: center;
       position: relative;
     }
-    .modal-content h2 { margin-bottom: 15px; color: #ffcc00; }
+    .modal-content h2 {
+      margin-bottom: 15px;
+      color: #ffcc00;
+    }
     .modal-content .voter-info {
       font-size: 1.3rem;
       min-height: 50px;
-      /* A animação abaixo exibe cada entrada por 3 segundos, depois desaparece */
       animation: fadeInOut 3s linear infinite;
     }
     @keyframes fadeInOut {
@@ -151,6 +159,27 @@
       cursor: pointer;
       color: #ffcc00;
     }
+
+    /* Widget flutuante no canto (exibe votantes) */
+    .floating-widget {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.85);
+      color: #ffcc00;
+      padding: 10px 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+      z-index: 4000;
+      font-size: 1rem;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
     /* Rodapé */
     footer {
       text-align: center;
@@ -182,7 +211,7 @@
   <div class="container">
     <!-- Slider de Vídeo -->
     <div class="video-slider">
-      <iframe id="youtubeFrame" src="https://www.youtube.com/embed/VIDEO_ID1?rel=0&showinfo=0&autoplay=1&mute=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <iframe id="youtubeFrame" src="https://www.youtube.com/embed/VIDEO_ID1?rel=0&amp;showinfo=0&amp;autoplay=1&amp;mute=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
       <div class="slider-nav">
         <button id="prevBtn">&#9664;</button>
         <button id="nextBtn">&#9654;</button>
@@ -208,7 +237,7 @@
     </div>
   </div>
 
-  <!-- Popup de Votantes -->
+  <!-- Popup central de Votantes -->
   <div id="votersModal" class="modal">
     <div class="modal-content">
       <span class="close-modal" id="closeModal">&times;</span>
@@ -217,16 +246,19 @@
     </div>
   </div>
 
+  <!-- Widget flutuante de Votantes (canto inferior direito) -->
+  <div class="floating-widget" id="floatingWidget">Carregando...</div>
+
   <footer>
     <p>&copy; 2024 NOVA ERA. Todos os direitos reservados.</p>
   </footer>
 
   <!-- JavaScript -->
   <script>
-    /* Slider de Vídeo */
+    /* Slider de Vídeo do YouTube */
     const videos = [
-      "VIDEO_ID1", // Substitua com o ID do vídeo para PvP
-      "VIDEO_ID2"  // Substitua com o ID do vídeo para PvE
+      "VIDEO_ID1", // Substitua pelo ID do vídeo para PvP
+      "VIDEO_ID2"  // Substitua pelo ID do vídeo para PvE
     ];
     let currentVideoIndex = 0;
     const youtubeFrame = document.getElementById('youtubeFrame');
@@ -239,14 +271,14 @@
       youtubeFrame.src = `https://www.youtube.com/embed/${videos[currentVideoIndex]}?rel=0&showinfo=0&autoplay=1&mute=1`;
     });
 
-    /* Configurações para chamadas de API de Votantes para 2 servidores */
-    const API_KEY_PVE = "Qd4nRYEKMoDa7AXahhfvzG7pmlB2Y2AQUH";  // Chave PvE
-    const API_KEY_PVP = "bWctPV9dtEzJ2uN8sJ39CyQeeYbT5SD1sVI";  // Chave PVP
+    /* Configurações para chamadas da API de Votantes dos dois servidores */
+    const API_KEY_PVE = "Qd4nRYEKMoDa7AXahhfvzG7pmlB2Y2AQUH";  // API PvE
+    const API_KEY_PVP = "bWctPV9dtEzJ2uN8sJ39CyQeeYbT5SD1sVI";  // API PvP
 
     const urlVotantesPVE = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVE}&month=atual&format=json&limite=1000&classificacao=apelido`;
     const urlVotantesPVP = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVP}&month=atual&format=json&limite=1000&classificacao=apelido`;
 
-    /* Função para buscar votantes dos dois servidores e mesclá-los */
+    /* Função para buscar os eleitores dos dois servidores e mesclá-los */
     async function getAllVoters() {
       try {
         const [resPVE, resPVP] = await Promise.all([
@@ -257,9 +289,8 @@
         const dataPVP = await resPVP.json();
         const votersPVE = dataPVE.voters || [];
         const votersPVP = dataPVP.voters || [];
-        // Mescla os dois arrays e, se desejar, você pode ordenar por votos
         const allVoters = [...votersPVE, ...votersPVP];
-        // Opcional: ordenar decrescente por votos (convertendo votos para inteiro)
+        // Ordena decrescentemente por votos (convertendo para inteiro)
         allVoters.sort((a, b) => parseInt(b.votes) - parseInt(a.votes));
         return allVoters;
       } catch (error) {
@@ -268,39 +299,59 @@
       }
     }
 
-    /* Popup de Votantes */
+    /* Popup central de votantes (quando o usuário clica no botão) */
     const modal = document.getElementById('votersModal');
     const votersBtn = document.getElementById('votersBtn');
     const closeModal = document.getElementById('closeModal');
     const voterInfoDiv = document.getElementById('voterInfo');
-
+    
     votersBtn.onclick = function() {
       modal.style.display = "block";
-      loadVoterPopup();
+      startPopupCycle();
     }
     closeModal.onclick = function() {
       modal.style.display = "none";
+      clearInterval(popupInterval);
     }
     window.onclick = function(event) {
       if (event.target === modal) {
         modal.style.display = "none";
+        clearInterval(popupInterval);
       }
     }
-
-    async function loadVoterPopup() {
+    
+    let popupInterval;
+    async function startPopupCycle() {
       const voters = await getAllVoters();
       if (voters.length === 0) {
         voterInfoDiv.innerHTML = "Nenhum votante encontrado.";
         return;
       }
       let index = 0;
-      // A cada 3 segundos, exibe um votante diferente
-      setInterval(() => {
+      // Atualiza o popup a cada 3 segundos
+      popupInterval = setInterval(() => {
         const voter = voters[index];
-        voterInfoDiv.innerHTML = `<strong>${voter.nickname}</strong> (${voter.votes} votos)`;
+        voterInfoDiv.innerHTML = `<strong>${voter.nickname}</strong> (${voter.votes} votos) - ${voter.servidor || "Servidor desconhecido"}`;
         index = (index + 1) % voters.length;
       }, 3000);
     }
+
+    /* Widget flutuante no canto inferior direito: exibe votantes continuamente */
+    const floatingWidget = document.getElementById('floatingWidget');
+    async function updateFloatingWidget() {
+      const voters = await getAllVoters();
+      if (voters.length === 0) {
+        floatingWidget.innerHTML = "Nenhum votante encontrado.";
+        return;
+      }
+      let index = 0;
+      setInterval(() => {
+        const voter = voters[index];
+        floatingWidget.innerHTML = `<strong>${voter.nickname}</strong> - ${voter.votes} votos - ${voter.servidor || "S/ info"}`;
+        index = (index + 1) % voters.length;
+      }, 3000);
+    }
+    updateFloatingWidget();
   </script>
 </body>
 </html>
