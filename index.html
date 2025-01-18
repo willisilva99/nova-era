@@ -16,7 +16,6 @@
       color: #fefefe;
       overflow-x: hidden;
     }
-
     /* Navbar fixa */
     .navbar {
       width: 100%;
@@ -42,7 +41,6 @@
       transition: color 0.3s;
     }
     .navbar .nav-links a:hover { color: #ffcc00; }
-
     /* Container principal */
     .container {
       margin-top: 80px;
@@ -54,7 +52,6 @@
       border-radius: 10px;
       box-shadow: 0 6px 30px rgba(0,0,0,0.8);
     }
-
     /* Slider de Vídeo */
     .video-slider {
       position: relative;
@@ -85,7 +82,6 @@
       transition: transform 0.3s;
     }
     .slider-nav button:hover { transform: scale(1.1); }
-
     /* Botões */
     .button-group {
       display: flex;
@@ -107,14 +103,13 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.7);
     }
     .button:hover { transform: scale(1.05); }
-    /* Botões específicos */
+    /* Botões com cores definidas */
     .btn-shop { background-color: #ff5733; color: #fff; }
     .btn-map { background-color: #17a2b8; color: #fff; }
     .btn-play { background-color: #ff9900; color: #000; }
     .btn-rules { background-color: #007bff; color: #fff; }
     .btn-discord { background-color: #7289da; color: #fff; }
     .btn-vote { background-color: #ffcc00; color: #000; }
-
     /* Popup central de Votantes */
     .modal {
       display: none;
@@ -159,8 +154,7 @@
       cursor: pointer;
       color: #ffcc00;
     }
-
-    /* Widget flutuante de Votantes no canto inferior direito */
+    /* Widget flutuante no canto inferior direito */
     .floating-widget {
       position: fixed;
       bottom: 20px;
@@ -179,7 +173,6 @@
       50% { transform: translateY(-10px); }
       100% { transform: translateY(0px); }
     }
-
     /* Rodapé */
     footer {
       text-align: center;
@@ -211,7 +204,7 @@
   <div class="container">
     <!-- Slider de Vídeo -->
     <div class="video-slider">
-      <iframe id="youtubeFrame" src="https://www.youtube.com/embed/VIDEO_ID1?rel=0&showinfo=0&autoplay=1&mute=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <iframe id="youtubeFrame" src="https://www.youtube.com/embed/VIDEO_ID1?rel=0&amp;showinfo=0&amp;autoplay=1&amp;mute=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
       <div class="slider-nav">
         <button id="prevBtn">&#9664;</button>
         <button id="nextBtn">&#9654;</button>
@@ -231,7 +224,7 @@
       <a href="steam://connect/191.37.92.145:26920" class="button btn-play">Jogar PvP</a>
     </div>
 
-    <!-- Botão para Popup de Votantes -->
+    <!-- Botão para exibir Popup de Votantes -->
     <div class="button-group">
       <button id="votersBtn" class="button btn-vote">Ver Votantes</button>
     </div>
@@ -271,15 +264,15 @@
       youtubeFrame.src = `https://www.youtube.com/embed/${videos[currentVideoIndex]}?rel=0&showinfo=0&autoplay=1&mute=1`;
     });
 
-    /* Variáveis para as APIs dos eleitores de ambos os servidores */
-    const API_KEY_PVE = "Qd4nRYEKMoDa7AXahhfvzG7pmlB2Y2AQUH";  // PvE
-    const API_KEY_PVP = "bWctPV9dtEzJ2uN8sJ39CyQeeYbT5SD1sVI";  // PvP
+    /* Configurações para as APIs de eleitores */
+    const API_KEY_PVE = "Qd4nRYEKMoDa7AXahhfvzG7pmlB2Y2AQUH";  // Chave PvE
+    const API_KEY_PVP = "bWctPV9dtEzJ2uN8sJ39CyQeeYbT5SD1sVI";  // Chave PvP
 
-    // URLs com os parâmetros conforme a documentação (use "classificacao" sem acento)
+    // URLs para obter os eleitores; "classificacao" (sem acento) para evitar problemas
     const urlVotantesPVE = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVE}&month=atual&format=json&limite=1000&classificacao=apelido`;
     const urlVotantesPVP = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVP}&month=atual&format=json&limite=1000&classificacao=apelido`;
 
-    /* Cache para os eleitores; atualizados a cada 3 minutos */
+    /* Atualiza o cache de eleitores a cada 3 minutos */
     let cachedVoters = [];
     async function updateVotersCache() {
       try {
@@ -289,8 +282,11 @@
         ]);
         const dataPVE = await resPVE.json();
         const dataPVP = await resPVP.json();
-        const votersPVE = dataPVE.voters || [];
-        const votersPVP = dataPVP.voters || [];
+        let votersPVE = dataPVE.voters || [];
+        let votersPVP = dataPVP.voters || [];
+        // Adiciona um campo "servidor" para cada objeto
+        votersPVE = votersPVE.map(voter => ({ ...voter, servidor: "PvE" }));
+        votersPVP = votersPVP.map(voter => ({ ...voter, servidor: "PvP" }));
         // Mescla os arrays e ordena decrescentemente por votos
         const allVoters = [...votersPVE, ...votersPVP];
         allVoters.sort((a, b) => parseInt(b.votes) - parseInt(a.votes));
@@ -310,7 +306,6 @@
     const closeModal = document.getElementById('closeModal');
     const voterInfoDiv = document.getElementById('voterInfo');
     let popupInterval;
-    
     votersBtn.onclick = function() {
       modal.style.display = "block";
       startPopupCycle();
@@ -333,7 +328,7 @@
       let index = 0;
       popupInterval = setInterval(() => {
         const voter = cachedVoters[index];
-        voterInfoDiv.innerHTML = `<strong>${voter.nickname}</strong> — ${voter.votes} votos - ${voter.servidor || "S/ info"}`;
+        voterInfoDiv.innerHTML = `<strong>${voter.nickname}</strong> — ${voter.votes} votos - ${voter.servidor}`;
         index = (index + 1) % cachedVoters.length;
       }, 3000);
     }
@@ -348,7 +343,7 @@
       let index = 0;
       setInterval(() => {
         const voter = cachedVoters[index];
-        floatingWidget.innerHTML = `<strong>${voter.nickname}</strong> — ${voter.votes} votos - ${voter.servidor || "S/ info"}`;
+        floatingWidget.innerHTML = `<strong>${voter.nickname}</strong> — ${voter.votes} votos - ${voter.servidor}`;
         index = (index + 1) % cachedVoters.length;
       }, 3000);
     }
