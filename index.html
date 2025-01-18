@@ -10,7 +10,7 @@
     /* Reset e estilos básicos */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
-    /* Esconde o cursor nativo para usar o custom */
+    /* Oculta o cursor nativo em toda a página */
     body { 
       font-family: 'Montserrat', sans-serif;
       background: url('https://i.imgur.com/wA8fz5A.png') no-repeat center center fixed;
@@ -20,7 +20,7 @@
       cursor: none;
     }
     
-    /* Estilo para o elemento que simula o cursor personalizado */
+    /* Elemento que simula o cursor personalizado */
     #custom-cursor {
       position: fixed;
       top: 0;
@@ -34,9 +34,14 @@
       transition: transform 0.2s ease;
     }
     
-    /* Garante que elementos clicáveis também não exibam o cursor nativo */
-    a, button, .nav-links a, .video-controls button, .slider-nav button {
+    /* Garante que elementos clicáveis não mostrem o cursor nativo */
+    a, button, .nav-links a, .video-controls button, .slider-nav button, .language-selector button {
       cursor: none;
+    }
+    
+    /* Força o iframe (do vídeo) a não mostrar cursor nativo */
+    .video-slider iframe {
+      cursor: none !important;
     }
     
     /* Navbar fixa */
@@ -64,7 +69,7 @@
       transition: color 0.3s;
     }
     .navbar .nav-links a:hover { color: #ffcc00; }
-
+    
     /* Seletor de idiomas */
     .language-selector {
       margin-top: 80px;
@@ -77,7 +82,6 @@
       padding: 10px 20px;
       margin: 0 5px;
       color: #000;
-      cursor: none; /* garantindo que não apareça o cursor nativo */
       border-radius: 5px;
       font-weight: bold;
       transition: background 0.3s;
@@ -104,7 +108,7 @@
       width: 100%;
       aspect-ratio: 16 / 9;
     }
-    /* O container #player será gerenciado pela IFrame API */
+    /* O container do player (gerenciado pela IFrame API) */
     #player, .video-slider iframe {
       width: 100%;
       height: 100%;
@@ -134,7 +138,6 @@
       padding: 10px 15px;
       border-radius: 5px;
       font-size: 1rem;
-      cursor: none;
       transition: background 0.3s;
     }
     .video-controls button:hover { background: rgba(0,0,0,1); }
@@ -154,7 +157,6 @@
       color: #ffcc00;
       font-size: 2rem;
       padding: 10px;
-      cursor: none;
       border-radius: 50%;
       transition: transform 0.3s;
     }
@@ -176,7 +178,6 @@
       text-decoration: none;
       border: none;
       border-radius: 5px;
-      cursor: none;
       transition: transform 0.3s, background 0.3s;
       box-shadow: 0 4px 12px rgba(0,0,0,0.7);
     }
@@ -324,7 +325,7 @@
   <div class="container">
     <!-- Slider de Vídeo -->
     <div class="video-slider">
-      <!-- O container "player" será gerenciado pela IFrame API do YouTube -->
+      <!-- O container "player" será gerenciado pela IFrame API -->
       <div id="player"></div>
       <!-- Controles do Vídeo -->
       <div class="video-controls">
@@ -498,11 +499,11 @@
 
     /***************** Variáveis e Funções do Vídeo ******************/
     const videos = [
-      "5zxPz3cGNu0", // Substitua pelos IDs reais dos seus vídeos
+      "5zxPz3cGNu0", // Substitua pelos IDs reais
       "2tNePGLm53s"
     ];
     let currentVideoIndex = 0;
-    let player; // Variável do player do YouTube
+    let player; // Player da API do YouTube
     let videoPaused = false;
     let muted = true;
 
@@ -540,7 +541,7 @@
       player.loadVideoById(videos[currentVideoIndex]);
     });
 
-    // Botão de Mute/Desmute – removemos a pausa do som de troca de nome
+    // Botão de Mute/Desmute – Agora, se o vídeo estiver desmutado, o som de troca de nomes NÃO é disparado.
     document.getElementById('muteBtn').addEventListener('click', () => {
       if (muted) {
         player.unMute();
@@ -633,42 +634,36 @@
     const soundNav  = new Audio("audio/button-nav.mp3");
 
     function addButtonHoverSounds() {
-      // Botões de shop
       document.querySelectorAll('.btn-shop').forEach(btn => {
         btn.addEventListener('mouseenter', () => {
           soundShop.currentTime = 0;
           soundShop.play();
         });
       });
-      // Botões de map
       document.querySelectorAll('.btn-map').forEach(btn => {
         btn.addEventListener('mouseenter', () => {
           soundMap.currentTime = 0;
           soundMap.play();
         });
       });
-      // Botões de play
       document.querySelectorAll('.btn-play').forEach(btn => {
         btn.addEventListener('mouseenter', () => {
           soundPlay.currentTime = 0;
           soundPlay.play();
         });
       });
-      // Botão de vote
       document.querySelectorAll('.btn-vote').forEach(btn => {
         btn.addEventListener('mouseenter', () => {
           soundVote.currentTime = 0;
           soundVote.play();
         });
       });
-      // Links na navbar
       document.querySelectorAll('.nav-links a').forEach(btn => {
         btn.addEventListener('mouseenter', () => {
           soundNav.currentTime = 0;
           soundNav.play();
         });
       });
-      // Controles de vídeo e botões de navegação
       document.querySelectorAll('.video-controls button, .slider-nav button').forEach(btn => {
         btn.addEventListener('mouseenter', () => {
           soundNav.currentTime = 0;
@@ -679,9 +674,8 @@
     window.addEventListener('DOMContentLoaded', addButtonHoverSounds);
 
     /***************** Efeito Sonoro na Troca de Nomes dos Votantes ******************/
-    // Configurando um volume menor para o som de troca de nomes
     const nameChangeSound = new Audio("audio/orb.mp3");
-    nameChangeSound.volume = 0.3;  // ajuste o volume conforme necessário
+    nameChangeSound.volume = 0.3;  // Volume reduzido
 
     let displayIndex = 0;
     function updateVotantesDisplay() {
@@ -695,8 +689,11 @@
       const voter = cachedVoters[displayIndex];
       const votanteHTML = `<strong>${voter.nickname}</strong> — ${voter.votes} votos - ${voter.servidor}`;
       
-      // Toca o efeito sonoro ao trocar de nome
-      nameChangeSound.play();
+      // Se o vídeo estiver mutado, toca o som; caso contrário, não toca
+      if(muted){
+        nameChangeSound.currentTime = 0;
+        nameChangeSound.play();
+      }
       
       if (votersModal.style.display === "block") {
         voterInfoDiv.innerHTML = votanteHTML;
