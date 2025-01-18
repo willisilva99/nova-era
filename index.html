@@ -9,14 +9,15 @@
   <style>
     /* Reset e estilos básicos */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    /* Esconde o cursor padrão para usar o custom */
+    
+    /* Esconde o cursor nativo para usar o custom */
     body { 
       font-family: 'Montserrat', sans-serif;
       background: url('https://i.imgur.com/wA8fz5A.png') no-repeat center center fixed;
       background-size: cover;
       color: #fefefe;
       overflow-x: hidden;
-      cursor: none; /* esconde o cursor nativo */
+      cursor: none;
     }
     
     /* Estilo para o elemento que simula o cursor personalizado */
@@ -24,13 +25,18 @@
       position: fixed;
       top: 0;
       left: 0;
-      width: 32px;  /* tamanho padrão */
+      width: 32px;
       height: 32px;
       background: url('images/MEUMOUSE.png') no-repeat center center;
       background-size: contain;
       pointer-events: none;
       z-index: 9999;
       transition: transform 0.2s ease;
+    }
+    
+    /* Garante que elementos clicáveis também não exibam o cursor nativo */
+    a, button, .nav-links a, .video-controls button, .slider-nav button {
+      cursor: none;
     }
     
     /* Navbar fixa */
@@ -71,7 +77,7 @@
       padding: 10px 20px;
       margin: 0 5px;
       color: #000;
-      cursor: pointer;
+      cursor: none; /* garantindo que não apareça o cursor nativo */
       border-radius: 5px;
       font-weight: bold;
       transition: background 0.3s;
@@ -103,12 +109,10 @@
       width: 100%;
       height: 100%;
       border: 5px solid;
-      /* Borda RGB animada */
       border-image: linear-gradient(45deg, red, green, blue, red) 1;
       border-radius: 10px;
       transition: border 0.5s;
     }
-    /* Animação RGB ao passar o mouse sobre o vídeo */
     .video-slider:hover #player,
     .video-slider:hover iframe {
       border-image: linear-gradient(45deg, yellow, magenta, cyan, yellow) 1;
@@ -130,7 +134,7 @@
       padding: 10px 15px;
       border-radius: 5px;
       font-size: 1rem;
-      cursor: pointer;
+      cursor: none;
       transition: background 0.3s;
     }
     .video-controls button:hover { background: rgba(0,0,0,1); }
@@ -150,7 +154,7 @@
       color: #ffcc00;
       font-size: 2rem;
       padding: 10px;
-      cursor: pointer;
+      cursor: none;
       border-radius: 50%;
       transition: transform 0.3s;
     }
@@ -172,12 +176,11 @@
       text-decoration: none;
       border: none;
       border-radius: 5px;
-      cursor: pointer;
+      cursor: none;
       transition: transform 0.3s, background 0.3s;
       box-shadow: 0 4px 12px rgba(0,0,0,0.7);
     }
     .button:hover { transform: scale(1.05); }
-    /* Botões com cores específicas */
     .btn-shop { background-color: #ff5733; color: #fff; }
     .btn-map { background-color: #17a2b8; color: #fff; }
     .btn-play { background-color: #ff9900; color: #000; }
@@ -464,7 +467,7 @@
           btnPlayPVP: "Jugar PvP",
           btnVoters: "Ver Votantes",
           serverTitlePvE: "Servidor PvE",
-          serverTitlePvP: "Servidor PvP",
+          serverTitlePVP: "Servidor PvP",
           modalTitle: "Votantes Recientes",
           footerText: "&copy; 2024 NOVA ERA. Todos los derechos reservados."
         }
@@ -537,15 +540,12 @@
       player.loadVideoById(videos[currentVideoIndex]);
     });
 
-    // Botão de Mute/Desmute
+    // Botão de Mute/Desmute – removemos a pausa do som de troca de nome
     document.getElementById('muteBtn').addEventListener('click', () => {
       if (muted) {
         player.unMute();
         document.getElementById('muteBtn').textContent = 'Mutar';
         muted = false;
-        // Se o som de troca de nome estiver tocando, para-o
-        nameChangeSound.pause();
-        nameChangeSound.currentTime = 0;
       } else {
         player.mute();
         document.getElementById('muteBtn').textContent = 'Desmutar';
@@ -598,7 +598,7 @@
       }
     }
     updateVotantesCache();
-    setInterval(updateVotantesCache, 180000); // Atualiza a cada 3 minutos
+    setInterval(updateVotantesCache, 180000);
 
     async function updateServerInfo() {
       const urlDetailPVE = `https://7daystodie-servers.com/api/?object=servers&element=detail&key=${API_KEY_PVE}`;
@@ -679,7 +679,9 @@
     window.addEventListener('DOMContentLoaded', addButtonHoverSounds);
 
     /***************** Efeito Sonoro na Troca de Nomes dos Votantes ******************/
+    // Configurando um volume menor para o som de troca de nomes
     const nameChangeSound = new Audio("audio/orb.mp3");
+    nameChangeSound.volume = 0.3;  // ajuste o volume conforme necessário
 
     let displayIndex = 0;
     function updateVotantesDisplay() {
@@ -693,6 +695,7 @@
       const voter = cachedVoters[displayIndex];
       const votanteHTML = `<strong>${voter.nickname}</strong> — ${voter.votes} votos - ${voter.servidor}`;
       
+      // Toca o efeito sonoro ao trocar de nome
       nameChangeSound.play();
       
       if (votersModal.style.display === "block") {
@@ -728,14 +731,13 @@
       customCursor.style.left = e.clientX + 'px';
       customCursor.style.top = e.clientY + 'px';
     });
-    // Ao passar sobre elementos clicáveis, aumenta o tamanho do cursor
     function enlargeCursor(e) {
       customCursor.style.transform = 'scale(1.3)';
     }
     function resetCursor(e) {
       customCursor.style.transform = 'scale(1)';
     }
-    document.querySelectorAll('a, button, .nav-links a, .video-controls button, .slider-nav button').forEach(el => {
+    document.querySelectorAll('a, button, .nav-links a, .video-controls button, .slider-nav button, .language-selector button').forEach(el => {
       el.addEventListener('mouseenter', enlargeCursor);
       el.addEventListener('mouseleave', resetCursor);
     });
