@@ -10,7 +10,7 @@
     /* Reset e estilos básicos */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
-    /* Oculta o cursor nativo para toda a página */
+    /* Oculta o cursor nativo em toda a página */
     body { 
       font-family: 'Montserrat', sans-serif;
       background: url('https://i.imgur.com/wA8fz5A.png') no-repeat center center fixed;
@@ -500,7 +500,7 @@
 
     /***************** Variáveis e Funções do Vídeo ******************/
     const videos = [
-      "5zxPz3cGNu0", // Substitua pelos IDs reais dos seus vídeos
+      "5zxPz3cGNu0", // Substitua pelos IDs reais
       "2tNePGLm53s"
     ];
     let currentVideoIndex = 0;
@@ -542,7 +542,6 @@
       player.loadVideoById(videos[currentVideoIndex]);
     });
 
-    // Botão de Mute/Desmute – Se o vídeo estiver desmutado, o som de troca de nome não deve disparar
     document.getElementById('muteBtn').addEventListener('click', () => {
       if (muted) {
         player.unMute();
@@ -555,7 +554,6 @@
       }
     });
 
-    // Botão de Pausar/Continuar
     document.getElementById('pauseBtn').addEventListener('click', () => {
       if (!videoPaused) {
         player.pauseVideo();
@@ -688,7 +686,7 @@
       const voter = cachedVoters[displayIndex];
       const votanteHTML = `<strong>${voter.nickname}</strong> — ${voter.votes} votos - ${voter.servidor}`;
       
-      // Som de troca apenas se o vídeo estiver mutado
+      // Toca o efeito sonoro apenas se o vídeo estiver mutado
       if(muted){
         nameChangeSound.currentTime = 0;
         nameChangeSound.play();
@@ -728,6 +726,11 @@
       customCursor.style.top = e.clientY + 'px';
     });
     function enlargeCursor(e) {
+      // Se o mouse estiver sobre um elemento dentro do .video-slider, não aplicar o enlarge
+      if(e.target.closest('.video-slider')) {
+        customCursor.style.transform = 'scale(1)'; 
+        return;
+      }
       customCursor.style.transform = 'scale(1.3)';
     }
     function resetCursor(e) {
