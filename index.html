@@ -103,7 +103,6 @@
       width: 100%;
       aspect-ratio: 16 / 9;
     }
-    /* OBS.: Se o overlay estiver causando problemas, comente ou ajuste */
     .video-overlay {
       position: absolute;
       top: 0;
@@ -111,9 +110,7 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: 2100; /* Experimente diminuir ou remover se bloquear a exibição */
-      /* Para teste, você pode definir um fundo semitransparente:
-      background: rgba(0,0,0,0.1); */
+      z-index: 2100;
     }
     #player, .video-slider iframe {
       width: 100%;
@@ -331,16 +328,12 @@
   <div class="container">
     <!-- Slider de Vídeo -->
     <div class="video-slider">
-      <!-- O container "player" será gerenciado pela IFrame API do YouTube -->
       <div id="player"></div>
-      <!-- Overlay transparente para forçar o cursor none sobre o vídeo -->
       <div class="video-overlay"></div>
-      <!-- Controles do Vídeo -->
       <div class="video-controls">
         <button id="muteBtn">Desmutar</button>
         <button id="pauseBtn">Pausar</button>
       </div>
-      <!-- Navegação de Vídeo (Anterior/Próximo) -->
       <div class="slider-nav">
         <button id="prevBtn">&#9664;</button>
         <button id="nextBtn">&#9654;</button>
@@ -365,6 +358,12 @@
       <button id="votersBtn" class="button btn-vote" data-i18n="btnVoters">Ver Votantes</button>
     </div>
     
+    <!-- NOVOS BOTÕES DE VOTAÇÃO -->
+    <div class="button-group">
+      <button id="votePvP" class="button btn-vote" onclick="votePvP()" data-i18n="btnVotePvP">Vote em PvP</button>
+      <button id="votePvE" class="button btn-vote" onclick="votePvE()" data-i18n="btnVotePvE">Vote em PvE</button>
+    </div>
+
     <!-- Seção de Informações dos Servidores -->
     <div class="server-info" id="serverInfo">
       <div class="server-card" id="serverCardPVE">
@@ -431,6 +430,8 @@
           btnPlayPvE: "Jogar PvE",
           btnPlayPVP: "Jogar PvP",
           btnVoters: "Ver Votantes",
+          btnVotePvP: "Vote em PvP",
+          btnVotePvE: "Vote em PvE",
           serverTitlePvE: "Servidor PvE",
           serverTitlePVP: "Servidor PvP",
           modalTitle: "Votantes Recentes",
@@ -453,6 +454,8 @@
           btnPlayPvE: "Play PvE",
           btnPlayPVP: "Play PvP",
           btnVoters: "View Voters",
+          btnVotePvP: "Vote on PvP",
+          btnVotePvE: "Vote on PvE",
           serverTitlePvE: "PvE Server",
           serverTitlePVP: "PvP Server",
           modalTitle: "Recent Voters",
@@ -475,6 +478,8 @@
           btnPlayPvE: "Jugar PvE",
           btnPlayPVP: "Jugar PvP",
           btnVoters: "Ver Votantes",
+          btnVotePvP: "Votar en PvP",
+          btnVotePvE: "Votar en PvE",
           serverTitlePvE: "Servidor PvE",
           serverTitlePVP: "Servidor PvP",
           modalTitle: "Votantes Recientes",
@@ -507,8 +512,8 @@
 
     /***************** Variáveis e Funções do Vídeo ******************/
     const videos = [
-      "5zxPz3cGNu0", // Substitua pelos IDs reais dos seus vídeos
-      "2tNePGLm53s"
+      "5zxPz3cGNu0", // ID do primeiro vídeo
+      "2tNePGLm53s"  // ID do segundo vídeo
     ];
     let currentVideoIndex = 0;
     let player;
@@ -675,6 +680,13 @@
           soundNav.play();
         });
       });
+      // Efeito para os novos botões de votação
+      document.querySelectorAll('#votePvP, #votePvE').forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+          soundVote.currentTime = 0;
+          soundVote.play();
+        });
+      });
     }
     window.addEventListener('DOMContentLoaded', addButtonHoverSounds);
 
@@ -693,7 +705,6 @@
       const voter = cachedVoters[displayIndex];
       const votanteHTML = `<strong>${voter.nickname}</strong> — ${voter.votes} votos - ${voter.servidor}`;
       
-      // Se o vídeo estiver mutado, tocar o som; se desmutado, não reproduzir
       if(muted){
         nameChangeSound.currentTime = 0;
         nameChangeSound.play();
@@ -725,6 +736,28 @@
         votersModal.style.display = "none";
       }
     };
+
+    /***************** Funções dos Botões de Votação ******************/
+    // URLs para votação nos servidores
+    const voteUrlPvP = "https://7daystodie-servers.com/server/141215/";
+    const voteUrlPvE = "https://7daystodie-servers.com/server/149586/";
+    // Áudio para clique nos botões de votação
+    const voteSound = new Audio("audio/vote-sound.mp3");
+
+    function playVoteSound() {
+      voteSound.currentTime = 0;
+      voteSound.play();
+    }
+
+    function votePvP() {
+      playVoteSound();
+      window.open(voteUrlPvP, "_blank");
+    }
+
+    function votePvE() {
+      playVoteSound();
+      window.open(voteUrlPvE, "_blank");
+    }
 
     /***************** Custom Cursor que Segue o Mouse ******************/
     const customCursor = document.getElementById('custom-cursor');
