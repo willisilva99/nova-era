@@ -1,32 +1,3 @@
-<?php
-/***************** INÍCIO DO BACK-END PHP *****************/
-// Substitua pelas suas chaves de API obtidas no 7daystodie-servers.com
-$api_key = "YOUR_API_KEY_HERE";
-
-// URL da API para obter detalhes do servidor
-$url_server = "https://7daystodie-servers.com/api/?object=servers&element=detail&key={$api_key}";
-// URL da API para obter os 10 melhores votantes (para este mês, classificação por apelido)
-$url_voters = "https://7daystodie-servers.com/api/?object=servers&element=voters&key={$api_key}&month=atual&format=json&limit=10&classificacao=apelido";
-
-// Função para buscar dados da API usando cURL
-function fetchData($url) {
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $output = curl_exec($ch);
-    if(curl_errno($ch)) {
-        echo 'Erro na requisição: ' . curl_error($ch);
-    }
-    curl_close($ch);
-    return json_decode($output);
-}
-
-// Obter informações do servidor
-$serverData = fetchData($url_server);
-
-// Obter os 10 melhores votantes
-$votersData = fetchData($url_voters);
-?>
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -38,6 +9,8 @@ $votersData = fetchData($url_voters);
   <style>
     /* Reset e estilos básicos */
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    /* Oculta o cursor nativo em toda a página */
     body { 
       font-family: 'Montserrat', sans-serif;
       background: url('https://i.imgur.com/wA8fz5A.png') no-repeat center center fixed;
@@ -46,7 +19,8 @@ $votersData = fetchData($url_voters);
       overflow-x: hidden;
       cursor: none;
     }
-    /* Custom Cursor */
+    
+    /* Elemento que simula o cursor personalizado */
     #custom-cursor {
       position: fixed;
       top: 0;
@@ -59,10 +33,12 @@ $votersData = fetchData($url_voters);
       z-index: 9999;
       transition: transform 0.2s ease;
     }
+    
     /* Garante que elementos clicáveis não exibam o cursor nativo */
     a, button, .nav-links a, .video-controls button, .slider-nav button, .language-selector button {
       cursor: none;
     }
+    
     /* Navbar fixa */
     .navbar {
       width: 100%;
@@ -75,7 +51,11 @@ $votersData = fetchData($url_voters);
       top: 0;
       z-index: 2000;
     }
-    .navbar .logo { font-size: 1.8rem; font-weight: 800; color: #ffcc00; }
+    .navbar .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #ffcc00;
+    }
     .navbar .nav-links a {
       color: #fefefe;
       text-decoration: none;
@@ -84,6 +64,7 @@ $votersData = fetchData($url_voters);
       transition: color 0.3s;
     }
     .navbar .nav-links a:hover { color: #ffcc00; }
+    
     /* Seletor de idiomas */
     .language-selector {
       margin-top: 80px;
@@ -100,7 +81,10 @@ $votersData = fetchData($url_voters);
       font-weight: bold;
       transition: background 0.3s;
     }
-    .language-selector button:hover { background: #e6b800; }
+    .language-selector button:hover {
+      background: #e6b800;
+    }
+    
     /* Container principal */
     .container {
       margin: 20px auto;
@@ -110,7 +94,8 @@ $votersData = fetchData($url_voters);
       border-radius: 10px;
       box-shadow: 0 6px 30px rgba(0,0,0,0.8);
     }
-    /* Slider de Vídeo */
+    
+    /* Player de Vídeo */
     .video-slider {
       position: relative;
       margin: 30px auto;
@@ -139,6 +124,7 @@ $votersData = fetchData($url_voters);
     .video-slider:hover iframe {
       border-image: linear-gradient(45deg, yellow, magenta, cyan, yellow) 1;
     }
+    
     /* Controles extras para o player */
     .video-controls {
       position: absolute;
@@ -158,6 +144,7 @@ $votersData = fetchData($url_voters);
       transition: background 0.3s;
     }
     .video-controls button:hover { background: rgba(0,0,0,1); }
+    
     /* Botões de navegação (anterior e próximo) */
     .slider-nav {
       position: absolute;
@@ -177,6 +164,7 @@ $votersData = fetchData($url_voters);
       transition: transform 0.3s;
     }
     .slider-nav button:hover { transform: scale(1.1); }
+    
     /* Botões principais */
     .button-group {
       display: flex;
@@ -203,6 +191,7 @@ $votersData = fetchData($url_voters);
     .btn-rules { background-color: #007bff; color: #fff; }
     .btn-discord { background-color: #7289da; color: #fff; }
     .btn-vote { background-color: #ffcc00; color: #000; }
+    
     /* Seção de Informações dos Servidores */
     .server-info {
       display: flex;
@@ -222,18 +211,17 @@ $votersData = fetchData($url_voters);
       box-shadow: 0 4px 12px rgba(0,0,0,0.7);
       text-align: left;
     }
-    .server-card h3 { font-size: 1.6rem; color: #ffcc00; margin-bottom: 10px; }
-    .server-card p { font-size: 1.1rem; margin-bottom: 5px; color: #fefefe; }
-    /* Seção de Votantes */
-    .voters {
-      background: rgba(0,0,0,0.85);
-      padding: 15px;
-      border-radius: 10px;
-      margin-top: 30px;
+    .server-card h3 {
+      font-size: 1.6rem;
+      color: #ffcc00;
+      margin-bottom: 10px;
     }
-    .voters h3 { color: #ffcc00; margin-bottom: 10px; }
-    .voters ul { list-style: none; }
-    .voters li { font-size: 1.1rem; margin: 5px 0; }
+    .server-card p {
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+      color: #fefefe;
+    }
+    
     /* Popup central de Votantes */
     .modal {
       display: none;
@@ -255,8 +243,14 @@ $votersData = fetchData($url_voters);
       text-align: center;
       position: relative;
     }
-    .modal-content h2 { margin-bottom: 15px; color: #ffcc00; }
-    .modal-content .voter-info { font-size: 1.3rem; min-height: 50px; }
+    .modal-content h2 {
+      margin-bottom: 15px;
+      color: #ffcc00;
+    }
+    .modal-content .voter-info {
+      font-size: 1.3rem;
+      min-height: 50px;
+    }
     .close-modal {
       position: absolute;
       top: 10px;
@@ -265,6 +259,7 @@ $votersData = fetchData($url_voters);
       cursor: pointer;
       color: #ffcc00;
     }
+    
     /* Widget flutuante de Votantes (canto inferior direito) */
     .floating-widget {
       position: fixed;
@@ -284,6 +279,7 @@ $votersData = fetchData($url_voters);
       50% { transform: translateY(-10px); }
       100% { transform: translateY(0px); }
     }
+    
     /* Rodapé */
     footer {
       text-align: center;
@@ -294,7 +290,9 @@ $votersData = fetchData($url_voters);
       color: #ccc;
     }
     @media (max-width: 768px) {
-      .video-slider { max-width: 300px; }
+      .video-slider {
+        max-width: 300px;
+      }
       #player, .video-slider iframe { 
         width: 300px; 
         height: calc(300px * 9 / 16); 
@@ -342,55 +340,45 @@ $votersData = fetchData($url_voters);
       </div>
     </div>
 
-    <!-- Botões de Shop, Mapas, Jogar e Votação -->
+    <!-- Botões de Shop, Mapas e Jogar -->
     <div class="button-group">
       <a href="https://au.csmm.app/shop/557" class="button btn-shop" target="_blank" data-i18n="btnShopPVP">Shop PvP</a>
       <a href="https://au.csmm.app/shop/562" class="button btn-shop" target="_blank" data-i18n="btnShopPvE">Shop PvE</a>
       <a href="http://191.37.92.145:26925/static/index.html" class="button btn-map" target="_blank" data-i18n="btnMapPVP">Mapa PvP</a>
       <a href="http://191.37.92.145:26906/static/index.html" class="button btn-map" target="_blank" data-i18n="btnMapPvE">Mapa PvE</a>
     </div>
+
     <div class="button-group">
       <a href="steam://connect/191.37.92.145:26900" class="button btn-play" data-i18n="btnPlayPvE">Jogar PvE</a>
       <a href="steam://connect/191.37.92.145:26920" class="button btn-play" data-i18n="btnPlayPVP">Jogar PvP</a>
     </div>
+
+    <!-- Botão para Popup de Votantes -->
     <div class="button-group">
       <button id="votersBtn" class="button btn-vote" data-i18n="btnVoters">Ver Votantes</button>
     </div>
+    
+    <!-- NOVOS BOTÕES DE VOTAÇÃO -->
     <div class="button-group">
       <button id="votePvP" class="button btn-vote" onclick="votePvP()" data-i18n="btnVotePvP">Vote em PvP</button>
       <button id="votePvE" class="button btn-vote" onclick="votePvE()" data-i18n="btnVotePvE">Vote em PvE</button>
     </div>
 
-    <!-- Seção: Informações do Servidor (Integrada com PHP) -->
+    <!-- Seção de Informações dos Servidores -->
     <div class="server-info" id="serverInfo">
-      <div class="server-card">
-        <h3 data-i18n="serverTitlePvE">Informações do Servidor</h3>
-        <?php if ($serverData && isset($serverData->name)) : ?>
-          <p id="pve-name"><strong>Endereço:</strong> <?php echo $serverData->address . ":" . $serverData->port; ?></p>
-          <p id="pve-players"><strong>Status:</strong> <?php echo ($serverData->is_online == "1") ? "On-line" : "Desconectado"; ?></p>
-          <p id="pve-votes"><strong>Jogadores:</strong> <?php echo $serverData->players . "/" . $serverData->maxplayers; ?></p>
-          <p><strong>Tempo de atividade:</strong> <?php echo $serverData->uptime . "%"; ?></p>
-          <p><strong>Versão:</strong> <?php echo $serverData->version; ?></p>
-        <?php else : ?>
-          <p>Não foi possível obter as informações do servidor.</p>
-        <?php endif; ?>
+      <div class="server-card" id="serverCardPVE">
+        <h3 data-i18n="serverTitlePvE">Servidor PvE</h3>
+        <p id="pve-name">Carregando...</p>
+        <p id="pve-players"></p>
+        <p id="pve-votes"></p>
+      </div>
+      <div class="server-card" id="serverCardPVP">
+        <h3 data-i18n="serverTitlePVP">Servidor PvP</h3>
+        <p id="pvp-name">Carregando...</p>
+        <p id="pvp-players"></p>
+        <p id="pvp-votes"></p>
       </div>
     </div>
-
-    <!-- Seção: Top 10 Votantes (Integrada com PHP) -->
-    <div class="voters">
-      <h3>Aqui estão os 10 melhores votantes</h3>
-      <?php if ($votersData && isset($votersData->voters) && count($votersData->voters) > 0) : ?>
-        <ul>
-          <?php foreach ($votersData->voters as $user) : ?>
-            <li><?php echo $user->nickname . " — " . $user->votes . " votos"; ?></li>
-          <?php endforeach; ?>
-        </ul>
-      <?php else : ?>
-        <p>Nenhum votante encontrado.</p>
-      <?php endif; ?>
-    </div>
-
   </div>
 
   <!-- Popup Central de Votantes -->
@@ -444,7 +432,7 @@ $votersData = fetchData($url_voters);
           btnVoters: "Ver Votantes",
           btnVotePvP: "Vote em PvP",
           btnVotePvE: "Vote em PvE",
-          serverTitlePvE: "Informações do Servidor",
+          serverTitlePvE: "Servidor PvE",
           serverTitlePVP: "Servidor PvP",
           modalTitle: "Votantes Recentes",
           footerText: "&copy; 2024 NOVA ERA. Todos os direitos reservados."
@@ -468,7 +456,7 @@ $votersData = fetchData($url_voters);
           btnVoters: "View Voters",
           btnVotePvP: "Vote on PvP",
           btnVotePvE: "Vote on PvE",
-          serverTitlePvE: "Server Information",
+          serverTitlePvE: "PvE Server",
           serverTitlePVP: "PvP Server",
           modalTitle: "Recent Voters",
           footerText: "&copy; 2024 NOVA ERA. All rights reserved."
@@ -492,7 +480,7 @@ $votersData = fetchData($url_voters);
           btnVoters: "Ver Votantes",
           btnVotePvP: "Votar en PvP",
           btnVotePvE: "Votar en PvE",
-          serverTitlePvE: "Información del Servidor",
+          serverTitlePvE: "Servidor PvE",
           serverTitlePVP: "Servidor PvP",
           modalTitle: "Votantes Recientes",
           footerText: "&copy; 2024 NOVA ERA. Todos los derechos reservados."
@@ -591,18 +579,30 @@ $votersData = fetchData($url_voters);
     });
 
     /***************** Configurações das APIs (Votantes e Detalhes do Servidor) ******************/
-    // Note que a exibição dos dados do servidor e votantes está sendo feita pelo PHP
-    // Aqui, em JavaScript, atualizamos o cache dos votantes para exibição do widget flutuante.
+    const API_KEY_PVE = "Qd4nRYEKMoDa7AXahhfvzG7pmlB2Y2AQUH";
+    const API_KEY_PVP = "bWctPV9dtEzJ2uN8sJ39CyQeeYbT5SD1sVI";
+    const urlVotantesPVE = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVE}&month=atual&format=json&limit=1000&classificacao=apelido`;
+    const urlVotantesPVP = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVP}&month=atual&format=json&limit=1000&classificacao=apelido`;
+
     let cachedVoters = [];
     async function updateVotantesCache() {
       try {
-        const [res,] = await Promise.all([
-          fetch("<?php echo $url_voters; ?>")
+        const [resPVE, resPVP] = await Promise.all([
+          fetch(urlVotantesPVE),
+          fetch(urlVotantesPVP)
         ]);
-        const data = await res.json();
-        const voters = data.voters || [];
-        // Acrescenta a informação do servidor (caso queira diferenciar, ex: PvE vs PvP)
-        cachedVoters = voters;
+        const dataPVE = await resPVE.json();
+        const dataPVP = await resPVP.json();
+        
+        const votersPVE = dataPVE.voters || dataPVE.Voters || [];
+        const votersPVP = dataPVP.voters || dataPVP.Voters || [];
+        
+        const enrichedVotersPVE = votersPVE.map(voter => ({ ...voter, servidor: "PvE" }));
+        const enrichedVotersPVP = votersPVP.map(voter => ({ ...voter, servidor: "PvP" }));
+        
+        const allVoters = [...enrichedVotersPVE, ...enrichedVotersPVP];
+        allVoters.sort((a, b) => parseInt(b.votes) - parseInt(a.votes));
+        cachedVoters = allVoters;
         console.log(`[${new Date().toISOString()}] Cache dos votantes atualizado. Total: ${cachedVoters.length}`);
       } catch (error) {
         console.error("Erro ao atualizar cache de votantes:", error);
@@ -611,6 +611,89 @@ $votersData = fetchData($url_voters);
     updateVotantesCache();
     setInterval(updateVotantesCache, 180000);
 
+    async function updateServerInfo() {
+      const urlDetailPVE = `https://7daystodie-servers.com/api/?object=servers&element=detail&key=${API_KEY_PVE}`;
+      const urlDetailPVP = `https://7daystodie-servers.com/api/?object=servers&element=detail&key=${API_KEY_PVP}`;
+      try {
+        const [resDetailPVE, resDetailPVP] = await Promise.all([
+          fetch(urlDetailPVE),
+          fetch(urlDetailPVP)
+        ]);
+        const dataPVE = await resDetailPVE.json();
+        const dataPVP = await resDetailPVP.json();
+
+        document.getElementById('pve-name').textContent = dataPVE.name || "Servidor PvE";
+        document.getElementById('pve-players').textContent = `Jogadores: ${dataPVE.players}/${dataPVE.maxplayers}`;
+        document.getElementById('pve-votes').textContent = `Votos: ${dataPVE.votes}`;
+
+        document.getElementById('pvp-name').textContent = dataPVP.name || "Servidor PvP";
+        document.getElementById('pvp-players').textContent = `Jogadores: ${dataPVP.players}/${dataPVP.maxplayers}`;
+        document.getElementById('pvp-votes').textContent = `Votos: ${dataPVP.votes}`;
+      } catch (error) {
+        console.error("Erro ao obter informações do servidor:", error);
+      }
+    }
+    updateServerInfo();
+    setInterval(updateServerInfo, 180000);
+
+    /***************** Efeito Sonoro para Hover dos Botões ******************/
+    const soundShop = new Audio("audio/ka-ching_g0thHEV.mp3");
+    const soundMap  = new Audio("audio/Paper Crushed - 1.mp3");
+    const soundPlay = new Audio("audio/that-one-josh-hutcherson-whistle-edit.mp3");
+    const soundVote = new Audio("audio/game-over-v2-0.mp3");
+    const soundNav  = new Audio("audio/classic_hurt.mp3");
+
+    function addButtonHoverSounds() {
+      document.querySelectorAll('.btn-shop').forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+          soundShop.currentTime = 0;
+          soundShop.play();
+        });
+      });
+      document.querySelectorAll('.btn-map').forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+          soundMap.currentTime = 0;
+          soundMap.play();
+        });
+      });
+      document.querySelectorAll('.btn-play').forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+          soundPlay.currentTime = 0;
+          soundPlay.play();
+        });
+      });
+      document.querySelectorAll('.btn-vote').forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+          soundVote.currentTime = 0;
+          soundVote.play();
+        });
+      });
+      document.querySelectorAll('.nav-links a').forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+          soundNav.currentTime = 0;
+          soundNav.play();
+        });
+      });
+      document.querySelectorAll('.video-controls button, .slider-nav button').forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+          soundNav.currentTime = 0;
+          soundNav.play();
+        });
+      });
+      // Efeito para os novos botões de votação
+      document.querySelectorAll('#votePvP, #votePvE').forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+          soundVote.currentTime = 0;
+          soundVote.play();
+        });
+      });
+    }
+    window.addEventListener('DOMContentLoaded', addButtonHoverSounds);
+
+    /***************** Efeito Sonoro na Troca de Nomes dos Votantes ******************/
+    const nameChangeSound = new Audio("audio/orb.mp3");
+    nameChangeSound.volume = 0.3;
+    let displayIndex = 0;
     function updateVotantesDisplay() {
       if (cachedVoters.length === 0) {
         if (votersModal.style.display === "block") {
@@ -619,8 +702,8 @@ $votersData = fetchData($url_voters);
         floatingWidget.innerHTML = "Nenhum votante encontrado.";
         return;
       }
-      const voter = cachedVoters[0]; // Simples exemplo: mostra o primeiro votante
-      const votanteHTML = `<strong>${voter.nickname}</strong> — ${voter.votes} votos`;
+      const voter = cachedVoters[displayIndex];
+      const votanteHTML = `<strong>${voter.nickname}</strong> — ${voter.votes} votos - ${voter.servidor}`;
       
       if(muted){
         nameChangeSound.currentTime = 0;
@@ -631,8 +714,7 @@ $votersData = fetchData($url_voters);
         voterInfoDiv.innerHTML = votanteHTML;
       }
       floatingWidget.innerHTML = votanteHTML;
-      // Rotaciona a lista para próxima exibição
-      cachedVoters.push(cachedVoters.shift());
+      displayIndex = (displayIndex + 1) % cachedVoters.length;
     }
     setInterval(updateVotantesDisplay, 3000);
 
@@ -656,65 +738,35 @@ $votersData = fetchData($url_voters);
     };
 
     /***************** Funções dos Botões de Votação ******************/
-    // URLs para votação
+    // URLs para votação nos servidores
     const voteUrlPvP = "https://7daystodie-servers.com/server/141215/";
     const voteUrlPvE = "https://7daystodie-servers.com/server/149586/";
+    // Áudio para clique nos botões de votação
     const voteSound = new Audio("audio/vote-sound.mp3");
 
     function playVoteSound() {
       voteSound.currentTime = 0;
       voteSound.play();
     }
+
     function votePvP() {
       playVoteSound();
       window.open(voteUrlPvP, "_blank");
     }
+
     function votePvE() {
       playVoteSound();
       window.open(voteUrlPvE, "_blank");
     }
 
-    /***************** Efeito Sonoro para Hover dos Botões ******************/
-    const soundShop = new Audio("audio/ka-ching_g0thHEV.mp3");
-    const soundMap  = new Audio("audio/Paper Crushed - 1.mp3");
-    const soundPlay = new Audio("audio/that-one-josh-hutcherson-whistle-edit.mp3");
-    const soundVote = new Audio("audio/game-over-v2-0.mp3");
-    const soundNav  = new Audio("audio/classic_hurt.mp3");
-
-    function addButtonHoverSounds() {
-      document.querySelectorAll('.btn-shop').forEach(btn => {
-        btn.addEventListener('mouseenter', () => { soundShop.currentTime = 0; soundShop.play(); });
-      });
-      document.querySelectorAll('.btn-map').forEach(btn => {
-        btn.addEventListener('mouseenter', () => { soundMap.currentTime = 0; soundMap.play(); });
-      });
-      document.querySelectorAll('.btn-play').forEach(btn => {
-        btn.addEventListener('mouseenter', () => { soundPlay.currentTime = 0; soundPlay.play(); });
-      });
-      document.querySelectorAll('.btn-vote').forEach(btn => {
-        btn.addEventListener('mouseenter', () => { soundVote.currentTime = 0; soundVote.play(); });
-      });
-      document.querySelectorAll('.nav-links a').forEach(btn => {
-        btn.addEventListener('mouseenter', () => { soundNav.currentTime = 0; soundNav.play(); });
-      });
-      document.querySelectorAll('.video-controls button, .slider-nav button').forEach(btn => {
-        btn.addEventListener('mouseenter', () => { soundNav.currentTime = 0; soundNav.play(); });
-      });
-    }
-    window.addEventListener('DOMContentLoaded', addButtonHoverSounds);
-
-    /***************** Efeito Sonoro na Troca de Nomes dos Votantes ******************/
-    const nameChangeSound = new Audio("audio/orb.mp3");
-    nameChangeSound.volume = 0.3;
-    
-    /***************** Custom Cursor ******************/
+    /***************** Custom Cursor que Segue o Mouse ******************/
     const customCursor = document.getElementById('custom-cursor');
     document.addEventListener('mousemove', e => {
       customCursor.style.left = e.clientX + 'px';
       customCursor.style.top = e.clientY + 'px';
     });
     function enlargeCursor(e) {
-      if(e.target.closest('.video-slider')){
+      if(e.target.closest('.video-slider')) {
         customCursor.style.transform = 'scale(1)';
         return;
       }
@@ -723,11 +775,10 @@ $votersData = fetchData($url_voters);
     function resetCursor(e) {
       customCursor.style.transform = 'scale(1)';
     }
-    document.querySelectorAll('a, button, .nav-links a, .video-controls button, .slider-nav button, .language-selector button')
-      .forEach(el => {
-        el.addEventListener('mouseenter', enlargeCursor);
-        el.addEventListener('mouseleave', resetCursor);
-      });
+    document.querySelectorAll('a, button, .nav-links a, .video-controls button, .slider-nav button, .language-selector button').forEach(el => {
+      el.addEventListener('mouseenter', enlargeCursor);
+      el.addEventListener('mouseleave', resetCursor);
+    });
   </script>
 </body>
 </html>
