@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Título e favicon atualizados para NOVA ERA HIBRIDO -->
   <title data-i18n="pageTitle">NOVA ERA HIBRIDO - Página Inicial</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
@@ -34,11 +33,12 @@
       transition: transform 0.2s ease;
     }
     
+    /* Oculta cursor nativo para elementos clicáveis */
     a, button, .nav-links a, .video-controls button, .slider-nav button, .language-selector button {
       cursor: none;
     }
     
-    /* Navbar fixa com fundo semitransparente e gradiente sutil */
+    /* Navbar fixa com gradiente e sombra */
     .navbar {
       width: 100%;
       background: linear-gradient(90deg, rgba(0,0,0,0.9), rgba(0,0,0,0.7));
@@ -51,43 +51,42 @@
       z-index: 2000;
       box-shadow: 0 2px 10px rgba(0,0,0,0.8);
     }
-    /* Logo: sempre mostra NOVA ERA HIBRIDO */
     .navbar .logo {
       font-size: 1.8rem;
       font-weight: 800;
       color: #ffcc00;
       text-transform: uppercase;
     }
+    .navbar .nav-links {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
     .navbar .nav-links a {
       color: #fefefe;
       text-decoration: none;
-      margin: 0 10px;
       font-size: 1.1rem;
       transition: color 0.3s;
     }
     .navbar .nav-links a:hover { color: #ffcc00; }
-    
-    /* Seletor de Idiomas */
+    /* Seletor de idiomas integrado na navbar */
     .language-selector {
-      margin-top: 80px;
-      text-align: center;
-      padding: 10px;
+      display: flex;
+      gap: 5px;
     }
     .language-selector button {
       background: #ffcc00;
       border: none;
-      padding: 10px 20px;
-      margin: 0 5px;
+      padding: 5px 10px;
       color: #000;
-      border-radius: 5px;
+      border-radius: 3px;
       font-weight: bold;
       transition: background 0.3s;
+      font-size: 0.9rem;
     }
-    .language-selector button:hover {
-      background: #e6b800;
-    }
+    .language-selector button:hover { background: #e6b800; }
     
-    /* Container Principal com fundo semitransparente e bordas arredondadas */
+    /* Container Principal */
     .container {
       margin: 100px auto 20px;
       max-width: 1200px;
@@ -165,12 +164,12 @@
     }
     .slider-nav button:hover { transform: scale(1.1); }
     
-    /* Botões principais */
+    /* Botões agrupados horizontalmente */
     .button-group {
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
-      gap: 15px;
+      gap: 20px;
+      flex-wrap: wrap;
       margin: 20px 0;
     }
     .button {
@@ -183,6 +182,7 @@
       border-radius: 5px;
       transition: transform 0.3s, background 0.3s;
       box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+      white-space: nowrap;
     }
     .button:hover { transform: scale(1.05); }
     .btn-shop { background-color: #ff5733; color: #fff; }
@@ -190,10 +190,10 @@
     .btn-play { background-color: #ff9900; color: #000; }
     .btn-vote { background-color: #ffcc00; color: #000; }
     
-    /* Nova seção para exibir Modo de Jogo */
+    /* Seção animada do Modo de Jogo */
     .game-mode {
       text-align: center;
-      margin: 20px 0;
+      margin: 30px auto;
       padding: 15px;
       background: rgba(255,204,0,0.2);
       border: 2px dashed #ffcc00;
@@ -201,9 +201,15 @@
       font-size: 1.3rem;
       font-weight: bold;
       text-transform: uppercase;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.8; }
+      100% { transform: scale(1); opacity: 1; }
     }
     
-    /* Informações do Servidor: Apenas PvP (NOVA ERA HIBRIDO) */
+    /* Informações do Servidor (NOVA ERA HIBRIDO) */
     .server-info {
       display: flex;
       flex-wrap: wrap;
@@ -301,9 +307,7 @@
       color: #ccc;
     }
     @media (max-width: 768px) {
-      .video-slider {
-        max-width: 300px;
-      }
+      .video-slider { max-width: 300px; }
       #player, .video-slider iframe { 
         width: 300px; 
         height: calc(300px * 9 / 16); 
@@ -313,10 +317,10 @@
   </style>
 </head>
 <body>
-  <!-- Cursor personalizado -->
+  <!-- Cursor Personalizado -->
   <div id="custom-cursor"></div>
   
-  <!-- Navbar -->
+  <!-- Navbar com Language Selector integrado -->
   <div class="navbar">
     <div class="logo" data-i18n="navLogo">NOVA ERA HIBRIDO</div>
     <div class="nav-links">
@@ -325,13 +329,11 @@
       <a href="discord.html" data-i18n="navDiscord">Discord</a>
       <a href="shop.html" data-i18n="navShop">Shop HIBRIDO</a>
     </div>
-  </div>
-
-  <!-- Seletor de Idiomas -->
-  <div class="language-selector">
-    <button onclick="changeLanguage('pt')">Português</button>
-    <button onclick="changeLanguage('en')">English</button>
-    <button onclick="changeLanguage('es')">Español</button>
+    <div class="language-selector">
+      <button onclick="changeLanguage('pt')">PT</button>
+      <button onclick="changeLanguage('en')">EN</button>
+      <button onclick="changeLanguage('es')">ES</button>
+    </div>
   </div>
 
   <!-- Container Principal -->
@@ -350,28 +352,21 @@
       </div>
     </div>
 
-    <!-- Seção do Modo de Jogo -->
+    <!-- Seção animada do Modo de Jogo -->
     <div class="game-mode">
       MODO DE JOGO: HIBRIDO
     </div>
 
-    <!-- Botões: Apenas HIBRIDO -->
+    <!-- Botões agrupados horizontalmente -->
     <div class="button-group">
       <a href="https://au.csmm.app/shop/557" class="button btn-shop" target="_blank" data-i18n="btnShopPVP">Shop HIBRIDO</a>
       <a href="http://191.37.92.145:26925/static/index.html" class="button btn-map" target="_blank" data-i18n="btnMapPVP">Mapa HIBRIDO</a>
-    </div>
-
-    <div class="button-group">
       <a href="steam://connect/191.37.92.145:26920" class="button btn-play" data-i18n="btnPlayPVP">Jogar HIBRIDO</a>
     </div>
 
     <!-- Botão para Popup de Votantes -->
     <div class="button-group">
       <button id="votersBtn" class="button btn-vote" data-i18n="btnVoters">Ver Votantes</button>
-    </div>
-    
-    <!-- Botões de Votação: Apenas HIBRIDO -->
-    <div class="button-group">
       <button id="votePvP" class="button btn-vote" onclick="votePvP()" data-i18n="btnVotePvP">Vote em HIBRIDO</button>
     </div>
     
@@ -402,7 +397,7 @@
     <p data-i18n="footerText">&copy; 2024 NOVA ERA HIBRIDO. Todos os direitos reservados.</p>
   </footer>
 
-  <!-- Bibliotecas de Tradução -->
+  <!-- Bibliotecas para Tradução -->
   <script src="https://unpkg.com/i18next@21.6.4/dist/umd/i18next.min.js"></script>
   <script src="https://unpkg.com/jquery@3.6.0/dist/jquery.min.js"></script>
   <script src="https://unpkg.com/jquery-i18next@1.2.1/dist/umd/jquery-i18next.min.js"></script>
@@ -415,7 +410,7 @@
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
   </script>
 
-  <!-- Scripts: Tradução, Vídeo, APIs, Sons e Custom Cursor -->
+  <!-- Scripts: Tradução, Vídeo, API do Servidor, Sons e Custom Cursor -->
   <script>
     /***************** Tradução ******************/
     const translationResources = {
@@ -499,8 +494,8 @@
 
     /***************** Vídeo e Controles ******************/
     const videos = [
-      "5zxPz3cGNu0", // Primeiro vídeo
-      "2tNePGLm53s"  // Segundo vídeo
+      "5zxPz3cGNu0",
+      "2tNePGLm53s"
     ];
     let currentVideoIndex = 0;
     let player;
@@ -565,7 +560,7 @@
       }
     });
 
-    /***************** API do Servidor (Apenas PvP - NOVA ERA HIBRIDO) ******************/
+    /***************** API do Servidor (Apenas PvP) ******************/
     const API_KEY_PVP = "bWctPV9dtEzJ2uN8sJ39CyQeeYbT5SD1sVI";
     const urlVotantesPVP = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVP}&month=atual&format=json&limit=1000&classificacao=apelido`;
 
@@ -592,7 +587,6 @@
         const resDetailPVP = await fetch(urlDetailPVP);
         const dataPVP = await resDetailPVP.json();
 
-        // Força a exibição do nome "NOVA ERA HIBRIDO"
         document.getElementById('pvp-name').textContent = "NOVA ERA HIBRIDO";
         document.getElementById('pvp-players').textContent = `Jogadores: ${dataPVP.players}/${dataPVP.maxplayers}`;
         document.getElementById('pvp-votes').textContent = `Votos: ${dataPVP.votes}`;
@@ -603,7 +597,7 @@
     updateServerInfo();
     setInterval(updateServerInfo, 180000);
 
-    /***************** Sons para Hover dos Botões ******************/
+    /***************** Sons para Hover ******************/
     const soundShop = new Audio("audio/ka-ching_g0thHEV.mp3");
     const soundMap  = new Audio("audio/Paper Crushed - 1.mp3");
     const soundPlay = new Audio("audio/that-one-josh-hutcherson-whistle-edit.mp3");
@@ -635,7 +629,7 @@
     }
     window.addEventListener('DOMContentLoaded', addButtonHoverSounds);
 
-    /***************** Sons na Troca de Nomes dos Votantes ******************/
+    /***************** Som na Troca de Nomes dos Votantes ******************/
     const nameChangeSound = new Audio("audio/orb.mp3");
     nameChangeSound.volume = 0.3;
     let displayIndex = 0;
@@ -666,7 +660,7 @@
     closeModal.onclick = function() { votersModal.style.display = "none"; };
     window.onclick = function(event) { if (event.target === votersModal) { votersModal.style.display = "none"; } };
 
-    /***************** Função do Botão de Votação ******************/
+    /***************** Botão de Votação ******************/
     const voteUrlPvP = "https://7daystodie-servers.com/server/141215/";
     const voteSound = new Audio("audio/vote-sound.mp3");
 
