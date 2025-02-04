@@ -3,15 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Título alterado para HIBRIDO -->
-  <title data-i18n="pageTitle">HIBRIDO - Página Inicial</title>
+  <!-- Título e favicon atualizados para NOVA ERA HIBRIDO -->
+  <title data-i18n="pageTitle">NOVA ERA HIBRIDO - Página Inicial</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     /* Reset e estilos básicos */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
-    /* Oculta o cursor nativo em toda a página */
     body { 
       font-family: 'Montserrat', sans-serif;
       background: url('https://i.imgur.com/wA8fz5A.png') no-repeat center center fixed;
@@ -21,7 +20,7 @@
       cursor: none;
     }
     
-    /* Elemento que simula o cursor personalizado */
+    /* Cursor personalizado */
     #custom-cursor {
       position: fixed;
       top: 0;
@@ -35,15 +34,14 @@
       transition: transform 0.2s ease;
     }
     
-    /* Garante que elementos clicáveis não exibam o cursor nativo */
     a, button, .nav-links a, .video-controls button, .slider-nav button, .language-selector button {
       cursor: none;
     }
     
-    /* Navbar fixa */
+    /* Navbar fixa com fundo semitransparente e gradiente sutil */
     .navbar {
       width: 100%;
-      background: rgba(0,0,0,0.85);
+      background: linear-gradient(90deg, rgba(0,0,0,0.9), rgba(0,0,0,0.7));
       padding: 15px 20px;
       display: flex;
       justify-content: space-between;
@@ -51,13 +49,14 @@
       position: fixed;
       top: 0;
       z-index: 2000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.8);
     }
-    /* Logo alterado para HIBRIDO */
+    /* Logo: sempre mostra NOVA ERA HIBRIDO */
     .navbar .logo {
       font-size: 1.8rem;
       font-weight: 800;
       color: #ffcc00;
-      /* Texto alterado para HIBRIDO */
+      text-transform: uppercase;
     }
     .navbar .nav-links a {
       color: #fefefe;
@@ -68,7 +67,7 @@
     }
     .navbar .nav-links a:hover { color: #ffcc00; }
     
-    /* Seletor de idiomas */
+    /* Seletor de Idiomas */
     .language-selector {
       margin-top: 80px;
       text-align: center;
@@ -88,9 +87,9 @@
       background: #e6b800;
     }
     
-    /* Container principal */
+    /* Container Principal com fundo semitransparente e bordas arredondadas */
     .container {
-      margin: 20px auto;
+      margin: 100px auto 20px;
       max-width: 1200px;
       padding: 20px;
       background: rgba(0,0,0,0.75);
@@ -98,7 +97,7 @@
       box-shadow: 0 6px 30px rgba(0,0,0,0.8);
     }
     
-    /* Player de Vídeo */
+    /* Slider de Vídeo */
     .video-slider {
       position: relative;
       margin: 30px auto;
@@ -128,7 +127,6 @@
       border-image: linear-gradient(45deg, yellow, magenta, cyan, yellow) 1;
     }
     
-    /* Controles extras para o player */
     .video-controls {
       position: absolute;
       bottom: 10px;
@@ -148,7 +146,6 @@
     }
     .video-controls button:hover { background: rgba(0,0,0,1); }
     
-    /* Botões de navegação (anterior e próximo) */
     .slider-nav {
       position: absolute;
       top: 50%;
@@ -191,11 +188,22 @@
     .btn-shop { background-color: #ff5733; color: #fff; }
     .btn-map { background-color: #17a2b8; color: #fff; }
     .btn-play { background-color: #ff9900; color: #000; }
-    .btn-rules { background-color: #007bff; color: #fff; }
-    .btn-discord { background-color: #7289da; color: #fff; }
     .btn-vote { background-color: #ffcc00; color: #000; }
     
-    /* Seção de Informações do Servidor PvP (único) */
+    /* Nova seção para exibir Modo de Jogo */
+    .game-mode {
+      text-align: center;
+      margin: 20px 0;
+      padding: 15px;
+      background: rgba(255,204,0,0.2);
+      border: 2px dashed #ffcc00;
+      border-radius: 10px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    
+    /* Informações do Servidor: Apenas PvP (NOVA ERA HIBRIDO) */
     .server-info {
       display: flex;
       flex-wrap: wrap;
@@ -263,7 +271,7 @@
       color: #ffcc00;
     }
     
-    /* Widget flutuante de Votantes (canto inferior direito) */
+    /* Widget flutuante de Votantes */
     .floating-widget {
       position: fixed;
       bottom: 20px;
@@ -305,19 +313,17 @@
   </style>
 </head>
 <body>
-  <!-- Elemento para o cursor personalizado -->
+  <!-- Cursor personalizado -->
   <div id="custom-cursor"></div>
   
   <!-- Navbar -->
   <div class="navbar">
-    <!-- Logo alterado para HIBRIDO -->
-    <div class="logo" data-i18n="navLogo">HIBRIDO</div>
+    <div class="logo" data-i18n="navLogo">NOVA ERA HIBRIDO</div>
     <div class="nav-links">
-      <!-- Mantém apenas o link de Vídeo PvP -->
       <a href="#" data-i18n="navVideoPVP">Vídeo PvP</a>
       <a href="regras.html" data-i18n="navRules">Regras</a>
       <a href="discord.html" data-i18n="navDiscord">Discord</a>
-      <a href="shop.html" data-i18n="navShop">Shop</a>
+      <a href="shop.html" data-i18n="navShop">Shop HIBRIDO</a>
     </div>
   </div>
 
@@ -344,14 +350,19 @@
       </div>
     </div>
 
-    <!-- Botões: Apenas PvP -->
+    <!-- Seção do Modo de Jogo -->
+    <div class="game-mode">
+      MODO DE JOGO: HIBRIDO
+    </div>
+
+    <!-- Botões: Apenas HIBRIDO -->
     <div class="button-group">
-      <a href="https://au.csmm.app/shop/557" class="button btn-shop" target="_blank" data-i18n="btnShopPVP">Shop PvP</a>
-      <a href="http://191.37.92.145:26925/static/index.html" class="button btn-map" target="_blank" data-i18n="btnMapPVP">Mapa PvP</a>
+      <a href="https://au.csmm.app/shop/557" class="button btn-shop" target="_blank" data-i18n="btnShopPVP">Shop HIBRIDO</a>
+      <a href="http://191.37.92.145:26925/static/index.html" class="button btn-map" target="_blank" data-i18n="btnMapPVP">Mapa HIBRIDO</a>
     </div>
 
     <div class="button-group">
-      <a href="steam://connect/191.37.92.145:26920" class="button btn-play" data-i18n="btnPlayPVP">Jogar PvP</a>
+      <a href="steam://connect/191.37.92.145:26920" class="button btn-play" data-i18n="btnPlayPVP">Jogar HIBRIDO</a>
     </div>
 
     <!-- Botão para Popup de Votantes -->
@@ -359,15 +370,15 @@
       <button id="votersBtn" class="button btn-vote" data-i18n="btnVoters">Ver Votantes</button>
     </div>
     
-    <!-- Botões de Votação: Apenas PvP -->
+    <!-- Botões de Votação: Apenas HIBRIDO -->
     <div class="button-group">
-      <button id="votePvP" class="button btn-vote" onclick="votePvP()" data-i18n="btnVotePvP">Vote em PvP</button>
+      <button id="votePvP" class="button btn-vote" onclick="votePvP()" data-i18n="btnVotePvP">Vote em HIBRIDO</button>
     </div>
-
-    <!-- Seção de Informações do Servidor PvP -->
+    
+    <!-- Seção de Informações do Servidor -->
     <div class="server-info" id="serverInfo">
       <div class="server-card" id="serverCardPVP">
-        <h3 data-i18n="serverTitlePVP">Servidor PvP</h3>
+        <h3 data-i18n="serverTitlePVP">NOVA ERA HIBRIDO</h3>
         <p id="pvp-name">Carregando...</p>
         <p id="pvp-players"></p>
         <p id="pvp-votes"></p>
@@ -384,14 +395,14 @@
     </div>
   </div>
 
-  <!-- Widget Flutuante de Votantes (Canto inferior direito) -->
+  <!-- Widget Flutuante de Votantes -->
   <div class="floating-widget" id="floatingWidget">Carregando...</div>
 
   <footer>
-    <p data-i18n="footerText">&copy; 2024 HIBRIDO. Todos os direitos reservados.</p>
+    <p data-i18n="footerText">&copy; 2024 NOVA ERA HIBRIDO. Todos os direitos reservados.</p>
   </footer>
 
-  <!-- Inclusão das Bibliotecas para Tradução -->
+  <!-- Bibliotecas de Tradução -->
   <script src="https://unpkg.com/i18next@21.6.4/dist/umd/i18next.min.js"></script>
   <script src="https://unpkg.com/jquery@3.6.0/dist/jquery.min.js"></script>
   <script src="https://unpkg.com/jquery-i18next@1.2.1/dist/umd/jquery-i18next.min.js"></script>
@@ -404,62 +415,62 @@
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
   </script>
 
-  <!-- JavaScript: Tradução, Vídeo, APIs, Efeitos Sonoros e Custom Cursor -->
+  <!-- Scripts: Tradução, Vídeo, APIs, Sons e Custom Cursor -->
   <script>
-    /***************** Parte de Tradução ******************/
+    /***************** Tradução ******************/
     const translationResources = {
       pt: {
         translation: {
-          pageTitle: "HIBRIDO - Página Inicial",
-          navLogo: "HIBRIDO",
+          pageTitle: "NOVA ERA HIBRIDO - Página Inicial",
+          navLogo: "NOVA ERA HIBRIDO",
           navVideoPVP: "Vídeo PvP",
           navRules: "Regras",
           navDiscord: "Discord",
-          navShop: "Shop",
-          btnShopPVP: "Shop PvP",
-          btnMapPVP: "Mapa PvP",
-          btnPlayPVP: "Jogar PvP",
+          navShop: "Shop HIBRIDO",
+          btnShopPVP: "Shop HIBRIDO",
+          btnMapPVP: "Mapa HIBRIDO",
+          btnPlayPVP: "Jogar HIBRIDO",
           btnVoters: "Ver Votantes",
-          btnVotePvP: "Vote em PvP",
-          serverTitlePVP: "Servidor PvP",
+          btnVotePvP: "Vote em HIBRIDO",
+          serverTitlePVP: "NOVA ERA HIBRIDO",
           modalTitle: "Votantes Recentes",
-          footerText: "&copy; 2024 HIBRIDO. Todos os direitos reservados."
+          footerText: "&copy; 2024 NOVA ERA HIBRIDO. Todos os direitos reservados."
         }
       },
       en: {
         translation: {
-          pageTitle: "HIBRIDO - Home Page",
-          navLogo: "HIBRIDO",
+          pageTitle: "NOVA ERA HIBRIDO - Home Page",
+          navLogo: "NOVA ERA HIBRIDO",
           navVideoPVP: "PvP Video",
           navRules: "Rules",
           navDiscord: "Discord",
-          navShop: "Shop",
-          btnShopPVP: "PvP Shop",
-          btnMapPVP: "PvP Map",
-          btnPlayPVP: "Play PvP",
+          navShop: "Shop HIBRIDO",
+          btnShopPVP: "Hibrido Shop",
+          btnMapPVP: "Hibrido Map",
+          btnPlayPVP: "Play Hibrido",
           btnVoters: "View Voters",
-          btnVotePvP: "Vote on PvP",
-          serverTitlePVP: "PvP Server",
+          btnVotePvP: "Vote on Hibrido",
+          serverTitlePVP: "NOVA ERA HIBRIDO",
           modalTitle: "Recent Voters",
-          footerText: "&copy; 2024 HIBRIDO. All rights reserved."
+          footerText: "&copy; 2024 NOVA ERA HIBRIDO. All rights reserved."
         }
       },
       es: {
         translation: {
-          pageTitle: "HIBRIDO - Página Inicial",
-          navLogo: "HIBRIDO",
+          pageTitle: "NOVA ERA HIBRIDO - Página Inicial",
+          navLogo: "NOVA ERA HIBRIDO",
           navVideoPVP: "Video PvP",
           navRules: "Reglas",
           navDiscord: "Discord",
-          navShop: "Shop",
-          btnShopPVP: "Shop PvP",
-          btnMapPVP: "Mapa PvP",
-          btnPlayPVP: "Jugar PvP",
+          navShop: "Shop HIBRIDO",
+          btnShopPVP: "Shop HIBRIDO",
+          btnMapPVP: "Mapa HIBRIDO",
+          btnPlayPVP: "Jugar HIBRIDO",
           btnVoters: "Ver Votantes",
-          btnVotePvP: "Votar en PvP",
-          serverTitlePVP: "Servidor PvP",
+          btnVotePvP: "Votar en HIBRIDO",
+          serverTitlePVP: "NOVA ERA HIBRIDO",
           modalTitle: "Votantes Recientes",
-          footerText: "&copy; 2024 HIBRIDO. Todos los derechos reservados."
+          footerText: "&copy; 2024 NOVA ERA HIBRIDO. Todos los derechos reservados."
         }
       }
     };
@@ -486,10 +497,10 @@
     }
     /***************** Fim da Tradução ******************/
 
-    /***************** Variáveis e Funções do Vídeo ******************/
+    /***************** Vídeo e Controles ******************/
     const videos = [
-      "5zxPz3cGNu0", // ID do primeiro vídeo
-      "2tNePGLm53s"  // ID do segundo vídeo
+      "5zxPz3cGNu0", // Primeiro vídeo
+      "2tNePGLm53s"  // Segundo vídeo
     ];
     let currentVideoIndex = 0;
     let player;
@@ -554,7 +565,7 @@
       }
     });
 
-    /***************** Configurações da API do Servidor (Apenas PvP) ******************/
+    /***************** API do Servidor (Apenas PvP - NOVA ERA HIBRIDO) ******************/
     const API_KEY_PVP = "bWctPV9dtEzJ2uN8sJ39CyQeeYbT5SD1sVI";
     const urlVotantesPVP = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVP}&month=atual&format=json&limit=1000&classificacao=apelido`;
 
@@ -564,7 +575,7 @@
         const res = await fetch(urlVotantesPVP);
         const data = await res.json();
         const voters = data.voters || data.Voters || [];
-        const enrichedVoters = voters.map(voter => ({ ...voter, servidor: "PvP" }));
+        const enrichedVoters = voters.map(voter => ({ ...voter, servidor: "NOVA ERA HIBRIDO" }));
         enrichedVoters.sort((a, b) => parseInt(b.votes) - parseInt(a.votes));
         cachedVoters = enrichedVoters;
         console.log(`[${new Date().toISOString()}] Cache dos votantes atualizado. Total: ${cachedVoters.length}`);
@@ -581,7 +592,8 @@
         const resDetailPVP = await fetch(urlDetailPVP);
         const dataPVP = await resDetailPVP.json();
 
-        document.getElementById('pvp-name').textContent = dataPVP.name || "Servidor PvP";
+        // Força a exibição do nome "NOVA ERA HIBRIDO"
+        document.getElementById('pvp-name').textContent = "NOVA ERA HIBRIDO";
         document.getElementById('pvp-players').textContent = `Jogadores: ${dataPVP.players}/${dataPVP.maxplayers}`;
         document.getElementById('pvp-votes').textContent = `Votos: ${dataPVP.votes}`;
       } catch (error) {
@@ -591,7 +603,7 @@
     updateServerInfo();
     setInterval(updateServerInfo, 180000);
 
-    /***************** Efeito Sonoro para Hover dos Botões ******************/
+    /***************** Sons para Hover dos Botões ******************/
     const soundShop = new Audio("audio/ka-ching_g0thHEV.mp3");
     const soundMap  = new Audio("audio/Paper Crushed - 1.mp3");
     const soundPlay = new Audio("audio/that-one-josh-hutcherson-whistle-edit.mp3");
@@ -600,73 +612,45 @@
 
     function addButtonHoverSounds() {
       document.querySelectorAll('.btn-shop').forEach(btn => {
-        btn.addEventListener('mouseenter', () => {
-          soundShop.currentTime = 0;
-          soundShop.play();
-        });
+        btn.addEventListener('mouseenter', () => { soundShop.currentTime = 0; soundShop.play(); });
       });
       document.querySelectorAll('.btn-map').forEach(btn => {
-        btn.addEventListener('mouseenter', () => {
-          soundMap.currentTime = 0;
-          soundMap.play();
-        });
+        btn.addEventListener('mouseenter', () => { soundMap.currentTime = 0; soundMap.play(); });
       });
       document.querySelectorAll('.btn-play').forEach(btn => {
-        btn.addEventListener('mouseenter', () => {
-          soundPlay.currentTime = 0;
-          soundPlay.play();
-        });
+        btn.addEventListener('mouseenter', () => { soundPlay.currentTime = 0; soundPlay.play(); });
       });
       document.querySelectorAll('.btn-vote').forEach(btn => {
-        btn.addEventListener('mouseenter', () => {
-          soundVote.currentTime = 0;
-          soundVote.play();
-        });
+        btn.addEventListener('mouseenter', () => { soundVote.currentTime = 0; soundVote.play(); });
       });
       document.querySelectorAll('.nav-links a').forEach(btn => {
-        btn.addEventListener('mouseenter', () => {
-          soundNav.currentTime = 0;
-          soundNav.play();
-        });
+        btn.addEventListener('mouseenter', () => { soundNav.currentTime = 0; soundNav.play(); });
       });
       document.querySelectorAll('.video-controls button, .slider-nav button').forEach(btn => {
-        btn.addEventListener('mouseenter', () => {
-          soundNav.currentTime = 0;
-          soundNav.play();
-        });
+        btn.addEventListener('mouseenter', () => { soundNav.currentTime = 0; soundNav.play(); });
       });
       document.querySelectorAll('#votePvP').forEach(btn => {
-        btn.addEventListener('mouseenter', () => {
-          soundVote.currentTime = 0;
-          soundVote.play();
-        });
+        btn.addEventListener('mouseenter', () => { soundVote.currentTime = 0; soundVote.play(); });
       });
     }
     window.addEventListener('DOMContentLoaded', addButtonHoverSounds);
 
-    /***************** Efeito Sonoro na Troca de Nomes dos Votantes ******************/
+    /***************** Sons na Troca de Nomes dos Votantes ******************/
     const nameChangeSound = new Audio("audio/orb.mp3");
     nameChangeSound.volume = 0.3;
     let displayIndex = 0;
     function updateVotantesDisplay() {
       if (cachedVoters.length === 0) {
-        if (votersModal.style.display === "block") {
-          voterInfoDiv.innerHTML = "Nenhum votante encontrado.";
-        }
+        if (votersModal.style.display === "block") { voterInfoDiv.innerHTML = "Nenhum votante encontrado."; }
         floatingWidget.innerHTML = "Nenhum votante encontrado.";
         return;
       }
       const voter = cachedVoters[displayIndex];
       const votanteHTML = `<strong>${voter.nickname}</strong> — ${voter.votes} votos - ${voter.servidor}`;
       
-      if(muted){
-        nameChangeSound.currentTime = 0;
-        nameChangeSound.play();
-      }
+      if(muted){ nameChangeSound.currentTime = 0; nameChangeSound.play(); }
       
-      if (votersModal.style.display === "block") {
-        voterInfoDiv.innerHTML = votanteHTML;
-      }
+      if (votersModal.style.display === "block") { voterInfoDiv.innerHTML = votanteHTML; }
       floatingWidget.innerHTML = votanteHTML;
       displayIndex = (displayIndex + 1) % cachedVoters.length;
     }
@@ -678,20 +662,11 @@
     const voterInfoDiv = document.getElementById('voterInfo');
     const floatingWidget = document.getElementById('floatingWidget');
 
-    votersBtn.onclick = function() {
-      votersModal.style.display = "block";
-      updateVotantesDisplay();
-    };
-    closeModal.onclick = function() {
-      votersModal.style.display = "none";
-    };
-    window.onclick = function(event) {
-      if (event.target === votersModal) {
-        votersModal.style.display = "none";
-      }
-    };
+    votersBtn.onclick = function() { votersModal.style.display = "block"; updateVotantesDisplay(); };
+    closeModal.onclick = function() { votersModal.style.display = "none"; };
+    window.onclick = function(event) { if (event.target === votersModal) { votersModal.style.display = "none"; } };
 
-    /***************** Funções do Botão de Votação (Apenas PvP) ******************/
+    /***************** Função do Botão de Votação ******************/
     const voteUrlPvP = "https://7daystodie-servers.com/server/141215/";
     const voteSound = new Audio("audio/vote-sound.mp3");
 
@@ -705,22 +680,17 @@
       window.open(voteUrlPvP, "_blank");
     }
 
-    /***************** Custom Cursor que Segue o Mouse ******************/
+    /***************** Custom Cursor ******************/
     const customCursor = document.getElementById('custom-cursor');
     document.addEventListener('mousemove', e => {
       customCursor.style.left = e.clientX + 'px';
       customCursor.style.top = e.clientY + 'px';
     });
     function enlargeCursor(e) {
-      if(e.target.closest('.video-slider')) {
-        customCursor.style.transform = 'scale(1)';
-        return;
-      }
+      if(e.target.closest('.video-slider')) { customCursor.style.transform = 'scale(1)'; return; }
       customCursor.style.transform = 'scale(1.3)';
     }
-    function resetCursor(e) {
-      customCursor.style.transform = 'scale(1)';
-    }
+    function resetCursor(e) { customCursor.style.transform = 'scale(1)'; }
     document.querySelectorAll('a, button, .nav-links a, .video-controls button, .slider-nav button, .language-selector button').forEach(el => {
       el.addEventListener('mouseenter', enlargeCursor);
       el.addEventListener('mouseleave', resetCursor);
