@@ -33,7 +33,7 @@
       transition: transform 0.2s ease;
     }
     
-    /* Oculta cursor nativo para elementos clicáveis */
+    /* Oculta cursor nativo em elementos clicáveis */
     a, button, .nav-links a, .video-controls button, .slider-nav button, .language-selector button {
       cursor: none;
     }
@@ -216,7 +216,7 @@
       100% { transform: scale(1); opacity: 1; }
     }
     
-    /* Informações do Servidor com informações adicionais */
+    /* Informações do Servidor com dados adicionais */
     .server-info {
       display: flex;
       flex-direction: column;
@@ -242,9 +242,26 @@
       margin-bottom: 15px;
       text-transform: uppercase;
     }
-    .server-card p {
-      font-size: 1.2rem;
-      margin-bottom: 5px;
+    .server-details {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 15px;
+      text-align: left;
+    }
+    .server-field {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 5px;
+    }
+    .field-label {
+      font-weight: 600;
+      color: #ffcc00;
+    }
+    .field-value {
+      font-weight: 500;
       color: #fefefe;
     }
     
@@ -381,16 +398,32 @@
       <button id="votePvP" class="button btn-vote" onclick="votePvP()" data-i18n="btnVotePvP">Vote em HIBRIDO</button>
     </div>
     
-    <!-- Informações do Servidor com dados adicionais -->
+    <!-- Seção de Informações do Servidor com dados adicionais -->
     <div class="server-info" id="serverInfo">
       <div class="server-card" id="serverCardPVP">
         <h3 data-i18n="serverTitlePVP">NOVA ERA HIBRIDO</h3>
-        <p id="pvp-name">Carregando...</p>
-        <p id="pvp-ip">IP: Carregando...</p>
-        <p id="pvp-port">Porta: Carregando...</p>
-        <p id="pvp-players">Jogadores: Carregando...</p>
-        <p id="pvp-votes">Votos: Carregando...</p>
-        <p id="pvp-uptime">Uptime: Carregando...</p>
+        <div class="server-details">
+          <div class="server-field">
+            <span class="field-label">IP:</span>
+            <span class="field-value" id="pvp-ip">Não disponível</span>
+          </div>
+          <div class="server-field">
+            <span class="field-label">Porta:</span>
+            <span class="field-value" id="pvp-port">Não disponível</span>
+          </div>
+          <div class="server-field">
+            <span class="field-label">Jogadores:</span>
+            <span class="field-value" id="pvp-players">Carregando...</span>
+          </div>
+          <div class="server-field">
+            <span class="field-label">Votos:</span>
+            <span class="field-value" id="pvp-votes">Carregando...</span>
+          </div>
+          <div class="server-field">
+            <span class="field-label">Uptime:</span>
+            <span class="field-value" id="pvp-uptime">Carregando...</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -601,14 +634,12 @@
         const resDetailPVP = await fetch(urlDetailPVP);
         const dataPVP = await resDetailPVP.json();
 
-        // Força o nome fixo
         document.getElementById('pvp-name').textContent = "NOVA ERA HIBRIDO";
-        // Verifica e exibe IP e Porta (se retornados pela API)
-        document.getElementById('pvp-ip').textContent = "IP: " + (dataPVP.ip || "Não disponível");
-        document.getElementById('pvp-port').textContent = "Porta: " + (dataPVP.port || "Não disponível");
-        document.getElementById('pvp-players').textContent = "Jogadores: " + (dataPVP.players || "0") + "/" + (dataPVP.maxplayers || "0");
-        document.getElementById('pvp-votes').textContent = "Votos: " + (dataPVP.votes || "0");
-        document.getElementById('pvp-uptime').textContent = "Uptime: " + (dataPVP.uptime || "Não disponível");
+        document.getElementById('pvp-ip').textContent = dataPVP.ip || "Não disponível";
+        document.getElementById('pvp-port').textContent = dataPVP.port || "Não disponível";
+        document.getElementById('pvp-players').textContent = (dataPVP.players || "0") + "/" + (dataPVP.maxplayers || "0");
+        document.getElementById('pvp-votes').textContent = dataPVP.votes || "0";
+        document.getElementById('pvp-uptime').textContent = dataPVP.uptime || "Não disponível";
       } catch (error) {
         console.error("Erro ao obter informações do servidor:", error);
       }
