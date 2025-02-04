@@ -607,16 +607,13 @@
 
     /***************** API do Servidor (Apenas PvP) ******************/
     const API_KEY_PVP = "bWctPV9dtEzJ2uN8sJ39CyQeeYbT5SD1sVI";
-    // Usamos o endpoint de detalhe para atualizar jogadores e votos
     async function updateServerInfo() {
       const urlDetailPVP = `https://7daystodie-servers.com/api/?object=servers&element=detail&key=${API_KEY_PVP}`;
       try {
         const resDetailPVP = await fetch(urlDetailPVP);
         const dataPVP = await resDetailPVP.json();
-        console.log("Dados do servidor:", dataPVP); // Verifique o JSON no console
-
-        // IP e Porta permanecem fixos (já estão no HTML)
-        // Atualiza apenas jogadores e votos
+        console.log("Dados do servidor:", dataPVP);
+        // Atualiza jogadores e votos
         document.getElementById('pvp-players').textContent = (dataPVP.players || "0") + "/" + (dataPVP.maxplayers || "0");
         document.getElementById('pvp-votes').textContent = dataPVP.votes || "0";
       } catch (error) {
@@ -626,57 +623,54 @@
     updateServerInfo();
     setInterval(updateServerInfo, 180000);
 
-    /***************** Sons para Hover ******************/
-    const soundShop = new Audio("audio/ka-ching_g0thHEV.mp3");
-    const soundMap  = new Audio("audio/Paper Crushed - 1.mp3");
-    const soundPlay = new Audio("audio/that-one-josh-hutcherson-whistle-edit.mp3");
-    const soundVote = new Audio("audio/game-over-v2-0.mp3");
-    const soundNav  = new Audio("audio/classic_hurt.mp3");
-
-    function addButtonHoverSounds() {
-      document.querySelectorAll('.btn-shop').forEach(btn => {
-        btn.addEventListener('mouseenter', () => { soundShop.currentTime = 0; soundShop.play(); });
-      });
-      document.querySelectorAll('.btn-map').forEach(btn => {
-        btn.addEventListener('mouseenter', () => { soundMap.currentTime = 0; soundMap.play(); });
-      });
-      document.querySelectorAll('.btn-play').forEach(btn => {
-        btn.addEventListener('mouseenter', () => { soundPlay.currentTime = 0; soundPlay.play(); });
-      });
-      document.querySelectorAll('.btn-vote').forEach(btn => {
-        btn.addEventListener('mouseenter', () => { soundVote.currentTime = 0; soundVote.play(); });
-      });
-      document.querySelectorAll('.nav-links a').forEach(btn => {
-        btn.addEventListener('mouseenter', () => { soundNav.currentTime = 0; soundNav.play(); });
-      });
-      document.querySelectorAll('.video-controls button, .slider-nav button').forEach(btn => {
-        btn.addEventListener('mouseenter', () => { soundNav.currentTime = 0; soundNav.play(); });
-      });
-      document.querySelectorAll('#votePvP').forEach(btn => {
-        btn.addEventListener('mouseenter', () => { soundVote.currentTime = 0; soundVote.play(); });
-      });
+    /***************** Atualiza Cache de Votantes ******************/
+    const urlVotantesPVP = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVP}&month=atual&format=json&limit=1000&classificacao=apelido`;
+    let cachedVoters = [];
+    async function updateVotantesCache() {
+      try {
+        const res = await fetch(urlVotantesPVP);
+        const data = await res.json();
+        const voters = data.voters || data.Voters || [];
+        if(voters.length === 0) {
+          // Se a API não retornar votantes, atribuímos um fallback
+          cachedVoters = [{ nickname: "Nenhum votante encontrado", votes: "0", servidor: "NOVA ERA HIBRIDO" }];
+        } else {
+          const enrichedVoters = voters.map(voter => ({ ...voter, servidor: "NOVA ERA HIBRIDO" }));
+          enrichedVoters.sort((a, b) => parseInt(b.votes) - parseInt(a.votes));
+          cachedVoters = enrichedVoters;
+        }
+        console.log(`[${new Date().toISOString()}] Cache dos votantes atualizado. Total: ${cachedVoters.length}`);
+      } catch (error) {
+        console.error("Erro ao atualizar cache de votantes:", error);
+      }
     }
-    window.addEventListener('DOMContentLoaded', addButtonHoverSounds);
+    updateVotantesCache();
+    setInterval(updateVotantesCache, 180000);
 
-    /***************** Som na Troca de Nomes dos Votantes ******************/
-    const nameChangeSound = new Audio("audio/orb.mp3");
-    nameChangeSound.volume = 0.3;
-    let displayIndex = 0;
+    /***************** Atualiza Exibição dos Votantes ******************/
     function updateVotantesDisplay() {
       if (cachedVoters.length === 0) {
-        if (votersModal.style.display === "block") { voterInfoDiv.innerHTML = "Nenhum votante encontrado."; }
+        if (votersModal.style.display === "block") { 
+          voterInfoDiv.innerHTML = "Nenhum votante encontrado."; 
+        }
         floatingWidget.innerHTML = "Nenhum votante encontrado.";
         return;
       }
       const voter = cachedVoters[displayIndex];
       const votanteHTML = `<strong>${voter.nickname}</strong> — ${voter.votes} votos - ${voter.servidor}`;
       
-      if(muted){ nameChangeSound.currentTime = 0; nameChangeSound.play(); }
+      if(muted){ 
+        nameChangeSound.currentTime = 0; 
+        nameChangeSound.play(); 
+      }
       
-      if (votersModal.style.display === "block") { voterInfoDiv.innerHTML = votanteHTML; }
+      if (votersModal.style.display === "block") { 
+        voterInfoDiv.innerHTML = votanteHTML; 
+      }
       floatingWidget.innerHTML = votanteHTML;
       displayIndex = (displayIndex + 1) % cachedVoters.length;
     }
+    let displayIndex = 0;
     setInterval(updateVotantesDisplay, 3000);
 
     const votersModal = document.getElementById('votersModal');
@@ -685,9 +679,18 @@
     const voterInfoDiv = document.getElementById('voterInfo');
     const floatingWidget = document.getElementById('floatingWidget');
 
-    votersBtn.onclick = function() { votersModal.style.display = "block"; updateVotantesDisplay(); };
-    closeModal.onclick = function() { votersModal.style.display = "none"; };
-    window.onclick = function(event) { if (event.target === votersModal) { votersModal.style.display = "none"; } };
+    votersBtn.onclick = function() { 
+      votersModal.style.display = "block"; 
+      updateVotantesDisplay(); 
+    };
+    closeModal.onclick = function() { 
+      votersModal.style.display = "none"; 
+    };
+    window.onclick = function(event) { 
+      if (event.target === votersModal) { 
+        votersModal.style.display = "none"; 
+      } 
+    };
 
     /***************** Botão de Votação ******************/
     const voteUrlPvP = "https://7daystodie-servers.com/server/141215/";
@@ -710,14 +713,23 @@
       customCursor.style.top = e.clientY + 'px';
     });
     function enlargeCursor(e) {
-      if(e.target.closest('.video-slider')) { customCursor.style.transform = 'scale(1)'; return; }
+      if(e.target.closest('.video-slider')) { 
+        customCursor.style.transform = 'scale(1)'; 
+        return; 
+      }
       customCursor.style.transform = 'scale(1.3)';
     }
-    function resetCursor(e) { customCursor.style.transform = 'scale(1)'; }
-    document.querySelectorAll('a, button, .nav-links a, .video-controls button, .slider-nav button, .language-selector button').forEach(el => {
-      el.addEventListener('mouseenter', enlargeCursor);
-      el.addEventListener('mouseleave', resetCursor);
-    });
+    function resetCursor(e) { 
+      customCursor.style.transform = 'scale(1)'; 
+    }
+    document.querySelectorAll('a, button, .nav-links a, .video-controls button, .slider-nav button, .language-selector button')
+      .forEach(el => {
+        el.addEventListener('mouseenter', enlargeCursor);
+        el.addEventListener('mouseleave', resetCursor);
+      });
+      
+    const nameChangeSound = new Audio("audio/orb.mp3");
+    nameChangeSound.volume = 0.3;
   </script>
 </body>
 </html>
