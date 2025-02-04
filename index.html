@@ -33,7 +33,7 @@
       transition: transform 0.2s ease;
     }
     
-    /* Oculta cursor nativo em elementos clicáveis */
+    /* Oculta cursor nativo para elementos clicáveis */
     a, button, .nav-links a, .video-controls button, .slider-nav button, .language-selector button {
       cursor: none;
     }
@@ -76,7 +76,7 @@
       transition: color 0.3s;
     }
     .navbar .nav-links a:hover { color: #ffcc00; }
-    /* Seletor de idiomas integrado na parte superior direita */
+    /* Seletor de idiomas integrado */
     .language-selector {
       display: flex;
       gap: 5px;
@@ -95,7 +95,7 @@
     
     /* Container Principal */
     .container {
-      margin: 160px auto 20px; /* compensar a navbar fixa */
+      margin: 160px auto 20px;
       max-width: 1200px;
       padding: 20px;
       background: rgba(0,0,0,0.75);
@@ -216,7 +216,7 @@
       100% { transform: scale(1); opacity: 1; }
     }
     
-    /* Informações do Servidor com destaque para o nome centralizado */
+    /* Informações do Servidor com informações adicionais */
     .server-info {
       display: flex;
       flex-direction: column;
@@ -381,13 +381,16 @@
       <button id="votePvP" class="button btn-vote" onclick="votePvP()" data-i18n="btnVotePvP">Vote em HIBRIDO</button>
     </div>
     
-    <!-- Informações do Servidor -->
+    <!-- Informações do Servidor com dados adicionais -->
     <div class="server-info" id="serverInfo">
       <div class="server-card" id="serverCardPVP">
         <h3 data-i18n="serverTitlePVP">NOVA ERA HIBRIDO</h3>
         <p id="pvp-name">Carregando...</p>
-        <p id="pvp-players"></p>
-        <p id="pvp-votes"></p>
+        <p id="pvp-ip">IP: Carregando...</p>
+        <p id="pvp-port">Porta: Carregando...</p>
+        <p id="pvp-players">Jogadores: Carregando...</p>
+        <p id="pvp-votes">Votos: Carregando...</p>
+        <p id="pvp-uptime">Uptime: Carregando...</p>
       </div>
     </div>
   </div>
@@ -598,9 +601,14 @@
         const resDetailPVP = await fetch(urlDetailPVP);
         const dataPVP = await resDetailPVP.json();
 
+        // Força o nome fixo
         document.getElementById('pvp-name').textContent = "NOVA ERA HIBRIDO";
-        document.getElementById('pvp-players').textContent = `Jogadores: ${dataPVP.players}/${dataPVP.maxplayers}`;
-        document.getElementById('pvp-votes').textContent = `Votos: ${dataPVP.votes}`;
+        // Verifica e exibe IP e Porta (se retornados pela API)
+        document.getElementById('pvp-ip').textContent = "IP: " + (dataPVP.ip || "Não disponível");
+        document.getElementById('pvp-port').textContent = "Porta: " + (dataPVP.port || "Não disponível");
+        document.getElementById('pvp-players').textContent = "Jogadores: " + (dataPVP.players || "0") + "/" + (dataPVP.maxplayers || "0");
+        document.getElementById('pvp-votes').textContent = "Votos: " + (dataPVP.votes || "0");
+        document.getElementById('pvp-uptime').textContent = "Uptime: " + (dataPVP.uptime || "Não disponível");
       } catch (error) {
         console.error("Erro ao obter informações do servidor:", error);
       }
