@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-i18n="pageTitle">NOVA ERA HIBRIDO - Página Inicial</title>
+  <title data-i18n="pageTitle">NOVA ERA PVE - Página Inicial</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
@@ -349,7 +349,7 @@
   <!-- Navbar com Language Selector integrado -->
   <div class="navbar">
     <div class="top-bar" style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
-      <div class="logo" data-i18n="navLogo">NOVA ERA HIBRIDO</div>
+      <div class="logo" data-i18n="navLogo">NOVA ERA PVE</div>
       <div class="language-selector">
         <button onclick="changeLanguage('pt')">PT</button>
         <button onclick="changeLanguage('en')">EN</button>
@@ -360,7 +360,7 @@
       <a href="#" data-i18n="navVideoPVP">Vídeo PvP</a>
       <a href="regras.html" data-i18n="navRules">Regras</a>
       <a href="discord.html" data-i18n="navDiscord">Discord</a>
-      <a href="shop.html" data-i18n="navShop">Shop HIBRIDO</a>
+      <a href="shop.html" data-i18n="navShop">Shop PVE</a>
     </div>
   </div>
 
@@ -382,26 +382,26 @@
 
     <!-- Seção animada do Modo de Jogo -->
     <div class="game-mode">
-      MODO DE JOGO: HIBRIDO
+      MODO DE JOGO: PVE
     </div>
 
     <!-- Botões agrupados -->
     <div class="button-group">
-      <a href="https://au.csmm.app/shop/557" class="button btn-shop" target="_blank" data-i18n="btnShopPVP">Shop HIBRIDO</a>
-      <a href="http://191.37.92.145:26925/static/index.html" class="button btn-map" target="_blank" data-i18n="btnMapPVP">Mapa HIBRIDO</a>
-      <a href="steam://connect/191.37.92.145:26920" class="button btn-play" data-i18n="btnPlayPVP">Jogar HIBRIDO</a>
+      <a href="https://au.csmm.app/shop/557" class="button btn-shop" target="_blank" data-i18n="btnShopPVP">Shop PVE</a>
+      <a href="http://191.37.92.145:26925/static/index.html" class="button btn-map" target="_blank" data-i18n="btnMapPVP">Mapa PVE</a>
+      <a href="steam://connect/191.37.92.145:26920" class="button btn-play" data-i18n="btnPlayPVP">Jogar PVE</a>
     </div>
 
     <!-- Botões de Votação -->
     <div class="button-group">
       <button id="votersBtn" class="button btn-vote" data-i18n="btnVoters">Ver Votantes</button>
-      <button id="votePvP" class="button btn-vote" onclick="votePvP()" data-i18n="btnVotePvP">Vote em HIBRIDO</button>
+      <button id="votePvP" class="button btn-vote" onclick="votePvP()" data-i18n="btnVotePvP">Vote em PVE</button>
     </div>
     
     <!-- Informações do Servidor -->
     <div class="server-info" id="serverInfo">
       <div class="server-card" id="serverCardPVP">
-        <h3 data-i18n="serverTitlePVP">NOVA ERA HIBRIDO</h3>
+        <h3 data-i18n="serverTitlePVP">NOVA ERA PVE</h3>
         <div class="server-details">
           <!-- IP e Porta fixos -->
           <div class="server-field">
@@ -439,7 +439,7 @@
   <div class="floating-widget" id="floatingWidget">Carregando...</div>
 
   <footer>
-    <p data-i18n="footerText">&copy; 2024 NOVA ERA HIBRIDO. Todos os direitos reservados.</p>
+    <p data-i18n="footerText">&copy; 2024 NOVA ERA PVE. Todos os direitos reservados.</p>
   </footer>
 
   <!-- Bibliotecas para Tradução -->
@@ -461,56 +461,56 @@
     const translationResources = {
       pt: {
         translation: {
-          pageTitle: "NOVA ERA HIBRIDO - Página Inicial",
-          navLogo: "NOVA ERA HIBRIDO",
+          pageTitle: "NOVA ERA PVE - Página Inicial",
+          navLogo: "NOVA ERA PVE",
           navVideoPVP: "Vídeo PvP",
           navRules: "Regras",
           navDiscord: "Discord",
-          navShop: "Shop HIBRIDO",
-          btnShopPVP: "Shop HIBRIDO",
-          btnMapPVP: "Mapa HIBRIDO",
-          btnPlayPVP: "Jogar HIBRIDO",
+          navShop: "Shop PVE",
+          btnShopPVP: "Shop PVE",
+          btnMapPVP: "Mapa PVE",
+          btnPlayPVP: "Jogar PVE",
           btnVoters: "Ver Votantes",
-          btnVotePvP: "Vote em HIBRIDO",
-          serverTitlePVP: "NOVA ERA HIBRIDO",
+          btnVotePvP: "Vote em PVE",
+          serverTitlePVP: "NOVA ERA PVE",
           modalTitle: "Votantes Recentes",
-          footerText: "&copy; 2024 NOVA ERA HIBRIDO. Todos os direitos reservados."
+          footerText: "&copy; 2024 NOVA ERA PVE. Todos os direitos reservados."
         }
       },
       en: {
         translation: {
-          pageTitle: "NOVA ERA HIBRIDO - Home Page",
-          navLogo: "NOVA ERA HIBRIDO",
+          pageTitle: "NOVA ERA PVE - Home Page",
+          navLogo: "NOVA ERA PVE",
           navVideoPVP: "PvP Video",
           navRules: "Rules",
           navDiscord: "Discord",
-          navShop: "Shop HIBRIDO",
-          btnShopPVP: "Hibrido Shop",
-          btnMapPVP: "Hibrido Map",
-          btnPlayPVP: "Play Hibrido",
+          navShop: "Shop PVE",
+          btnShopPVP: "Shop PVE",
+          btnMapPVP: "PVE Map",
+          btnPlayPVP: "Play PVE",
           btnVoters: "View Voters",
-          btnVotePvP: "Vote on Hibrido",
-          serverTitlePVP: "NOVA ERA HIBRIDO",
+          btnVotePvP: "Vote on PVE",
+          serverTitlePVP: "NOVA ERA PVE",
           modalTitle: "Recent Voters",
-          footerText: "&copy; 2024 NOVA ERA HIBRIDO. All rights reserved."
+          footerText: "&copy; 2024 NOVA ERA PVE. All rights reserved."
         }
       },
       es: {
         translation: {
-          pageTitle: "NOVA ERA HIBRIDO - Página Inicial",
-          navLogo: "NOVA ERA HIBRIDO",
+          pageTitle: "NOVA ERA PVE - Página Inicial",
+          navLogo: "NOVA ERA PVE",
           navVideoPVP: "Video PvP",
           navRules: "Reglas",
           navDiscord: "Discord",
-          navShop: "Shop HIBRIDO",
-          btnShopPVP: "Shop HIBRIDO",
-          btnMapPVP: "Mapa HIBRIDO",
-          btnPlayPVP: "Jugar HIBRIDO",
+          navShop: "Shop PVE",
+          btnShopPVP: "Shop PVE",
+          btnMapPVP: "Mapa PVE",
+          btnPlayPVP: "Jugar PVE",
           btnVoters: "Ver Votantes",
-          btnVotePvP: "Votar en HIBRIDO",
-          serverTitlePVP: "NOVA ERA HIBRIDO",
+          btnVotePvP: "Votar en PVE",
+          serverTitlePVP: "NOVA ERA PVE",
           modalTitle: "Votantes Recientes",
-          footerText: "&copy; 2024 NOVA ERA HIBRIDO. Todos los derechos reservados."
+          footerText: "&copy; 2024 NOVA ERA PVE. Todos los derechos reservados."
         }
       }
     };
@@ -633,9 +633,9 @@
         const voters = data.voters || data.Voters || [];
         if(voters.length === 0) {
           // Se a API não retornar votantes, atribuímos um fallback
-          cachedVoters = [{ nickname: "Nenhum votante encontrado", votes: "0", servidor: "NOVA ERA HIBRIDO" }];
+          cachedVoters = [{ nickname: "Nenhum votante encontrado", votes: "0", servidor: "NOVA ERA PVE" }];
         } else {
-          const enrichedVoters = voters.map(voter => ({ ...voter, servidor: "NOVA ERA HIBRIDO" }));
+          const enrichedVoters = voters.map(voter => ({ ...voter, servidor: "NOVA ERA PVE" }));
           enrichedVoters.sort((a, b) => parseInt(b.votes) - parseInt(a.votes));
           cachedVoters = enrichedVoters;
         }
