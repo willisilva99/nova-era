@@ -93,14 +93,26 @@
     }
     .language-selector button:hover { background: #e6b800; }
     
-    /* Container Principal */
-    .container {
-      margin: 160px auto 20px;
+    /* Container Principal e Layout Lateral */
+    .content-wrapper {
+      display: flex;
+      gap: 20px;
       max-width: 1200px;
+      margin: 160px auto 20px;
       padding: 20px;
       background: rgba(0,0,0,0.75);
       border-radius: 10px;
       box-shadow: 0 6px 30px rgba(0,0,0,0.8);
+    }
+    .main-content {
+      flex: 1;
+    }
+    .sidebar {
+      width: 350px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
     }
     
     /* Slider de Vídeo */
@@ -171,7 +183,7 @@
     }
     .slider-nav button:hover { transform: scale(1.1); }
     
-    /* Botões agrupados horizontalmente */
+    /* Botões agrupados */
     .button-group {
       display: flex;
       justify-content: center;
@@ -197,6 +209,7 @@
     .btn-play { background-color: #ff9900; color: #000; }
     .btn-vote { background-color: #ffcc00; color: #000; }
     .btn-tutorial { background-color: #4caf50; color: #fff; }
+    .btn-discord { background-color: #7289da; color: #fff; }
     
     /* Seção animada do Modo de Jogo */
     .game-mode {
@@ -217,7 +230,7 @@
       100% { transform: scale(1); opacity: 1; }
     }
     
-    /* Informações do Servidor (IP e Porta fixos; Jogadores e Votos atualizados) */
+    /* Informações do Servidor */
     .server-info {
       display: flex;
       flex-direction: column;
@@ -266,7 +279,7 @@
       color: #fefefe;
     }
     
-    /* Popup central de Votantes */
+    /* Popup de Votantes */
     .modal {
       display: none;
       position: fixed;
@@ -334,12 +347,14 @@
       color: #ccc;
     }
     @media (max-width: 768px) {
+      .content-wrapper { flex-direction: column; }
       .video-slider { max-width: 300px; }
       #player, .video-slider iframe { 
         width: 300px; 
         height: calc(300px * 9 / 16); 
       }
       .button { font-size: 1rem; padding: 12px 25px; }
+      .sidebar { width: 100%; }
     }
   </style>
 </head>
@@ -365,76 +380,77 @@
     </div>
   </div>
 
-  <!-- Container Principal -->
-  <div class="container">
-    <!-- Slider de Vídeo -->
-    <div class="video-slider">
-      <div id="player"></div>
-      <div class="video-overlay"></div>
-      <div class="video-controls">
-        <button id="muteBtn">Desmutar</button>
-        <button id="pauseBtn">Pausar</button>
+  <!-- Content Wrapper com Main Content e Sidebar -->
+  <div class="content-wrapper">
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Slider de Vídeo -->
+      <div class="video-slider">
+        <div id="player"></div>
+        <div class="video-overlay"></div>
+        <div class="video-controls">
+          <button id="muteBtn">Desmutar</button>
+          <button id="pauseBtn">Pausar</button>
+        </div>
+        <div class="slider-nav">
+          <button id="prevBtn">&#9664;</button>
+          <button id="nextBtn">&#9654;</button>
+        </div>
       </div>
-      <div class="slider-nav">
-        <button id="prevBtn">&#9664;</button>
-        <button id="nextBtn">&#9654;</button>
+
+      <!-- Seção animada do Modo de Jogo -->
+      <div class="game-mode">
+        MODO DE JOGO: PVE
       </div>
-    </div>
 
-    <!-- Seção animada do Modo de Jogo -->
-    <div class="game-mode">
-      MODO DE JOGO: PVE
-    </div>
+      <!-- Botões agrupados -->
+      <div class="button-group">
+        <a href="https://au.csmm.app/shop/557" class="button btn-shop" target="_blank" data-i18n="btnShopPVE">Shop PVE</a>
+        <a href="http://191.37.92.145:26925/static/index.html" class="button btn-map" target="_blank" data-i18n="btnMapPVE">Mapa PVE</a>
+        <a href="steam://connect/191.37.92.145:26920" class="button btn-play" data-i18n="btnPlayPVE">Jogar PVE</a>
+        <a href="tutorial.html" class="button btn-tutorial">TUTORIAL</a>
+      </div>
 
-    <!-- Botões agrupados -->
-    <div class="button-group">
-      <a href="https://au.csmm.app/shop/557" class="button btn-shop" target="_blank" data-i18n="btnShopPVE">Shop PVE</a>
-      <a href="http://191.37.92.145:26925/static/index.html" class="button btn-map" target="_blank" data-i18n="btnMapPVE">Mapa PVE</a>
-      <a href="steam://connect/191.37.92.145:26920" class="button btn-play" data-i18n="btnPlayPVE">Jogar PVE</a>
-      <a href="tutorial.html" class="button btn-tutorial">TUTORIAL</a>
-    </div>
+      <!-- Botões de Votação -->
+      <div class="button-group">
+        <button id="votersBtn" class="button btn-vote" data-i18n="btnVoters">Ver Votantes</button>
+        <button id="votePVE" class="button btn-vote" onclick="votePVE()" data-i18n="btnVotePVE">Vote em PVE</button>
+      </div>
 
-    <!-- Botões de Votação -->
-    <div class="button-group">
-      <button id="votersBtn" class="button btn-vote" data-i18n="btnVoters">Ver Votantes</button>
-      <button id="votePVE" class="button btn-vote" onclick="votePVE()" data-i18n="btnVotePVE">Vote em PVE</button>
-    </div>
-    
-    <!-- Informações do Servidor -->
-    <div class="server-info" id="serverInfo">
-      <div class="server-card" id="serverCardPVE">
-        <h3 data-i18n="serverTitlePVE">NOVA ERA PVE</h3>
-        <div class="server-details">
-          <!-- IP e Porta fixos -->
-          <div class="server-field">
-            <span class="field-label">IP:</span>
-            <span class="field-value" id="pve-ip">191.37.92.145</span>
-          </div>
-          <div class="server-field">
-            <span class="field-label">Porta:</span>
-            <span class="field-value" id="pve-port">26920</span>
-          </div>
-          <!-- Jogadores e Votos atualizados -->
-          <div class="server-field">
-            <span class="field-label">Jogadores:</span>
-            <span class="field-value" id="pve-players">Carregando...</span>
-          </div>
-          <div class="server-field">
-            <span class="field-label">Votos:</span>
-            <span class="field-value" id="pve-votes">Carregando...</span>
+      <!-- Informações do Servidor -->
+      <div class="server-info" id="serverInfo">
+        <div class="server-card" id="serverCardPVE">
+          <h3 data-i18n="serverTitlePVE">NOVA ERA PVE</h3>
+          <div class="server-details">
+            <div class="server-field">
+              <span class="field-label">IP:</span>
+              <span class="field-value" id="pve-ip">191.37.92.145</span>
+            </div>
+            <div class="server-field">
+              <span class="field-label">Porta:</span>
+              <span class="field-value" id="pve-port">26920</span>
+            </div>
+            <div class="server-field">
+              <span class="field-label">Jogadores:</span>
+              <span class="field-value" id="pve-players">Carregando...</span>
+            </div>
+            <div class="server-field">
+              <span class="field-label">Votos:</span>
+              <span class="field-value" id="pve-votes">Carregando...</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Widget do Discord -->
-    <div class="button-group" style="justify-content: center; margin-top: 30px;">
+    <!-- Sidebar com Widget Discord -->
+    <div class="sidebar">
       <iframe src="https://discord.com/widget?id=1186390028990025820&theme=dark" 
-              width="350" 
+              width="100%" 
               height="500" 
               allowtransparency="true" 
-              frameborder="0">
-      </iframe>
+              frameborder="0"></iframe>
+      <button class="button btn-discord" onclick="window.open('https://discord.com/invite/seuConvite','_blank')">Acessar Discord</button>
     </div>
   </div>
 
@@ -625,7 +641,6 @@
         const resDetailPVE = await fetch(urlDetailPVE);
         const dataPVE = await resDetailPVE.json();
         console.log("Dados do servidor:", dataPVE);
-        // Atualiza jogadores e votos
         document.getElementById('pve-players').textContent = (dataPVE.players || "0") + "/" + (dataPVE.maxplayers || "0");
         document.getElementById('pve-votes').textContent = dataPVE.votes || "0";
       } catch (error) {
@@ -644,7 +659,6 @@
         const data = await res.json();
         const voters = data.voters || data.Voters || [];
         if(voters.length === 0) {
-          // Se a API não retornar votantes, atribuímos um fallback
           cachedVoters = [{ nickname: "Nenhum votante encontrado", votes: "0", servidor: "NOVA ERA PVE" }];
         } else {
           const enrichedVoters = voters.map(voter => ({ ...voter, servidor: "NOVA ERA PVE" }));
@@ -701,7 +715,6 @@
 
     /***************** Botão de Votação ******************/
     const voteUrlPVE = "https://7daystodie-servers.com/server/141215/";
-    // Removido o som de votação para o botão
     function votePVE() {
       window.open(voteUrlPVE, "_blank");
     }
