@@ -196,6 +196,7 @@
     .btn-map { background-color: #17a2b8; color: #fff; }
     .btn-play { background-color: #ff9900; color: #000; }
     .btn-vote { background-color: #ffcc00; color: #000; }
+    .btn-tutorial { background-color: #4caf50; color: #fff; }
     
     /* Seção animada do Modo de Jogo */
     .game-mode {
@@ -357,7 +358,7 @@
       </div>
     </div>
     <div class="nav-links">
-      <a href="#" data-i18n="navVideoPVP">Vídeo PvP</a>
+      <a href="#" data-i18n="navVideoPVE">Vídeo PVE</a>
       <a href="regras.html" data-i18n="navRules">Regras</a>
       <a href="discord.html" data-i18n="navDiscord">Discord</a>
       <a href="shop.html" data-i18n="navShop">Shop PVE</a>
@@ -387,42 +388,53 @@
 
     <!-- Botões agrupados -->
     <div class="button-group">
-      <a href="https://au.csmm.app/shop/557" class="button btn-shop" target="_blank" data-i18n="btnShopPVP">Shop PVE</a>
-      <a href="http://191.37.92.145:26925/static/index.html" class="button btn-map" target="_blank" data-i18n="btnMapPVP">Mapa PVE</a>
-      <a href="steam://connect/191.37.92.145:26920" class="button btn-play" data-i18n="btnPlayPVP">Jogar PVE</a>
+      <a href="https://au.csmm.app/shop/557" class="button btn-shop" target="_blank" data-i18n="btnShopPVE">Shop PVE</a>
+      <a href="http://191.37.92.145:26925/static/index.html" class="button btn-map" target="_blank" data-i18n="btnMapPVE">Mapa PVE</a>
+      <a href="steam://connect/191.37.92.145:26920" class="button btn-play" data-i18n="btnPlayPVE">Jogar PVE</a>
+      <a href="tutorial.html" class="button btn-tutorial">TUTORIAL</a>
     </div>
 
     <!-- Botões de Votação -->
     <div class="button-group">
       <button id="votersBtn" class="button btn-vote" data-i18n="btnVoters">Ver Votantes</button>
-      <button id="votePvP" class="button btn-vote" onclick="votePvP()" data-i18n="btnVotePvP">Vote em PVE</button>
+      <button id="votePVE" class="button btn-vote" onclick="votePVE()" data-i18n="btnVotePVE">Vote em PVE</button>
     </div>
     
     <!-- Informações do Servidor -->
     <div class="server-info" id="serverInfo">
-      <div class="server-card" id="serverCardPVP">
-        <h3 data-i18n="serverTitlePVP">NOVA ERA PVE</h3>
+      <div class="server-card" id="serverCardPVE">
+        <h3 data-i18n="serverTitlePVE">NOVA ERA PVE</h3>
         <div class="server-details">
           <!-- IP e Porta fixos -->
           <div class="server-field">
             <span class="field-label">IP:</span>
-            <span class="field-value" id="pvp-ip">191.37.92.145</span>
+            <span class="field-value" id="pve-ip">191.37.92.145</span>
           </div>
           <div class="server-field">
             <span class="field-label">Porta:</span>
-            <span class="field-value" id="pvp-port">26920</span>
+            <span class="field-value" id="pve-port">26920</span>
           </div>
           <!-- Jogadores e Votos atualizados -->
           <div class="server-field">
             <span class="field-label">Jogadores:</span>
-            <span class="field-value" id="pvp-players">Carregando...</span>
+            <span class="field-value" id="pve-players">Carregando...</span>
           </div>
           <div class="server-field">
             <span class="field-label">Votos:</span>
-            <span class="field-value" id="pvp-votes">Carregando...</span>
+            <span class="field-value" id="pve-votes">Carregando...</span>
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Widget do Discord -->
+    <div class="button-group" style="justify-content: center; margin-top: 30px;">
+      <iframe src="https://discord.com/widget?id=1186390028990025820&theme=dark" 
+              width="350" 
+              height="500" 
+              allowtransparency="true" 
+              frameborder="0">
+      </iframe>
     </div>
   </div>
 
@@ -463,16 +475,16 @@
         translation: {
           pageTitle: "NOVA ERA PVE - Página Inicial",
           navLogo: "NOVA ERA PVE",
-          navVideoPVP: "Vídeo PvP",
+          navVideoPVE: "Vídeo PVE",
           navRules: "Regras",
           navDiscord: "Discord",
           navShop: "Shop PVE",
-          btnShopPVP: "Shop PVE",
-          btnMapPVP: "Mapa PVE",
-          btnPlayPVP: "Jogar PVE",
+          btnShopPVE: "Shop PVE",
+          btnMapPVE: "Mapa PVE",
+          btnPlayPVE: "Jogar PVE",
           btnVoters: "Ver Votantes",
-          btnVotePvP: "Vote em PVE",
-          serverTitlePVP: "NOVA ERA PVE",
+          btnVotePVE: "Vote em PVE",
+          serverTitlePVE: "NOVA ERA PVE",
           modalTitle: "Votantes Recentes",
           footerText: "&copy; 2024 NOVA ERA PVE. Todos os direitos reservados."
         }
@@ -481,16 +493,16 @@
         translation: {
           pageTitle: "NOVA ERA PVE - Home Page",
           navLogo: "NOVA ERA PVE",
-          navVideoPVP: "PvP Video",
+          navVideoPVE: "PVE Video",
           navRules: "Rules",
           navDiscord: "Discord",
           navShop: "Shop PVE",
-          btnShopPVP: "Shop PVE",
-          btnMapPVP: "PVE Map",
-          btnPlayPVP: "Play PVE",
+          btnShopPVE: "Shop PVE",
+          btnMapPVE: "PVE Map",
+          btnPlayPVE: "Play PVE",
           btnVoters: "View Voters",
-          btnVotePvP: "Vote on PVE",
-          serverTitlePVP: "NOVA ERA PVE",
+          btnVotePVE: "Vote on PVE",
+          serverTitlePVE: "NOVA ERA PVE",
           modalTitle: "Recent Voters",
           footerText: "&copy; 2024 NOVA ERA PVE. All rights reserved."
         }
@@ -499,16 +511,16 @@
         translation: {
           pageTitle: "NOVA ERA PVE - Página Inicial",
           navLogo: "NOVA ERA PVE",
-          navVideoPVP: "Video PvP",
+          navVideoPVE: "Video PVE",
           navRules: "Reglas",
           navDiscord: "Discord",
           navShop: "Shop PVE",
-          btnShopPVP: "Shop PVE",
-          btnMapPVP: "Mapa PVE",
-          btnPlayPVP: "Jugar PVE",
+          btnShopPVE: "Shop PVE",
+          btnMapPVE: "Mapa PVE",
+          btnPlayPVE: "Jugar PVE",
           btnVoters: "Ver Votantes",
-          btnVotePvP: "Votar en PVE",
-          serverTitlePVP: "NOVA ERA PVE",
+          btnVotePVE: "Votar en PVE",
+          serverTitlePVE: "NOVA ERA PVE",
           modalTitle: "Votantes Recientes",
           footerText: "&copy; 2024 NOVA ERA PVE. Todos los derechos reservados."
         }
@@ -605,17 +617,17 @@
       }
     });
 
-    /***************** API do Servidor (Apenas PvP) ******************/
-    const API_KEY_PVP = "bWctPV9dtEzJ2uN8sJ39CyQeeYbT5SD1sVI";
+    /***************** API do Servidor (Apenas PVE) ******************/
+    const API_KEY_PVE = "bWctPV9dtEzJ2uN8sJ39CyQeeYbT5SD1sVI";
     async function updateServerInfo() {
-      const urlDetailPVP = `https://7daystodie-servers.com/api/?object=servers&element=detail&key=${API_KEY_PVP}`;
+      const urlDetailPVE = `https://7daystodie-servers.com/api/?object=servers&element=detail&key=${API_KEY_PVE}`;
       try {
-        const resDetailPVP = await fetch(urlDetailPVP);
-        const dataPVP = await resDetailPVP.json();
-        console.log("Dados do servidor:", dataPVP);
+        const resDetailPVE = await fetch(urlDetailPVE);
+        const dataPVE = await resDetailPVE.json();
+        console.log("Dados do servidor:", dataPVE);
         // Atualiza jogadores e votos
-        document.getElementById('pvp-players').textContent = (dataPVP.players || "0") + "/" + (dataPVP.maxplayers || "0");
-        document.getElementById('pvp-votes').textContent = dataPVP.votes || "0";
+        document.getElementById('pve-players').textContent = (dataPVE.players || "0") + "/" + (dataPVE.maxplayers || "0");
+        document.getElementById('pve-votes').textContent = dataPVE.votes || "0";
       } catch (error) {
         console.error("Erro ao obter informações do servidor:", error);
       }
@@ -624,11 +636,11 @@
     setInterval(updateServerInfo, 180000);
 
     /***************** Atualiza Cache de Votantes ******************/
-    const urlVotantesPVP = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVP}&month=atual&format=json&limit=1000&classificacao=apelido`;
+    const urlVotantesPVE = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVE}&month=atual&format=json&limit=1000&classificacao=apelido`;
     let cachedVoters = [];
     async function updateVotantesCache() {
       try {
-        const res = await fetch(urlVotantesPVP);
+        const res = await fetch(urlVotantesPVE);
         const data = await res.json();
         const voters = data.voters || data.Voters || [];
         if(voters.length === 0) {
@@ -659,11 +671,6 @@
       const voter = cachedVoters[displayIndex];
       const votanteHTML = `<strong>${voter.nickname}</strong> — ${voter.votes} votos - ${voter.servidor}`;
       
-      if(muted){ 
-        nameChangeSound.currentTime = 0; 
-        nameChangeSound.play(); 
-      }
-      
       if (votersModal.style.display === "block") { 
         voterInfoDiv.innerHTML = votanteHTML; 
       }
@@ -684,26 +691,19 @@
       updateVotantesDisplay(); 
     };
     closeModal.onclick = function() { 
-      votersModal.style.display = "none"; 
+      votersModal.style.display = "none";
     };
     window.onclick = function(event) { 
       if (event.target === votersModal) { 
-        votersModal.style.display = "none"; 
+        votersModal.style.display = "none";
       } 
     };
 
     /***************** Botão de Votação ******************/
-    const voteUrlPvP = "https://7daystodie-servers.com/server/141215/";
-    const voteSound = new Audio("audio/vote-sound.mp3");
-
-    function playVoteSound() {
-      voteSound.currentTime = 0;
-      voteSound.play();
-    }
-
-    function votePvP() {
-      playVoteSound();
-      window.open(voteUrlPvP, "_blank");
+    const voteUrlPVE = "https://7daystodie-servers.com/server/141215/";
+    // Removido o som de votação para o botão
+    function votePVE() {
+      window.open(voteUrlPVE, "_blank");
     }
 
     /***************** Custom Cursor ******************/
