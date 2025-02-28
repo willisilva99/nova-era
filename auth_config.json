@@ -1,4 +1,4 @@
 {
-  "domain": "dev-0o40r58hhh0vqckr.us.auth0.com",
-  "clientId": "LHp5lnGEiasCocZN6ASAyfAS4oPlbvBR"
+  "myAuth0Domain": "dev-0o40r58hhh0vqckr.us.auth0.com",
+  "myAuth0ClientId": "LHp5lnGEiasCocZN6ASAyfAS4oPlbvBR"
 }
