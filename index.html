@@ -230,20 +230,23 @@
       100% { transform: scale(1); opacity: 1; }
     }
     
-    /* Informações do Servidor */
+    /* Informações do Servidor - Reposicionado no canto inferior esquerdo */
     .server-info {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      width: 300px;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 20px;
-      margin-top: 30px;
       padding: 15px;
       background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(30,30,30,0.8));
       border-radius: 10px;
+      z-index: 2100;
     }
     .server-card {
       width: 100%;
-      max-width: 500px;
       background: #333;
       padding: 20px;
       border-radius: 10px;
@@ -260,7 +263,6 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      margin-top: 15px;
       text-align: left;
     }
     .server-field {
@@ -355,6 +357,7 @@
       }
       .button { font-size: 1rem; padding: 12px 25px; }
       .sidebar { width: 100%; }
+      .server-info { width: 90%; left: 5%; }
     }
   </style>
 </head>
@@ -416,38 +419,15 @@
         <button id="votersBtn" class="button btn-vote" data-i18n="btnVoters">Ver Votantes</button>
         <button id="votePVE" class="button btn-vote" onclick="votePVE()" data-i18n="btnVotePVE">Vote em PVE</button>
       </div>
-<!-- Lista de Votação Melhores (Widgetbot) -->
-<widgetbot
-    server="1186390028990025820"
-    channel="1317504120764235928,1186636197934661632"
-    width="800"
-    height="600"
-></widgetbot>
-<script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed"></script>
-      <!-- Informações do Servidor -->
-      <div class="server-info" id="serverInfo">
-        <div class="server-card" id="serverCardPVE">
-          <h3 data-i18n="serverTitlePVE">NOVA ERA PVE</h3>
-          <div class="server-details">
-            <div class="server-field">
-              <span class="field-label">IP:</span>
-              <span class="field-value" id="pve-ip">191.37.92.145</span>
-            </div>
-            <div class="server-field">
-              <span class="field-label">Porta:</span>
-              <span class="field-value" id="pve-port">26920</span>
-            </div>
-            <div class="server-field">
-              <span class="field-label">Jogadores:</span>
-              <span class="field-value" id="pve-players">Carregando...</span>
-            </div>
-            <div class="server-field">
-              <span class="field-label">Votos:</span>
-              <span class="field-value" id="pve-votes">Carregando...</span>
-            </div>
-          </div>
-        </div>
-      </div>
+
+      <!-- Lista de Votação Melhores (Widgetbot) -->
+      <widgetbot
+          server="1186390028990025820"
+          channel="1317504120764235928"
+          width="800"
+          height="600"
+      ></widgetbot>
+      <script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed"></script>
     </div>
 
     <!-- Sidebar com Widget Discord -->
@@ -472,6 +452,31 @@
 
   <!-- Widget flutuante de Votantes -->
   <div class="floating-widget" id="floatingWidget">Carregando...</div>
+
+  <!-- Informações do Servidor (reposicionadas para o canto inferior esquerdo) -->
+  <div class="server-info" id="serverInfo">
+    <div class="server-card" id="serverCardPVE">
+      <h3 data-i18n="serverTitlePVE">NOVA ERA PVE</h3>
+      <div class="server-details">
+        <div class="server-field">
+          <span class="field-label">IP:</span>
+          <span class="field-value" id="pve-ip">191.37.92.145</span>
+        </div>
+        <div class="server-field">
+          <span class="field-label">Porta:</span>
+          <span class="field-value" id="pve-port">26920</span>
+        </div>
+        <div class="server-field">
+          <span class="field-label">Jogadores:</span>
+          <span class="field-value" id="pve-players">Carregando...</span>
+        </div>
+        <div class="server-field">
+          <span class="field-label">Votos:</span>
+          <span class="field-value" id="pve-votes">Carregando...</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <footer>
     <p data-i18n="footerText">&copy; 2024 NOVA ERA PVE. Todos os direitos reservados.</p>
@@ -740,7 +745,7 @@
       customCursor.style.transform = 'scale(1.3)';
     }
     function resetCursor(e) { 
-      customCursor.style.transform = 'scale(1)'; 
+      customCursor.style.transform = 'scale(1)';
     }
     document.querySelectorAll('a, button, .nav-links a, .video-controls button, .slider-nav button, .language-selector button')
       .forEach(el => {
