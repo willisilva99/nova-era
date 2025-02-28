@@ -1,14 +1,17 @@
-<!-- Biblioteca do Auth0 SPA SDK -->
-<script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
-
 <!DOCTYPE html>
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title data-i18n="pageTitle">NOVA ERA PVE - Página Inicial</title>
+
+  <!-- Fonte -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <!-- Biblioteca do Auth0 SPA SDK (importante estar antes do seu script) -->
+  <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
+
   <style>
     /* Reset e estilos básicos */
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -443,6 +446,7 @@
     }
   </style>
 </head>
+
 <body>
   <!-- Cursor Personalizado -->
   <div id="custom-cursor"></div>
@@ -981,8 +985,6 @@
       // Se clicar em "Perfil", abre modal
       document.getElementById("profileBtn").addEventListener("click", openProfileModal);
       document.getElementById("closeProfileModal").addEventListener("click", closeProfileModal);
-
-      // ... (restante do seu código já está aqui embaixo) ...
     };
   </script>
 </body>
