@@ -1,658 +1,60 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-i18n="pageTitle">NOVA ERA PVE - Página Inicial</title>
-
-  <!-- Fonte -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
-
-  <!-- Biblioteca do Auth0 SPA SDK (importante estar antes do seu script) -->
+  <meta charset="utf-8"/>
+  <title>Exemplo Login com Auth0</title>
+  <!-- Biblioteca do Auth0 SPA SDK -->
   <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
-
   <style>
-    /* Reset e estilos básicos */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    body { 
-      font-family: 'Montserrat', sans-serif;
-      background: url('https://i.imgur.com/wA8fz5A.png') no-repeat center center fixed;
-      background-size: cover;
-      color: #fefefe;
-      overflow-x: hidden;
-      cursor: none;
+    body {
+      font-family: sans-serif;
+      margin: 30px;
     }
-    
-    /* Cursor personalizado */
-    #custom-cursor {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 32px;
-      height: 32px;
-      background: url('images/MEUMOUSE.png') no-repeat center center;
-      background-size: contain;
-      pointer-events: none;
-      z-index: 9999;
-      transition: transform 0.2s ease;
+    .hidden {
+      display: none;
     }
-    
-    /* Oculta cursor nativo para elementos clicáveis */
-    a, button, .nav-links a, .video-controls button, .slider-nav button, .language-selector button {
-      cursor: none;
-    }
-    
-    /* Navbar centralizada */
-    .navbar {
-      width: 100%;
-      background: linear-gradient(90deg, rgba(0,0,0,0.9), rgba(0,0,0,0.7));
-      padding: 15px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: fixed;
-      top: 0;
-      z-index: 2000;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.8);
-    }
-    .navbar .top-bar {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .navbar .logo {
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: #ffcc00;
-      text-transform: uppercase;
-    }
-    /* Menu centralizado */
-    .navbar .nav-links {
-      display: flex;
-      gap: 25px;
-      margin-top: 10px;
-    }
-    .navbar .nav-links a {
-      color: #fefefe;
-      text-decoration: none;
-      font-size: 1.1rem;
-      transition: color 0.3s;
-    }
-    .navbar .nav-links a:hover { color: #ffcc00; }
-
-    /* Botões login/logout/perfil */
-    .auth-buttons {
-      display: flex;
-      gap: 10px;
-    }
-    .auth-buttons button {
-      background: #ffcc00;
-      border: none;
-      padding: 5px 10px;
-      color: #000;
-      border-radius: 3px;
-      font-weight: bold;
-      transition: background 0.3s;
-      font-size: 0.9rem;
-      cursor: pointer;
-    }
-    .auth-buttons button:hover {
-      background: #e6b800;
-    }
-
-    /* Seletor de idiomas integrado */
-    .language-selector {
-      display: flex;
-      gap: 5px;
-    }
-    .language-selector button {
-      background: #ffcc00;
-      border: none;
-      padding: 5px 10px;
-      color: #000;
-      border-radius: 3px;
-      font-weight: bold;
-      transition: background 0.3s;
-      font-size: 0.9rem;
-    }
-    .language-selector button:hover { background: #e6b800; }
-    
-    /* Container Principal e Layout Lateral */
-    .content-wrapper {
-      display: flex;
-      gap: 20px;
-      max-width: 1200px;
-      margin: 160px auto 20px;
-      padding: 20px;
-      background: rgba(0,0,0,0.75);
-      border-radius: 10px;
-      box-shadow: 0 6px 30px rgba(0,0,0,0.8);
-    }
-    .main-content {
-      flex: 1;
-    }
-    .sidebar {
-      width: 350px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
-    }
-    
-    /* Slider de Vídeo */
-    .video-slider {
-      position: relative;
-      margin: 30px auto;
-      max-width: 800px;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-    }
-    .video-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 2100;
-    }
-    #player, .video-slider iframe {
-      width: 100%;
-      height: 100%;
-      border: 5px solid;
-      border-image: linear-gradient(45deg, red, green, blue, red) 1;
-      border-radius: 10px;
-      transition: border 0.5s;
-    }
-    .video-slider:hover #player,
-    .video-slider:hover iframe {
-      border-image: linear-gradient(45deg, yellow, magenta, cyan, yellow) 1;
-    }
-    
-    .video-controls {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      display: flex;
-      gap: 10px;
-      z-index: 2200;
-    }
-    .video-controls button {
-      background: rgba(0,0,0,0.8);
-      border: none;
-      color: #ffcc00;
-      padding: 10px 15px;
-      border-radius: 5px;
-      font-size: 1rem;
-      transition: background 0.3s;
-    }
-    .video-controls button:hover { background: rgba(0,0,0,1); }
-    
-    .slider-nav {
-      position: absolute;
-      top: 50%;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      transform: translateY(-50%);
-    }
-    .slider-nav button {
-      background: rgba(0,0,0,0.6);
-      border: none;
-      color: #ffcc00;
-      font-size: 2rem;
+    #userInfo {
+      margin-top: 20px;
       padding: 10px;
-      border-radius: 50%;
-      transition: transform 0.3s;
-    }
-    .slider-nav button:hover { transform: scale(1.1); }
-    
-    /* Botões agrupados */
-    .button-group {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin: 20px 0;
-    }
-    .button {
-      padding: 15px 30px;
-      font-size: 1.2rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      text-decoration: none;
-      border: none;
-      border-radius: 5px;
-      transition: transform 0.3s, background 0.3s;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.7);
-      white-space: nowrap;
-    }
-    .button:hover { transform: scale(1.05); }
-    .btn-shop { background-color: #ff5733; color: #fff; }
-    .btn-map { background-color: #17a2b8; color: #fff; }
-    .btn-play { background-color: #ff9900; color: #000; }
-    .btn-vote { background-color: #ffcc00; color: #000; }
-    .btn-tutorial { background-color: #4caf50; color: #fff; }
-    .btn-discord { background-color: #7289da; color: #fff; }
-    
-    /* Seção animada do Modo de Jogo */
-    .game-mode {
-      text-align: center;
-      margin: 30px auto;
-      padding: 15px;
-      background: linear-gradient(45deg, rgba(255,204,0,0.3), rgba(255,204,0,0.1));
-      border: 2px dashed #ffcc00;
-      border-radius: 10px;
-      font-size: 1.3rem;
-      font-weight: bold;
-      text-transform: uppercase;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.05); opacity: 0.8; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    
-    /* Informações do Servidor - Reposicionado no canto inferior esquerdo */
-    .server-info {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      width: 300px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-      padding: 15px;
-      background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(30,30,30,0.8));
-      border-radius: 10px;
-      z-index: 2100;
-    }
-    .server-card {
-      width: 100%;
-      background: #333;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.7);
-      text-align: center;
-    }
-    .server-card h3 {
-      font-size: 2rem;
-      color: #ffcc00;
-      margin-bottom: 15px;
-      text-transform: uppercase;
-    }
-    .server-details {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      text-align: left;
-    }
-    .server-field {
-      display: flex;
-      justify-content: space-between;
-      padding: 5px 10px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 5px;
-    }
-    .field-label {
-      font-weight: 600;
-      color: #ffcc00;
-    }
-    .field-value {
-      font-weight: 500;
-      color: #fefefe;
-    }
-    
-    /* Popup de Votantes */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 3000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-    }
-    .modal-content {
-      background: #222;
-      padding: 20px;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 500px;
-      margin: 10% auto;
-      text-align: center;
-      position: relative;
-    }
-    .modal-content h2 {
-      margin-bottom: 15px;
-      color: #ffcc00;
-    }
-    .modal-content .voter-info {
-      font-size: 1.3rem;
-      min-height: 50px;
-    }
-    .close-modal {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      font-size: 1.8rem;
-      cursor: pointer;
-      color: #ffcc00;
-    }
-    
-    /* Widget flutuante de Votantes */
-    .floating-widget {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: rgba(0, 0, 0, 0.85);
-      color: #ffcc00;
-      padding: 10px 15px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.7);
-      z-index: 4000;
-      font-size: 1rem;
-      animation: float 3s ease-in-out infinite;
-    }
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0px); }
-    }
-    
-    /* Rodapé */
-    footer {
-      text-align: center;
-      padding: 20px 0;
-      background: rgba(0,0,0,0.9);
-      margin-top: 30px;
-      font-size: 0.9rem;
-      color: #ccc;
-    }
-
-    @media (max-width: 768px) {
-      .content-wrapper { flex-direction: column; }
-      .video-slider { max-width: 300px; }
-      #player, .video-slider iframe { 
-        width: 300px; 
-        height: calc(300px * 9 / 16); 
-      }
-      .button { font-size: 1rem; padding: 12px 25px; }
-      .sidebar { width: 100%; }
-      .server-info { width: 90%; left: 5%; }
-    }
-
-    /* Modal de Perfil */
-    #profileModal {
-      display: none;
-      position: fixed;
-      z-index: 3100;
-      left: 0; 
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.8);
-    }
-    #profileModal .profile-content {
-      background: #333;
-      color: #fff;
-      width: 90%;
+      border: 1px solid #ccc;
       max-width: 400px;
-      margin: 5% auto;
-      padding: 20px;
-      border-radius: 8px;
-      position: relative;
-      text-align: center;
-    }
-    #profileModal .profile-content .close-profile {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      font-size: 1.8rem;
-      cursor: pointer;
-      color: #ffcc00;
-    }
-    .profile-avatar {
-      width: 100px; 
-      height: 100px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 10px;
-    }
-    .profile-form input {
-      width: 80%;
-      padding: 8px;
-      margin: 5px 0;
-      border: 1px solid #666;
-      border-radius: 4px;
-    }
-    .profile-form button {
-      margin-top: 10px;
-      padding: 8px 15px;
-      background: #ffcc00;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .profile-form button:hover {
-      background: #e6b800;
     }
   </style>
 </head>
-
 <body>
-  <!-- Cursor Personalizado -->
-  <div id="custom-cursor"></div>
-  
-  <!-- Navbar com Language Selector integrado -->
-  <div class="navbar">
-    <div class="top-bar" style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
-      <div class="logo" data-i18n="navLogo">NOVA ERA PVE</div>
-      
-      <!-- Botões de Login/Logout e Perfil -->
-      <div class="auth-buttons">
-        <button id="loginBtn" disabled onclick="login()">Login</button>
-        <button id="logoutBtn" disabled onclick="logout()">Logout</button>
-        <button id="profileBtn" disabled>Perfil</button>
-      </div>
+  <h1>Exemplo de Login com Auth0</h1>
 
-      <!-- Seletor de idiomas -->
-      <div class="language-selector">
-        <button onclick="changeLanguage('pt')">PT</button>
-        <button onclick="changeLanguage('en')">EN</button>
-        <button onclick="changeLanguage('es')">ES</button>
-      </div>
-    </div>
-    <div class="nav-links">
-      <a href="#" data-i18n="navVideoPVE">Vídeo PVE</a>
-      <a href="regras.html" data-i18n="navRules">Regras</a>
-      <a href="discord.html" data-i18n="navDiscord">Discord</a>
-      <a href="shop.html" data-i18n="navShop">Shop PVE</a>
-    </div>
+  <button id="loginBtn" disabled onclick="login()">Login</button>
+  <button id="logoutBtn" disabled onclick="logout()">Logout</button>
+
+  <div id="userInfo" class="hidden">
+    <h2>Usuário Logado</h2>
+    <p id="userData"></p>
   </div>
 
-  <!-- Content Wrapper com Main Content e Sidebar -->
-  <div class="content-wrapper">
-    <!-- Main Content -->
-    <div class="main-content">
-      <!-- Slider de Vídeo -->
-      <div class="video-slider">
-        <div id="player"></div>
-        <div class="video-overlay"></div>
-        <div class="video-controls">
-          <button id="muteBtn">Desmutar</button>
-          <button id="pauseBtn">Pausar</button>
-        </div>
-        <div class="slider-nav">
-          <button id="prevBtn">&#9664;</button>
-          <button id="nextBtn">&#9654;</button>
-        </div>
-      </div>
-
-      <!-- Seção animada do Modo de Jogo -->
-      <div class="game-mode">
-        MODO DE JOGO: PVE
-      </div>
-
-      <!-- Botões agrupados -->
-      <div class="button-group">
-        <a href="https://au.csmm.app/shop/557" class="button btn-shop" target="_blank" data-i18n="btnShopPVE">Shop PVE</a>
-        <a href="http://191.37.92.145:26925/static/index.html" class="button btn-map" target="_blank" data-i18n="btnMapPVE">Mapa PVE</a>
-        <a href="steam://connect/191.37.92.145:26920" class="button btn-play" data-i18n="btnPlayPVE">Jogar PVE</a>
-        <a href="tutorial.html" class="button btn-tutorial">TUTORIAL</a>
-      </div>
-
-      <!-- Botões de Votação -->
-      <div class="button-group">
-        <button id="votersBtn" class="button btn-vote" data-i18n="btnVoters">Ver Votantes</button>
-        <button id="votePVE" class="button btn-vote" onclick="votePVE()" data-i18n="btnVotePVE">Vote em PVE</button>
-      </div>
-
-      <!-- Lista de Votação Melhores (Widgetbot) -->
-      <widgetbot
-          server="1186390028990025820"
-          channel="1317504120764235928,1186636197934661632"
-          width="800"
-          height="600"
-      ></widgetbot>
-      <script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed"></script>
-    </div>
-
-    <!-- Sidebar com Widget Discord -->
-    <div class="sidebar">
-      <iframe src="https://discord.com/widget?id=1186390028990025820&theme=dark" 
-              width="100%" 
-              height="500" 
-              allowtransparency="true" 
-              frameborder="0"></iframe>
-      <button class="button btn-discord" onclick="window.open('https://discord.com/invite/seuConvite','_blank')">Acessar Discord</button>
-    </div>
-  </div>
-
-  <!-- Popup de Votantes -->
-  <div id="votersModal" class="modal">
-    <div class="modal-content">
-      <span class="close-modal" id="closeModal">&times;</span>
-      <h2 data-i18n="modalTitle">Votantes Recentes</h2>
-      <div class="voter-info" id="voterInfo">Carregando...</div>
-    </div>
-  </div>
-
-  <!-- Widget flutuante de Votantes -->
-  <div class="floating-widget" id="floatingWidget">Carregando...</div>
-
-  <!-- Informações do Servidor (reposicionadas para o canto inferior esquerdo) -->
-  <div class="server-info" id="serverInfo">
-    <div class="server-card" id="serverCardPVE">
-      <h3 data-i18n="serverTitlePVE">NOVA ERA PVE</h3>
-      <div class="server-details">
-        <div class="server-field">
-          <span class="field-label">IP:</span>
-          <span class="field-value" id="pve-ip">191.37.92.145</span>
-        </div>
-        <div class="server-field">
-          <span class="field-label">Porta:</span>
-          <span class="field-value" id="pve-port">26920</span>
-        </div>
-        <div class="server-field">
-          <span class="field-label">Jogadores:</span>
-          <span class="field-value" id="pve-players">Carregando...</span>
-        </div>
-        <div class="server-field">
-          <span class="field-label">Votos:</span>
-          <span class="field-value" id="pve-votes">Carregando...</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <footer>
-    <p data-i18n="footerText">&copy; 2024 NOVA ERA PVE. Todos os direitos reservados.</p>
-  </footer>
-
-  <!-- Modal de Perfil -->
-  <div id="profileModal">
-    <div class="profile-content">
-      <span class="close-profile" id="closeProfileModal">&times;</span>
-      <h2>Meu Perfil</h2>
-      <img id="profileAvatar" class="profile-avatar" src="" alt="Avatar">
-      <p><strong>Nome:</strong> <span id="profileName"></span></p>
-      <p><strong>E-mail:</strong> <span id="profileEmail"></span></p>
-
-      <div class="profile-form">
-        <h3>Editar Perfil (Local)</h3>
-        <input type="text" id="newName" placeholder="Novo nome"><br>
-        <input type="text" id="newPicture" placeholder="Nova URL de imagem"><br>
-        <button onclick="saveProfileEdits()">Salvar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bibliotecas para Tradução -->
-  <script src="https://unpkg.com/i18next@21.6.4/dist/umd/i18next.min.js"></script>
-  <script src="https://unpkg.com/jquery@3.6.0/dist/jquery.min.js"></script>
-  <script src="https://unpkg.com/jquery-i18next@1.2.1/dist/umd/jquery-i18next.min.js"></script>
-  
-  <!-- IFrame API do YouTube -->
   <script>
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-  </script>
-
-  <!-- Scripts: Auth0, Tradução, Vídeo, API do Servidor, Sons e Custom Cursor -->
-  <script>
-    /***************** AUTENTICAÇÃO (AUTH0) ******************/
     let auth0Client = null;
-    let userProfile = {}; // guardamos dados do usuário logado aqui (nome, email, picture)
 
-    // Lê config do arquivo auth_config.json
+    // 1) Ler domain e clientId do arquivo auth_config.json
     async function fetchAuthConfig() {
       const response = await fetch("/auth_config.json");
       return response.json();
     }
 
-    // Cria o client do Auth0
+    // 2) Criar instância do Auth0
     async function configureClient() {
       const config = await fetchAuthConfig();
       auth0Client = await createAuth0Client({
         domain: config.domain,
         clientId: config.clientId,
         authorizationParams: {
+          // URL para onde Auth0 redireciona após login
           redirect_uri: window.location.origin
         }
       });
     }
 
-    // Atualiza UI (botões e exibe perfil se logado)
-    async function updateUI() {
-      const isAuthenticated = await auth0Client.isAuthenticated();
-      
-      // Habilita/Desabilita botões
-      document.getElementById("loginBtn").disabled = isAuthenticated;
-      document.getElementById("logoutBtn").disabled = !isAuthenticated;
-      document.getElementById("profileBtn").disabled = !isAuthenticated;
-
-      if (isAuthenticated) {
-        // Obter dados do usuário do Auth0
-        const user = await auth0Client.getUser();
-        console.log("Usuário logado:", user);
-
-        // Salva localmente (para podermos editar "sem mexer no Auth0 real")
-        userProfile.name = user.name || "Sem Nome";
-        userProfile.email = user.email || "Sem Email";
-        userProfile.picture = user.picture || "https://via.placeholder.com/100";
-      }
-    }
-
+    // 3) Função de login
     async function login() {
       await auth0Client.loginWithRedirect({
         authorizationParams: {
@@ -661,6 +63,7 @@
       });
     }
 
+    // 4) Função de logout
     function logout() {
       auth0Client.logout({
         logoutParams: {
@@ -669,322 +72,44 @@
       });
     }
 
-    // Quando clicamos em "Perfil"
-    function openProfileModal() {
-      // Atualiza campos
-      document.getElementById("profileName").textContent = userProfile.name;
-      document.getElementById("profileEmail").textContent = userProfile.email;
-      document.getElementById("profileAvatar").src = userProfile.picture;
-      
-      document.getElementById("profileModal").style.display = "block";
-    }
+    // 5) Atualizar UI (habilitar/desabilitar botões, mostrar dados do usuário)
+    async function updateUI() {
+      const isAuthenticated = await auth0Client.isAuthenticated();
+      document.getElementById("loginBtn").disabled = isAuthenticated;
+      document.getElementById("logoutBtn").disabled = !isAuthenticated;
 
-    function closeProfileModal() {
-      document.getElementById("profileModal").style.display = "none";
-    }
+      const userInfoDiv = document.getElementById("userInfo");
+      const userDataP = document.getElementById("userData");
 
-    // Salva as edições (apenas localmente, não no Auth0 real)
-    function saveProfileEdits() {
-      const newNameValue = document.getElementById("newName").value.trim();
-      const newPicValue = document.getElementById("newPicture").value.trim();
-
-      if (newNameValue) userProfile.name = newNameValue;
-      if (newPicValue) userProfile.picture = newPicValue;
-
-      // Atualiza na tela
-      document.getElementById("profileName").textContent = userProfile.name;
-      document.getElementById("profileAvatar").src = userProfile.picture;
-
-      // Limpa os campos
-      document.getElementById("newName").value = "";
-      document.getElementById("newPicture").value = "";
-      alert("Perfil atualizado localmente!");
-    }
-
-    /***************** FIM AUTENTICAÇÃO ******************/
-
-    /***************** Tradução ******************/
-    const translationResources = {
-      pt: {
-        translation: {
-          pageTitle: "NOVA ERA PVE - Página Inicial",
-          navLogo: "NOVA ERA PVE",
-          navVideoPVE: "Vídeo PVE",
-          navRules: "Regras",
-          navDiscord: "Discord",
-          navShop: "Shop PVE",
-          btnShopPVE: "Shop PVE",
-          btnMapPVE: "Mapa PVE",
-          btnPlayPVE: "Jogar PVE",
-          btnVoters: "Ver Votantes",
-          btnVotePVE: "Vote em PVE",
-          serverTitlePVE: "NOVA ERA PVE",
-          modalTitle: "Votantes Recentes",
-          footerText: "&copy; 2024 NOVA ERA PVE. Todos os direitos reservados."
-        }
-      },
-      en: {
-        translation: {
-          pageTitle: "NOVA ERA PVE - Home Page",
-          navLogo: "NOVA ERA PVE",
-          navVideoPVE: "PVE Video",
-          navRules: "Rules",
-          navDiscord: "Discord",
-          navShop: "Shop PVE",
-          btnShopPVE: "Shop PVE",
-          btnMapPVE: "PVE Map",
-          btnPlayPVE: "Play PVE",
-          btnVoters: "View Voters",
-          btnVotePVE: "Vote on PVE",
-          serverTitlePVE: "NOVA ERA PVE",
-          modalTitle: "Recent Voters",
-          footerText: "&copy; 2024 NOVA ERA PVE. All rights reserved."
-        }
-      },
-      es: {
-        translation: {
-          pageTitle: "NOVA ERA PVE - Página Inicial",
-          navLogo: "NOVA ERA PVE",
-          navVideoPVE: "Video PVE",
-          navRules: "Reglas",
-          navDiscord: "Discord",
-          navShop: "Shop PVE",
-          btnShopPVE: "Shop PVE",
-          btnMapPVE: "Mapa PVE",
-          btnPlayPVE: "Jugar PVE",
-          btnVoters: "Ver Votantes",
-          btnVotePVE: "Votar en PVE",
-          serverTitlePVE: "NOVA ERA PVE",
-          modalTitle: "Votantes Recientes",
-          footerText: "&copy; 2024 NOVA ERA PVE. Todos los derechos reservados."
-        }
-      }
-    };
-
-    i18next.init({
-      lng: 'pt',
-      debug: false,
-      resources: translationResources
-    }, function(err, t) {
-      jqueryI18next.init(i18next, $, { useOptionsAttr: true });
-      updateContent();
-    });
-
-    function updateContent() {
-      $('[data-i18n]').localize();
-      document.title = i18next.t('pageTitle');
-    }
-
-    function changeLanguage(lng) {
-      i18next.changeLanguage(lng, function(err, t) {
-        if (err) return console.error('Erro ao mudar idioma', err);
-        updateContent();
-      });
-    }
-    /***************** Fim da Tradução ******************/
-
-    /***************** Vídeo e Controles ******************/
-    const videos = [
-      "_wnWLh304Qcr4Qht",
-      "sXtT-NZG92Ou9Lys"
-    ];
-    let currentVideoIndex = 0;
-    let player;
-    let videoPaused = false;
-    let muted = true;
-
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('player', {
-        height: '500',
-        width: '500',
-        videoId: videos[currentVideoIndex],
-        playerVars: {
-          'autoplay': 1,
-          'controls': 0,
-          'mute': 1,
-          'rel': 0,
-          'showinfo': 0,
-          'modestbranding': 1,
-          'vq': 'hd1080'
-        },
-        events: {
-          'onReady': onPlayerReady
-        }
-      });
-    }
-
-    function onPlayerReady(event) {
-      event.target.playVideo();
-    }
-
-    document.getElementById('prevBtn').addEventListener('click', () => {
-      currentVideoIndex = (currentVideoIndex - 1 + videos.length) % videos.length;
-      player.loadVideoById(videos[currentVideoIndex]);
-    });
-
-    document.getElementById('nextBtn').addEventListener('click', () => {
-      currentVideoIndex = (currentVideoIndex + 1) % videos.length;
-      player.loadVideoById(videos[currentVideoIndex]);
-    });
-
-    document.getElementById('muteBtn').addEventListener('click', () => {
-      if (muted) {
-        player.unMute();
-        document.getElementById('muteBtn').textContent = 'Mutar';
-        muted = false;
+      if (isAuthenticated) {
+        userInfoDiv.classList.remove("hidden");
+        const user = await auth0Client.getUser();
+        userDataP.textContent = JSON.stringify(user, null, 2);
       } else {
-        player.mute();
-        document.getElementById('muteBtn').textContent = 'Desmutar';
-        muted = true;
-      }
-    });
-
-    document.getElementById('pauseBtn').addEventListener('click', () => {
-      if (!videoPaused) {
-        player.pauseVideo();
-        document.getElementById('pauseBtn').textContent = 'Continuar';
-        videoPaused = true;
-      } else {
-        player.playVideo();
-        document.getElementById('pauseBtn').textContent = 'Pausar';
-        videoPaused = false;
-      }
-    });
-
-    /***************** API do Servidor (Apenas PVE) ******************/
-    const API_KEY_PVE = "bWctPV9dtEzJ2uN8sJ39CyQeeYbT5SD1sVI";
-    async function updateServerInfo() {
-      const urlDetailPVE = `https://7daystodie-servers.com/api/?object=servers&element=detail&key=${API_KEY_PVE}`;
-      try {
-        const resDetailPVE = await fetch(urlDetailPVE);
-        const dataPVE = await resDetailPVE.json();
-        console.log("Dados do servidor:", dataPVE);
-        document.getElementById('pve-players').textContent = (dataPVE.players || "0") + "/" + (dataPVE.maxplayers || "0");
-        document.getElementById('pve-votes').textContent = dataPVE.votes || "0";
-      } catch (error) {
-        console.error("Erro ao obter informações do servidor:", error);
+        userInfoDiv.classList.add("hidden");
       }
     }
-    updateServerInfo();
-    setInterval(updateServerInfo, 180000);
 
-    /***************** Atualiza Cache de Votantes ******************/
-    const urlVotantesPVE = `https://7daystodie-servers.com/api/?object=servers&element=voters&key=${API_KEY_PVE}&month=atual&format=json&limit=1000&classificacao=apelido`;
-    let cachedVoters = [];
-    async function updateVotantesCache() {
-      try {
-        const res = await fetch(urlVotantesPVE);
-        const data = await res.json();
-        const voters = data.voters || data.Voters || [];
-        if(voters.length === 0) {
-          cachedVoters = [{ nickname: "Nenhum votante encontrado", votes: "0", servidor: "NOVA ERA PVE" }];
-        } else {
-          const enrichedVoters = voters.map(voter => ({ ...voter, servidor: "NOVA ERA PVE" }));
-          enrichedVoters.sort((a, b) => parseInt(b.votes) - parseInt(a.votes));
-          cachedVoters = enrichedVoters;
-        }
-        console.log(`[${new Date().toISOString()}] Cache dos votantes atualizado. Total: ${cachedVoters.length}`);
-      } catch (error) {
-        console.error("Erro ao atualizar cache de votantes:", error);
-      }
-    }
-    updateVotantesCache();
-    setInterval(updateVotantesCache, 180000);
-
-    /***************** Atualiza Exibição dos Votantes ******************/
-    function updateVotantesDisplay() {
-      if (cachedVoters.length === 0) {
-        if (votersModal.style.display === "block") { 
-          voterInfoDiv.innerHTML = "Nenhum votante encontrado."; 
-        }
-        floatingWidget.innerHTML = "Nenhum votante encontrado.";
-        return;
-      }
-      const voter = cachedVoters[displayIndex];
-      const votanteHTML = `<strong>${voter.nickname}</strong> — ${voter.votes} votos - ${voter.servidor}`;
-      
-      if (votersModal.style.display === "block") { 
-        voterInfoDiv.innerHTML = votanteHTML; 
-      }
-      floatingWidget.innerHTML = votanteHTML;
-      displayIndex = (displayIndex + 1) % cachedVoters.length;
-    }
-    let displayIndex = 0;
-    setInterval(updateVotantesDisplay, 3000);
-
-    const votersModal = document.getElementById('votersModal');
-    const votersBtn = document.getElementById('votersBtn');
-    const closeModal = document.getElementById('closeModal');
-    const voterInfoDiv = document.getElementById('voterInfo');
-    const floatingWidget = document.getElementById('floatingWidget');
-
-    votersBtn.onclick = function() { 
-      votersModal.style.display = "block"; 
-      updateVotantesDisplay(); 
-    };
-    closeModal.onclick = function() { 
-      votersModal.style.display = "none";
-    };
-    window.onclick = function(event) { 
-      if (event.target === votersModal) { 
-        votersModal.style.display = "none";
-      } 
-    };
-
-    /***************** Botão de Votação ******************/
-    const voteUrlPVE = "https://7daystodie-servers.com/server/141215/";
-    function votePVE() {
-      window.open(voteUrlPVE, "_blank");
-    }
-
-    /***************** Custom Cursor ******************/
-    const customCursor = document.getElementById('custom-cursor');
-    document.addEventListener('mousemove', e => {
-      customCursor.style.left = e.clientX + 'px';
-      customCursor.style.top = e.clientY + 'px';
-    });
-    function enlargeCursor(e) {
-      if(e.target.closest('.video-slider')) { 
-        customCursor.style.transform = 'scale(1)'; 
-        return; 
-      }
-      customCursor.style.transform = 'scale(1.3)';
-    }
-    function resetCursor(e) { 
-      customCursor.style.transform = 'scale(1)';
-    }
-    document.querySelectorAll('a, button, .nav-links a, .video-controls button, .slider-nav button, .language-selector button')
-      .forEach(el => {
-        el.addEventListener('mouseenter', enlargeCursor);
-        el.addEventListener('mouseleave', resetCursor);
-      });
-      
-    const nameChangeSound = new Audio("audio/orb.mp3");
-    nameChangeSound.volume = 0.3;
-
-    /***************** Ao carregar a página *****************/
+    // 6) Ao carregar a página
     window.onload = async () => {
-      // 1) Configura Auth0
+      // a) Configura o Auth0
       await configureClient();
 
-      // 2) Verifica se usuário já está logado
+      // b) Verifica se o usuário já está autenticado
       const isAuthenticated = await auth0Client.isAuthenticated();
 
-      // 3) Se não estiver logado, mas tem code= e state= na URL, finalize o login
+      // c) Se não estiver autenticado, mas a URL contém code= e state=, finalize o login
       if (!isAuthenticated) {
         const query = window.location.search;
         if (query.includes("code=") && query.includes("state=")) {
           await auth0Client.handleRedirectCallback();
+          // Remove os parâmetros da URL
           window.history.replaceState({}, document.title, "/");
         }
       }
 
-      // 4) Atualiza UI
+      // d) Atualiza a UI
       updateUI();
-
-      // Se clicar em "Perfil", abre modal
-      document.getElementById("profileBtn").addEventListener("click", openProfileModal);
-      document.getElementById("closeProfileModal").addEventListener("click", closeProfileModal);
     };
   </script>
 </body>
